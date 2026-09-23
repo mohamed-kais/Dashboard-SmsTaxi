@@ -1,0 +1,166 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ isEdit ? 'Edit Taxi' : 'Add Taxi' }}</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Close click')"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="alert alert-danger py-2" *ngIf="errorMessage">
+      <i class="bx bx-error-circle me-1"></i>{{ errorMessage }}
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Phone <span class="text-danger">*</span></label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="telephone"
+          placeholder="0612345678"
+          [ngClass]="{ 'is-invalid': submitted && f['telephone'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['telephone'].errors">
+          <span *ngIf="f['telephone'].hasError('required')">Phone number is required.</span>
+          <span *ngIf="f['telephone'].hasError('pattern')">
+            Phone may only contain digits, +, -, spaces or parentheses.
+          </span>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nom"
+          [ngClass]="{ 'is-invalid': submitted && f['nom'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['nom'].errors">Max 100 characters.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['email'].errors">
+          Enter a valid email address.
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Type</label>
+        <select class="form-select" formControlName="type">
+          <option [ngValue]="null">—</option>
+          <option *ngFor="let channel of channelTypes" [ngValue]="channel">{{ channel }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Status</label>
+        <select class="form-select" formControlName="taxiStatus">
+          <option [ngValue]="null">—</option>
+          <option *ngFor="let status of taxiStatuses" [ngValue]="status">{{ status }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Taxi number</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="numeroTaxi"
+          [ngClass]="{ 'is-invalid': submitted && f['numeroTaxi'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['numeroTaxi'].errors">Max 20 characters.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Matricule</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="numeroMatricule"
+          [ngClass]="{ 'is-invalid': submitted && f['numeroMatricule'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['numeroMatricule'].errors">
+          Max 50 characters.
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">CIN</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="numeroCin"
+          [ngClass]="{ 'is-invalid': submitted && f['numeroCin'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['numeroCin'].errors">Max 20 characters.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Constructor</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="constructeur"
+          [ngClass]="{ 'is-invalid': submitted && f['constructeur'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['constructeur'].errors">
+          Max 50 characters.
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Destination</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="destination"
+          [ngClass]="{ 'is-invalid': submitted && f['destination'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['destination'].errors">
+          Max 500 characters.
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="location"
+          [ngClass]="{ 'is-invalid': submitted && f['location'].errors }"
+        />
+        <div class="invalid-feedback" *ngIf="submitted && f['location'].errors">
+          Max 500 characters.
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Content</label>
+        <textarea
+          rows="3"
+          class="form-control"
+          formControlName="contenu"
+          [ngClass]="{ 'is-invalid': submitted && f['contenu'].errors }"
+        ></textarea>
+        <div class="invalid-feedback" *ngIf="submitted && f['contenu'].errors">
+          Max 1000 characters.
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-link" (click)="activeModal.dismiss('Cancel click')">Cancel</button>
+  <button type="button" class="btn btn-primary" [disabled]="saving" (click)="submit()">
+    <span *ngIf="saving" class="spinner-border spinner-border-sm me-1" role="status"></span>
+    Save
+  </button>
+</div>

@@ -1,0 +1,219 @@
+<!-- Dashboard / Overview — plan §5.1. Template look: cards, .table, badge-soft-*,
+     btn-sm, d-flex justify-content-between (TEMPLATE_GUIDE §6 conventions). -->
+
+<app-loader></app-loader>
+
+<app-page-title [title]="title" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<div class="row mb-2">
+  <div class="col-12 d-flex justify-content-end">
+    <button type="button" class="btn btn-primary btn-sm" (click)="refresh()" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status"></span>
+      <i *ngIf="!loading" class="bx bx-refresh me-1"></i>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<!-- Per-card HTTP failures (values show — on the affected cards). -->
+<div class="alert alert-warning" *ngIf="failedCardLabels.length > 0" role="alert">
+  <i class="bx bxs-error-alt me-1"></i>
+  Some statistics could not be loaded: {{ failedCardLabels.join(', ') }}.
+  Affected cards show &mdash;.
+</div>
+
+<!-- Feed failures. -->
+<div class="alert alert-warning" *ngIf="feedError" role="alert">
+  <i class="bx bxs-error-alt me-1"></i>
+  {{ feedError }}
+</div>
+
+<!-- Stat cards row (shared app-stat widget; combined Demands/Offers cards add sub-values). -->
+<div class="row">
+  <div class="col-md-6 col-xl-4">
+    <app-stat title="Taxis" [value]="countValue('taxi')" icon="bx bx-car"></app-stat>
+  </div>
+
+  <div class="col-md-6 col-xl-4">
+    <app-stat title="Clients" [value]="countValue('client')" icon="bx bx-user"></app-stat>
+  </div>
+
+  <div class="col-md-6 col-xl-4">
+    <div class="card mini-stats-wid h-100">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <p class="text-muted fw-medium mb-2">Demands</p>
+            <div class="d-flex gap-3 flex-wrap">
+              <div>
+                <h4 class="mb-1">{{ countValue('demandeWaiting') }}</h4>
+                <span class="badge badge-soft-warning">Waiting</span>
+              </div>
+              <div>
+                <h4 class="mb-1">{{ countValue('demandeInProgress') }}</h4>
+                <span class="badge badge-soft-info">In progress</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0 align-self-center">
+            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+              <span class="avatar-title">
+                <i class="bx bx-map-pin font-size-24"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-4">
+    <div class="card mini-stats-wid h-100">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <p class="text-muted fw-medium mb-2">Offers</p>
+            <div class="d-flex gap-3 flex-wrap">
+              <div>
+                <h4 class="mb-1">{{ countValue('offreWaiting') }}</h4>
+                <span class="badge badge-soft-warning">Waiting</span>
+              </div>
+              <div>
+                <h4 class="mb-1">{{ countValue('offreInProgress') }}</h4>
+                <span class="badge badge-soft-info">In progress</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0 align-self-center">
+            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+              <span class="avatar-title">
+                <i class="bx bx-receipt font-size-24"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-4">
+    <app-stat title="SMS received" [value]="countValue('sms')" icon="bx bx-message-square-dots"></app-stat>
+  </div>
+</div>
+
+<!-- Recent activity feeds (side by side). -->
+<div class="row">
+  <div class="col-xl-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Recent demands</h5>
+          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/demands']">View all</a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Client</th>
+                <th scope="col">Route</th>
+                <th scope="col">Est. price</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of demands">
+                <td>
+                  <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/demands', row.id]"
+                    >#{{ row.id }}</a
+                  >
+                </td>
+                <td>
+                  <div class="fw-medium">{{ row.clientNom || '-' }}</div>
+                  <div class="text-muted small">{{ row.clientPhone || '-' }}</div>
+                </td>
+                <td>{{ row.location || '-' }} &rarr; {{ row.destination || '-' }}</td>
+                <td>{{ row.estimatedPrice || '-' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="demandBadge(row.etat).class">{{ demandBadge(row.etat).label }}</span>
+                </td>
+                <td>{{ row.dateDepot | date: 'medium' }}</td>
+              </tr>
+              <tr *ngIf="loading && demands.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading demands&hellip;
+                </td>
+              </tr>
+              <tr *ngIf="!loading && demands.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">No recent demands.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-muted small mt-2" *ngIf="demandTotal > 0">
+          Showing {{ demands.length }} of {{ demandTotal }} demands
+          <span *ngIf="demands.length < demandTotal">&middot; newest {{ demands.length }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Recent offers</h5>
+          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/offers']">View all</a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Taxi / client</th>
+                <th scope="col">Total price</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of offres">
+                <td>
+                  <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/offers', row.id]"
+                    >#{{ row.id }}</a
+                  >
+                </td>
+                <td>
+                  <div class="fw-medium">{{ row.taxiNom || row.clientNom || '-' }}</div>
+                  <div class="text-muted small">{{ row.taxiPhone || row.clientPhone || '-' }}</div>
+                </td>
+                <td>{{ row.totalPrice || '-' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="offerBadge(row.etat).class">{{ offerBadge(row.etat).label }}</span>
+                </td>
+                <td>{{ row.dateDepot | date: 'medium' }}</td>
+              </tr>
+              <tr *ngIf="loading && offres.length === 0">
+                <td colspan="5" class="text-center text-muted py-4">
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading offers&hellip;
+                </td>
+              </tr>
+              <tr *ngIf="!loading && offres.length === 0">
+                <td colspan="5" class="text-center text-muted py-4">No recent offers.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-muted small mt-2" *ngIf="offreTotal > 0">
+          Showing {{ offres.length }} of {{ offreTotal }} offers
+          <span *ngIf="offres.length < offreTotal">&middot; newest {{ offres.length }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

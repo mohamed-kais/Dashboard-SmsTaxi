@@ -1,0 +1,123 @@
+<app-page-title [title]="title" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <!-- Explanation: no global ratings list endpoint exists -->
+    <div class="alert alert-info">
+      <h6 class="alert-heading font-size-14">How ratings work</h6>
+      <p class="mb-1">
+        The API has no "list all drivers with ratings" endpoint — ratings are only
+        readable per driver. Look up a driver below (by taxi phone or taxi/driver ID)
+        to resolve their driver id, then open their rating history on the detail page.
+      </p>
+      <p class="mb-0">
+        Per-driver detail lives at <code>/ratings/driver/&lt;id&gt;</code>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Lookup panel -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Driver lookup</h5>
+        <p class="text-muted">
+          Enter a taxi phone number or a numeric taxi/driver ID. The driver id is
+          resolved through the documented rating-summary endpoints.
+        </p>
+
+        <form [formGroup]="lookupForm" (ngSubmit)="lookupDriver()">
+          <div class="mb-3">
+            <label class="form-label" for="driver-lookup">Taxi phone or taxi/driver ID</label>
+            <div class="input-group">
+              <input
+                id="driver-lookup"
+                type="text"
+                class="form-control"
+                formControlName="lookup"
+                placeholder="e.g. 21692569444 or 42"
+              />
+              <button type="submit" class="btn btn-primary" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Look up driver
+              </button>
+            </div>
+            <div *ngIf="submitted && f.lookup.errors" class="text-danger small mt-1">
+              Enter a valid phone number or numeric ID.
+            </div>
+            <div *ngIf="lookupError" class="text-danger small mt-1">
+              {{ lookupError }}
+            </div>
+          </div>
+        </form>
+
+        <ng-container *ngIf="summary">
+          <hr />
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0">Resolved driver: <span class="text-primary">#{{ driverId }}</span></h6>
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="openDriverHistory()">
+              Open rating history
+              <i class="bx bx-right-arrow-alt ms-1"></i>
+            </button>
+          </div>
+          <p class="text-muted small mb-0">
+            Uses <code>GET /api/taxis/&#123;taxiId&#125;/rating-summary</code> /
+            <code>GET /api/taxis/by-phone/&#123;phone&#125;/rating-summary</code>.
+          </p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary cards row -->
+  <div class="col-lg-6">
+    <div class="row">
+      <div class="col-md-4">
+        <app-stat
+          title="Average rating"
+          [value]="summary ? formatRating(summary.average) : '—'"
+          icon="bx bx-star"
+        ></app-stat>
+      </div>
+      <div class="col-md-4">
+        <app-stat
+          title="Aggregate rating"
+          [value]="summary ? formatRating(summary.rating) : '—'"
+          icon="bx bx-detail"
+        ></app-stat>
+      </div>
+      <div class="col-md-4">
+        <app-stat
+          title="Rating count"
+          [value]="summary ? formatCount(summary.count) : '0'"
+          icon="bx bx-list-ul"
+        ></app-stat>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">About these numbers</h5>
+        <ul class="text-muted mb-0 ps-3">
+          <li>
+            <strong>Average rating</strong> — average from the rating history table
+            (<code>average</code> field of the summary).
+          </li>
+          <li>
+            <strong>Aggregate rating</strong> — the aggregate stored on the taxi
+            (<code>rating</code> field of the summary).
+          </li>
+          <li>
+            <strong>Rating count</strong> — number of rating history entries.
+          </li>
+          <li>
+            Per-driver rating history is shown on the detail page
+            (<code>/ratings/driver/&lt;id&gt;</code>).
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

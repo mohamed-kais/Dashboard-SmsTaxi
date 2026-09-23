@@ -1,0 +1,190 @@
+<app-page-title [title]="pageTitle" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<!-- Loading -->
+<div class="text-center py-5" *ngIf="loading">
+  <div class="spinner-border text-primary" role="status"></div>
+  <p class="text-muted mt-2 mb-0">Loading client…</p>
+</div>
+
+<!-- Error -->
+<div class="row" *ngIf="!loading && loadError">
+  <div class="col-12">
+    <div class="alert alert-danger" role="alert">{{ loadError }}</div>
+    <a routerLink="/clients" class="btn btn-light btn-sm">Back to clients</a>
+  </div>
+</div>
+
+<!-- Profile -->
+<div class="row" *ngIf="!loading && !loadError && client">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <h5 class="card-title mb-0">Client profile</h5>
+          <div class="text-nowrap">
+            <button type="button" class="btn btn-primary btn-sm me-1" (click)="openEditModal()">
+              <i class="bx bx-edit me-1"></i>Edit
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="askDelete(deleteTemplate)">
+              <i class="bx bx-trash me-1"></i>Delete
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <dl class="row mb-0">
+              <dt class="col-sm-4 text-muted">ID</dt>
+              <dd class="col-sm-8">{{ client.id }}</dd>
+              <dt class="col-sm-4 text-muted">Telephone</dt>
+              <dd class="col-sm-8">{{ client.telephone || '—' }}</dd>
+              <dt class="col-sm-4 text-muted">Name</dt>
+              <dd class="col-sm-8">{{ clientName() }}</dd>
+              <dt class="col-sm-4 text-muted">Email</dt>
+              <dd class="col-sm-8">{{ client.email || '—' }}</dd>
+              <dt class="col-sm-4 text-muted">Type</dt>
+              <dd class="col-sm-8">{{ client.type || '—' }}</dd>
+            </dl>
+          </div>
+          <div class="col-md-6">
+            <dl class="row mb-0">
+              <dt class="col-sm-4 text-muted">Registered</dt>
+              <dd class="col-sm-8">{{ client.dateEnregistrement ? (client.dateEnregistrement | date: 'medium') : '—' }}</dd>
+              <dt class="col-sm-4 text-muted">Status</dt>
+              <dd class="col-sm-8">
+                <span class="badge" [ngClass]="clientBadge().class">{{ clientBadge().label }}</span>
+              </dd>
+              <dt class="col-sm-4 text-muted">Masquer number</dt>
+              <dd class="col-sm-8">{{ client.masquerNumero ? 'Yes' : 'No' }}</dd>
+              <dt class="col-sm-4 text-muted">Location</dt>
+              <dd class="col-sm-8">{{ client.location || '—' }}</dd>
+              <dt class="col-sm-4 text-muted">Destination</dt>
+              <dd class="col-sm-8">{{ client.destination || '—' }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="card">
+      <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" [class.active]="activeTab === 'overview'"
+              href="javascript: void(0);" (click)="activeTab = 'overview'">
+              <i class="bx bx-info-circle me-1"></i>Overview
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" [class.active]="activeTab === 'history'"
+              href="javascript: void(0);" (click)="activeTab = 'history'">
+              <i class="bx bx-time-five me-1"></i>Ride history
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content pt-3">
+          <!-- Overview -->
+          <div class="tab-pane active" *ngIf="activeTab === 'overview'">
+            <div class="row">
+              <div class="col-md-6">
+                <dl class="row mb-0">
+                  <dt class="col-sm-4 text-muted">Contenu</dt>
+                  <dd class="col-sm-8">{{ client.contenu || '—' }}</dd>
+                  <dt class="col-sm-4 text-muted">Traitement</dt>
+                  <dd class="col-sm-8">{{ client.traitement ? 'Yes' : 'No' }}</dd>
+                </dl>
+              </div>
+              <div class="col-md-6">
+                <dl class="row mb-0">
+                  <dt class="col-sm-4 text-muted">Location (lat, lng)</dt>
+                  <dd class="col-sm-8">{{ coordinatesLabel() }}</dd>
+                  <dt class="col-sm-4 text-muted">Destination (lat, lng)</dt>
+                  <dd class="col-sm-8">{{ destinationCoordinatesLabel() }}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ride history -->
+          <div class="tab-pane active" *ngIf="activeTab === 'history'">
+            <div class="alert alert-danger" role="alert" *ngIf="historyError">{{ historyError }}</div>
+
+            <div class="table-responsive" *ngIf="!historyError">
+              <table class="table table-centered table-nowrap mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Taxi</th>
+                    <th>Pickup</th>
+                    <th>Destination</th>
+                    <th class="text-end">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="historyLoading">
+                    <td colspan="7" class="text-center py-4">
+                      <div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading history…
+                    </td>
+                  </tr>
+                  <ng-container *ngIf="!historyLoading">
+                    <tr *ngFor="let offer of history">
+                      <td>{{ offer.id }}</td>
+                      <td>{{ offer.date_depot ? (offer.date_depot | date: 'medium') : '—' }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="offerBadge(offer.etat).class">{{ offerBadge(offer.etat).label }}</span>
+                      </td>
+                      <td>{{ offer.taxi?.telephone || '—' }}</td>
+                      <td>{{ offer.locationHistory || offer.client?.location || '—' }}</td>
+                      <td>{{ offer.destinationHistory || offer.client?.destination || '—' }}</td>
+                      <td class="text-end">{{ offerPrice(offer) }}</td>
+                    </tr>
+                    <tr *ngIf="history.length === 0">
+                      <td colspan="7" class="text-center text-muted py-4">No ride history for this client.</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3"
+              *ngIf="!historyError && historyTotal > 0">
+              <div>
+                <span class="text-muted">Showing {{ history.length }} of {{ historyTotal }} entries</span>
+                <select name="historyLimit" class="form-select form-select-sm d-inline-block w-auto ms-2"
+                  [ngModel]="historyLimit" (ngModelChange)="historyLimitChange($event)">
+                  <option *ngFor="let l of historyLimits" [ngValue]="l">{{ l }}</option>
+                </select>
+              </div>
+              <ngb-pagination [collectionSize]="historyTotal" [page]="historyPage" [pageSize]="historyLimit"
+                [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+                (pageChange)="historyPageChange($event)">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteTemplate let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Delete client</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+  </div>
+  <div class="modal-body">
+    <p>Delete client <strong>{{ client?.telephone || ('#' + clientId) }}</strong>?
+      The client and its data will be removed. This action cannot be undone.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')" [disabled]="deleting">Cancel</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="modal.close('confirm')" [disabled]="deleting">
+      <span class="spinner-border spinner-border-sm me-1" *ngIf="deleting"></span>Delete
+    </button>
+  </div>
+</ng-template>

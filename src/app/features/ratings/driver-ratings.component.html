@@ -1,0 +1,115 @@
+<app-page-title [title]="title" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <div class="mb-3">
+      <a routerLink=".." class="btn btn-outline-secondary btn-sm">
+        <i class="bx bx-arrow-back me-1"></i>Back to ratings
+      </a>
+    </div>
+
+    <div *ngIf="error" class="alert alert-warning">{{ error }}</div>
+
+    <!-- Low-average alert (UI-only flagging — no backend flag endpoint) -->
+    <div *ngIf="isLowAverage" class="alert alert-danger">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="alert-heading font-size-14 mb-1">Low average rating</h6>
+          <p class="mb-0">
+            Driver <strong>#{{ driverId }}</strong> has an average rating of
+            <strong>{{ average.toFixed(2) }}</strong> (below 3.0). Consider reviewing
+            recent rides.
+          </p>
+        </div>
+        <button type="button" class="btn btn-outline-light btn-sm" (click)="flagDriver()">
+          <i class="bx bx-flag me-1"></i>Report low rating
+        </button>
+      </div>
+      <div *ngIf="reported" class="small mt-2 mb-0">
+        Thanks — the report was logged locally. Backend flagging is not available yet (see ROADMAP).
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Average rating card -->
+      <div class="col-lg-3 col-md-6">
+        <app-stat
+          title="Average rating"
+          [value]="hasAverage ? average.toFixed(2) : '—'"
+          icon="bx bx-star"
+        ></app-stat>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <app-stat
+          title="Total ratings"
+          [value]="ratings.length + ''"
+          icon="bx bx-list-ul"
+        ></app-stat>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <app-stat
+          title="Low ratings (< 3)"
+          [value]="lowRatingCount + ''"
+          icon="bx bx-error"
+        ></app-stat>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <app-stat
+          title="Driver ID"
+          [value]="driverId || '—'"
+          icon="bx bx-user"
+        ></app-stat>
+      </div>
+    </div>
+
+    <!-- Rating history -->
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Rating history</h5>
+          <small class="text-muted">Driver #{{ driverId }}</small>
+        </div>
+
+        <div *ngIf="loading" class="text-center py-4">
+          <span class="spinner-border spinner-border-sm me-2"></span>Loading ratings...
+        </div>
+
+        <div *ngIf="!loading" class="table-responsive">
+          <table class="table table-centered table-nowrap mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>Rating</th>
+                <th>Offer</th>
+                <th>Driver</th>
+                <th>Comment</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="ratings.length === 0">
+                <td colspan="5" class="text-center text-muted py-4">
+                  No ratings found for this driver.
+                </td>
+              </tr>
+              <tr *ngFor="let item of ratings">
+                <td>
+                  <span class="badge {{ ratingBadgeClass(item.rating) }}">
+                    <i class="bx bx-star me-1"></i>{{ formatRating(item.rating) }}
+                  </span>
+                </td>
+                <td>{{ item.offreId ?? '—' }}</td>
+                <td>{{ item.driverId || driverId }}</td>
+                <td>
+                  <span class="text-truncate d-inline-block" style="max-width: 320px" [title]="item.comment">
+                    {{ item.comment || '—' }}
+                  </span>
+                </td>
+                <td>{{ item.createdAt | date: 'medium' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

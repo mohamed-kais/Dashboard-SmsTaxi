@@ -1,0 +1,361 @@
+<app-page-title [title]="title" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <div class="mb-3">
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        <i class="bx bx-arrow-back me-1"></i>Back to reservations
+      </button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="card">
+      <div class="card-body text-center py-5">
+        <span class="spinner-border spinner-border-sm me-2"></span>Loading reservation...
+      </div>
+    </div>
+
+    <!-- Not found -->
+    <div *ngIf="!loading && notFound" class="card">
+      <div class="card-body text-center py-5">
+        <h5 class="text-muted">Reservation not found.</h5>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!loading && reservation">
+      <div class="row">
+        <!-- Reservation detail card -->
+        <div class="col-lg-7">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <h5 class="card-title mb-0">Reservation #{{ reservation.id }}</h5>
+                <span class="badge {{ statusBadgeClass(reservation.status) }}">{{ reservation.status }}</span>
+              </div>
+
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Client ID</div>
+                <div class="col-sm-8">{{ reservation.clientId ?? '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Telephone</div>
+                <div class="col-sm-8">{{ reservation.telephone || '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Pickup</div>
+                <div class="col-sm-8">{{ reservation.pickup || '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Destination</div>
+                <div class="col-sm-8">{{ reservation.destination || '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Pickup coordinates</div>
+                <div class="col-sm-8">
+                  {{ reservation.pickupLatitude ?? '—' }}, {{ reservation.pickupLongitude ?? '—' }}
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Destination coordinates</div>
+                <div class="col-sm-8">
+                  {{ reservation.destinationLatitude ?? '—' }}, {{ reservation.destinationLongitude ?? '—' }}
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Reservation time</div>
+                <div class="col-sm-8">{{ reservation.reservationDateTime | date: 'medium' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Source</div>
+                <div class="col-sm-8">
+                  <span class="badge border text-muted">{{ sourceLabel(reservation.source) }}</span>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Language</div>
+                <div class="col-sm-8">{{ reservation.language || '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Commentaire</div>
+                <div class="col-sm-8">{{ reservation.commentaire || '—' }}</div>
+              </div>
+              <hr />
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Estimated price</div>
+                <div class="col-sm-8">{{ reservation.estimatedPrice ?? '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Final price</div>
+                <div class="col-sm-8">{{ reservation.finalPrice ?? '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Estimated distance</div>
+                <div class="col-sm-8">{{ reservation.estimatedDistance || '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Estimated duration</div>
+                <div class="col-sm-8">{{ reservation.estimatedDuration || '—' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Reminder sent</div>
+                <div class="col-sm-8">{{ reservation.reminderSent ? 'Yes' : 'No' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Converted to demande</div>
+                <div class="col-sm-8">{{ reservation.convertedToDemande ? 'Yes' : 'No' }}</div>
+              </div>
+              <hr />
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Created</div>
+                <div class="col-sm-8">{{ reservation.createdAt | date: 'medium' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Updated</div>
+                <div class="col-sm-8">{{ reservation.updatedAt | date: 'medium' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Cancelled at</div>
+                <div class="col-sm-8">{{ reservation.cancelledAt | date: 'medium' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Completed at</div>
+                <div class="col-sm-8">{{ reservation.completedAt | date: 'medium' }}</div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-sm-4 text-muted">Cancelled by</div>
+                <div class="col-sm-8">{{ reservation.cancelledBy || '—' }}</div>
+              </div>
+
+              <div class="mt-3">
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="openUpdateModal(updateModal)">
+                  <i class="bx bx-edit me-1"></i>Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assigned taxi card -->
+        <div class="col-lg-5">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-3">Assigned taxi</h5>
+
+              <ng-container *ngIf="reservation.assignment; else noAssignment">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <h6 class="mb-0">
+                    {{ reservation.assignment.taxiNom || ('Taxi #' + reservation.assignment.taxiId) }}
+                  </h6>
+                  <span class="badge {{ assignmentBadgeClass(reservation.assignment.status) }}">
+                    {{ reservation.assignment.status }}
+                  </span>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Assignment ID</div>
+                  <div class="col-sm-7">{{ reservation.assignment.id ?? '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Taxi ID</div>
+                  <div class="col-sm-7">{{ reservation.assignment.taxiId ?? '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Numero</div>
+                  <div class="col-sm-7">{{ reservation.assignment.taxiNumero || '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Matricule</div>
+                  <div class="col-sm-7">{{ reservation.assignment.taxiMatricule || '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Telephone</div>
+                  <div class="col-sm-7">{{ reservation.assignment.taxiTelephone || '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Assignment type</div>
+                  <div class="col-sm-7">{{ reservation.assignment.assignmentType || '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Assigned by</div>
+                  <div class="col-sm-7">{{ reservation.assignment.assignedBy || '—' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Assigned at</div>
+                  <div class="col-sm-7">{{ reservation.assignment.assignedAt | date: 'medium' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Accepted at</div>
+                  <div class="col-sm-7">{{ reservation.assignment.acceptedAt | date: 'medium' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Cancelled at</div>
+                  <div class="col-sm-7">{{ reservation.assignment.cancelledAt | date: 'medium' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Completed at</div>
+                  <div class="col-sm-7">{{ reservation.assignment.completedAt | date: 'medium' }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-sm-5 text-muted">Comment</div>
+                  <div class="col-sm-7">{{ reservation.assignment.comment || '—' }}</div>
+                </div>
+              </ng-container>
+
+              <ng-template #noAssignment>
+                <p class="text-muted mb-3">No taxi assigned to this reservation yet.</p>
+              </ng-template>
+
+              <div class="mt-3">
+                <button
+                  *ngIf="!hasActiveAssignment()"
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  (click)="openAssignModal(assignModal)"
+                >
+                  <i class="bx bx-car me-1"></i>Assign taxi
+                </button>
+                <button
+                  *ngIf="hasActiveAssignment()"
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="openUnassignModal(unassignModal)"
+                >
+                  <i class="bx bx-x-circle me-1"></i>Unassign taxi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Assign taxi modal -->
+<ng-template #assignModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Assign taxi</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <form [formGroup]="assignForm" (ngSubmit)="submitAssign(modal)">
+    <div class="modal-body">
+      <p class="text-muted">
+        Reservation #{{ reservation?.id }} — assigns via
+        <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
+      </p>
+      <div class="mb-3">
+        <label class="form-label" for="detail-assign-taxi-id">Taxi ID <span class="text-danger">*</span></label>
+        <input
+          id="detail-assign-taxi-id"
+          type="number"
+          class="form-control"
+          formControlName="taxiId"
+          placeholder="e.g. 42"
+        />
+        <div *ngIf="assignSubmitted && af.taxiId.errors" class="text-danger small mt-1">
+          A valid taxi ID is required.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="detail-assign-type">Assignment type</label>
+        <select id="detail-assign-type" class="form-select" formControlName="assignmentType">
+          <option value="MANUAL">MANUAL</option>
+          <option value="AUTO">AUTO</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="detail-assign-by">Assigned by</label>
+        <input id="detail-assign-by" type="text" class="form-control" formControlName="assignedBy" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="detail-assign-comment">Comment</label>
+        <textarea id="detail-assign-comment" class="form-control" rows="2" formControlName="comment"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="assigning">
+        <span *ngIf="assigning" class="spinner-border spinner-border-sm me-1"></span>
+        Assign taxi
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- Unassign taxi modal -->
+<ng-template #unassignModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Unassign taxi</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <form [formGroup]="unassignForm" (ngSubmit)="confirmUnassign(modal)">
+    <div class="modal-body">
+      <p>
+        Unassign the taxi from reservation <strong>#{{ reservation?.id }}</strong>? This calls
+        <code>DELETE /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
+      </p>
+      <div class="mb-3">
+        <label class="form-label" for="detail-unassign-by">Cancelled by (optional)</label>
+        <input id="detail-unassign-by" type="text" class="form-control" formControlName="cancelledBy" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="detail-unassign-reason">Reason (optional)</label>
+        <textarea id="detail-unassign-reason" class="form-control" rows="2" formControlName="reason"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="submit" class="btn btn-danger" [disabled]="unassigning">
+        <span *ngIf="unassigning" class="spinner-border spinner-border-sm me-1"></span>
+        Confirm unassign
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- Update reservation modal -->
+<ng-template #updateModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Update reservation #{{ reservation?.id }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <form [formGroup]="updateForm" (ngSubmit)="submitUpdate(modal)">
+    <div class="modal-body">
+      <p class="text-muted">
+        Sends <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}</code> with <code>UpdateReservationRequest</code>.
+      </p>
+      <div class="mb-3">
+        <label class="form-label" for="update-telephone">Telephone</label>
+        <input id="update-telephone" type="text" class="form-control" formControlName="telephone" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="update-pickup">Pickup</label>
+        <input id="update-pickup" type="text" class="form-control" formControlName="pickup" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="update-destination">Destination</label>
+        <input id="update-destination" type="text" class="form-control" formControlName="destination" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="update-datetime">Reservation date time</label>
+        <input id="update-datetime" type="datetime-local" class="form-control" formControlName="reservationDateTime" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="update-commentaire">Commentaire</label>
+        <textarea id="update-commentaire" class="form-control" rows="2" formControlName="commentaire"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="update-price">Final price</label>
+        <input id="update-price" type="number" step="0.01" min="0" class="form-control" formControlName="finalPrice" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="updating">
+        <span *ngIf="updating" class="spinner-border spinner-border-sm me-1"></span>
+        Save changes
+      </button>
+    </div>
+  </form>
+</ng-template>

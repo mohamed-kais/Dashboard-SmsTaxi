@@ -1,0 +1,244 @@
+<app-page-title [title]="title" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <!-- Filter toolbar -->
+        <div class="row mb-3 align-items-end">
+          <div class="col-md-4 col-lg-3">
+            <label class="form-label" for="reservation-status">Status</label>
+            <select
+              id="reservation-status"
+              class="form-select"
+              [(ngModel)]="statusFilter"
+              (ngModelChange)="onStatusChange($event)"
+            >
+              <option value="">All statuses</option>
+              <option *ngFor="let status of statuses" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <label class="form-label" for="reservation-search">Search</label>
+            <input
+              id="reservation-search"
+              type="text"
+              class="form-control"
+              placeholder="Telephone, pickup, destination, taxi..."
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="onSearchChange($event)"
+            />
+            <small class="text-muted">Free-text search applies to the current results page (the list endpoint has no search query param).</small>
+          </div>
+          <div class="col-lg-5 text-lg-end">
+            <button type="button" class="btn btn-soft-primary" (click)="refresh()">
+              <i class="bx bx-refresh me-1"></i>Refresh
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger mb-3">{{ error }}</div>
+
+        <div class="table-responsive">
+          <table class="table table-centered table-nowrap mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th sortable="id" (sortchange)="onSortChange($event)">ID</th>
+                <th sortable="telephone" (sortchange)="onSortChange($event)">Client</th>
+                <th>Route</th>
+                <th>Source</th>
+                <th sortable="status" (sortchange)="onSortChange($event)">Status</th>
+                <th>Taxi / Driver</th>
+                <th>Assignment</th>
+                <th sortable="reservationDateTime" (sortchange)="onSortChange($event)">Date</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="loading">
+                <td colspan="9" class="text-center py-4">
+                  <span class="spinner-border spinner-border-sm me-2"></span>Loading reservations...
+                </td>
+              </tr>
+              <tr *ngIf="!loading && reservations.length === 0">
+                <td colspan="9" class="text-center text-muted py-4">No reservations found.</td>
+              </tr>
+              <tr *ngFor="let reservation of reservations">
+                <td class="fw-medium">#{{ reservation.id }}</td>
+                <td>
+                  <div>{{ reservation.telephone || '—' }}</div>
+                  <small *ngIf="reservation.clientId" class="text-muted">
+                    Client #{{ reservation.clientId }}
+                  </small>
+                </td>
+                <td>
+                  <div class="text-truncate" style="max-width: 220px" [title]="reservation.pickup">
+                    {{ reservation.pickup || '—' }}
+                  </div>
+                  <i class="bx bx-right-arrow-alt mx-1 text-muted"></i>
+                  <div class="text-truncate" style="max-width: 220px" [title]="reservation.destination">
+                    {{ reservation.destination || '—' }}
+                  </div>
+                </td>
+                <td>
+                  <span class="badge border text-muted">{{ sourceLabel(reservation.source) }}</span>
+                </td>
+                <td>
+                  <span class="badge {{ statusBadgeClass(reservation.status) }}">{{ reservation.status }}</span>
+                </td>
+                <td>
+                  <ng-container *ngIf="reservation.assignment">
+                    <div>{{ reservation.assignment.taxiNom || ('Taxi #' + reservation.assignment.taxiId) }}</div>
+                    <small class="text-muted">
+                      {{ reservation.assignment.taxiTelephone || reservation.assignment.taxiNumero || '' }}
+                    </small>
+                  </ng-container>
+                  <span *ngIf="!reservation.assignment" class="text-muted">Not assigned</span>
+                </td>
+                <td>
+                  <ng-container *ngIf="reservation.assignment">
+                    <span class="badge {{ assignmentBadgeClass(reservation.assignment.status) }}">
+                      {{ reservation.assignment.status }}
+                    </span>
+                  </ng-container>
+                  <span *ngIf="!reservation.assignment" class="text-muted">—</span>
+                </td>
+                <td>{{ reservation.reservationDateTime | date: 'medium' }}</td>
+                <td class="text-end">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm me-1"
+                    (click)="viewReservation(reservation)"
+                  >
+                    View
+                  </button>
+                  <button
+                    *ngIf="!canUnassign(reservation)"
+                    type="button"
+                    class="btn btn-outline-primary btn-sm me-1"
+                    (click)="openAssignModal(assignModal, reservation)"
+                  >
+                    Assign
+                  </button>
+                  <button
+                    *ngIf="canUnassign(reservation)"
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    (click)="openUnassignModal(unassignModal, reservation)"
+                  >
+                    Unassign
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="row mt-3 align-items-center">
+          <div class="col-sm-6">
+            <p class="text-muted mb-0">
+              Showing {{ reservations.length }} of {{ collectionSize }} reservations
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <ngb-pagination
+              class="justify-content-end mb-0"
+              [(page)]="page"
+              (pageChange)="onPageChange($event)"
+              [collectionSize]="collectionSize"
+              [pageSize]="pageSize"
+              [maxSize]="5"
+              [rotate]="true"
+              [boundaryLinks]="true"
+            ></ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Assign taxi modal -->
+<ng-template #assignModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Assign taxi</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <form [formGroup]="assignForm" (ngSubmit)="submitAssign(modal)">
+    <div class="modal-body">
+      <p class="text-muted">
+        Reservation #{{ selectedReservation?.id }} — assigning a taxi creates a
+        new assignment via <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
+      </p>
+      <div class="mb-3">
+        <label class="form-label" for="assign-taxi-id">Taxi ID <span class="text-danger">*</span></label>
+        <input
+          id="assign-taxi-id"
+          type="number"
+          class="form-control"
+          formControlName="taxiId"
+          placeholder="e.g. 42"
+        />
+        <div *ngIf="assignSubmitted && af.taxiId.errors" class="text-danger small mt-1">
+          A valid taxi ID is required.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="assign-type">Assignment type</label>
+        <select id="assign-type" class="form-select" formControlName="assignmentType">
+          <option value="MANUAL">MANUAL</option>
+          <option value="AUTO">AUTO</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="assign-by">Assigned by</label>
+        <input id="assign-by" type="text" class="form-control" formControlName="assignedBy" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="assign-comment">Comment</label>
+        <textarea id="assign-comment" class="form-control" rows="2" formControlName="comment"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="assigning">
+        <span *ngIf="assigning" class="spinner-border spinner-border-sm me-1"></span>
+        Assign taxi
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- Unassign taxi modal -->
+<ng-template #unassignModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Unassign taxi</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <form [formGroup]="unassignForm" (ngSubmit)="confirmUnassign(modal)">
+    <div class="modal-body">
+      <p>
+        Unassign the taxi from reservation <strong>#{{ selectedReservation?.id }}</strong>?
+        This calls <code>DELETE /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
+      </p>
+      <div class="mb-3">
+        <label class="form-label" for="unassign-by">Cancelled by (optional)</label>
+        <input id="unassign-by" type="text" class="form-control" formControlName="cancelledBy" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="unassign-reason">Reason (optional)</label>
+        <textarea id="unassign-reason" class="form-control" rows="2" formControlName="reason"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="submit" class="btn btn-danger" [disabled]="unassigning">
+        <span *ngIf="unassigning" class="spinner-border spinner-border-sm me-1"></span>
+        Confirm unassign
+      </button>
+    </div>
+  </form>
+</ng-template>

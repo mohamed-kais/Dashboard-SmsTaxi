@@ -1,0 +1,9 @@
+// Dashboard lane — plan §5.1 (docs/IMPLEMENTATION_PLAN.md).
+// The template look comes from Bootstrap + the shared widgets (app-stat /
+// app-page-title / app-loader); only small spacing tweaks live here.
+
+// Combined stat cards (Demands / Offers) hold two labeled sub-values each —
+// keep them visually grouped when they wrap on narrow screens.
+.card.mini-stats-wid .badge {
+  font-weight: 500;
+}

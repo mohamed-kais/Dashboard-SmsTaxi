@@ -1,0 +1,143 @@
+<app-page-title [title]="'SMS Log'" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <h5 class="card-title mb-0">Incoming SMS</h5>
+            <!-- Count chip — GET /api/nbr-sms -->
+            <span class="badge badge-soft-primary">{{ totalCount }} total</span>
+          </div>
+          <input type="search" name="smsSearch" class="form-control" style="width: 260px;"
+            placeholder="Search phone, content…" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" />
+        </div>
+        <!-- View toggle tabs: All / Untreated only -->
+        <ul class="nav nav-tabs card-header-tabs mt-2 mb-0">
+          <li class="nav-item">
+            <button type="button" class="nav-link" [class.active]="view === 'all'"
+              (click)="setView('all')">All</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link" [class.active]="view === 'untreated'"
+              (click)="setView('untreated')">Untreated only</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="alert alert-danger m-3" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <div class="table-responsive">
+        <table class="table table-centered table-nowrap mb-0">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th sortable="id" [direction]="directionFor('id')" (sortchange)="onSortChange($event)">ID</th>
+              <th sortable="telephone" [direction]="directionFor('telephone')" (sortchange)="onSortChange($event)">Phone</th>
+              <th sortable="contenu" [direction]="directionFor('contenu')" (sortchange)="onSortChange($event)">Content</th>
+              <th sortable="date_reception" [direction]="directionFor('date_reception')" (sortchange)="onSortChange($event)">Received</th>
+              <th sortable="traitement" [direction]="directionFor('traitement')" (sortchange)="onSortChange($event)">Status</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading$ | async">
+              <td colspan="7" class="text-center py-4">
+                <div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading SMS…
+              </td>
+            </tr>
+            <ng-container *ngIf="!(loading$ | async)">
+              <tr *ngFor="let sms of (rows$ | async); let i = index">
+                <td>{{ state.startIndex + i }}</td>
+                <td>{{ sms.id }}</td>
+                <td>{{ sms.telephone || '—' }}</td>
+                <td style="max-width: 320px;">
+                  <span class="text-truncate d-inline-block" style="max-width: 300px;"
+                    [title]="sms.contenu">{{ sms.contenu || '—' }}</span>
+                </td>
+                <td>{{ sms.date_reception ? (sms.date_reception | date: 'medium') : '—' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="traitementBadge(sms).class">{{ traitementBadge(sms).label }}</span>
+                </td>
+                <td class="text-end text-nowrap">
+                  <button type="button" class="btn btn-sm btn-soft-info" title="View"
+                    (click)="openView(sms, viewTemplate)">
+                    <i class="bx bx-show"></i> View
+                  </button>
+                  <button type="button" class="btn btn-sm btn-soft-danger ms-1" title="Delete"
+                    (click)="askDelete(sms, confirmDeleteTemplate)">
+                    <i class="bx bx-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="(totalRecords$ | async) === 0">
+                <td colspan="7" class="text-center text-muted py-4">No SMS found.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div>
+            <span class="text-muted">Showing {{ state.startIndex }} to {{ state.endIndex }} of {{ state.totalRecords }} entries</span>
+            <select name="pageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
+              [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
+              <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
+            </select>
+          </div>
+          <ngb-pagination [collectionSize]="(totalRecords$ | async) || 0" [page]="state.page"
+            [pageSize]="state.pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+            (pageChange)="onPageChange($event)">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View modal — full SMS content -->
+<ng-template #viewTemplate let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">SMS #{{ viewing?.id }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+  </div>
+  <div class="modal-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Phone</dt>
+      <dd class="col-sm-9">{{ viewing?.telephone || '—' }}</dd>
+      <dt class="col-sm-3">Received</dt>
+      <dd class="col-sm-9">{{ viewing?.date_reception ? (viewing!.date_reception | date: 'medium') : '—' }}</dd>
+      <dt class="col-sm-3">Status</dt>
+      <dd class="col-sm-9">
+        <span class="badge" [ngClass]="viewing ? traitementBadge(viewing).class : 'badge-soft-secondary'">
+          {{ viewing ? traitementBadge(viewing).label : '—' }}
+        </span>
+      </dd>
+      <dt class="col-sm-3">Content</dt>
+      <dd class="col-sm-9" style="white-space: pre-wrap;">{{ viewing?.contenu || '—' }}</dd>
+    </dl>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')">Close</button>
+  </div>
+</ng-template>
+
+<!-- Delete confirmation modal -->
+<ng-template #confirmDeleteTemplate let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Delete SMS</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+  </div>
+  <div class="modal-body">
+    <p>Delete SMS <strong>#{{ pendingDelete?.id }}</strong>
+      <span *ngIf="pendingDelete?.telephone">from <strong>{{ pendingDelete?.telephone }}</strong></span>?
+      This action cannot be undone.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="modal.close('confirm')">Delete</button>
+  </div>
+</ng-template>

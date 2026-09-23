@@ -1,0 +1,125 @@
+<app-page-title [title]="'Taxis'" [breadcrumbItems]="breadcrumbItems"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- Toolbar -->
+        <div class="row g-2 mb-3">
+          <div class="col-sm-4 col-md-5">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search by phone or name..."
+              [formControl]="searchControl"
+            />
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <select class="form-select" [formControl]="statusFilterControl">
+              <option value="">All statuses</option>
+              <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <div class="d-flex justify-content-sm-end">
+              <button type="button" class="btn btn-primary w-100" (click)="openAddModal()">
+                <i class="bx bx-plus me-1"></i>Add taxi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="loadError" class="alert alert-danger py-2 mb-2">{{ loadError }}</div>
+        <div *ngIf="actionError" class="alert alert-danger py-2 mb-2">{{ actionError }}</div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-striped table-centered align-middle mb-0">
+            <thead>
+              <tr>
+                <th sortable="id" (sortchange)="onSortChange($event)">#</th>
+                <th sortable="telephone" (sortchange)="onSortChange($event)">Phone</th>
+                <th sortable="nom" (sortchange)="onSortChange($event)">Name</th>
+                <th sortable="type" (sortchange)="onSortChange($event)">Type</th>
+                <th sortable="taxiStatus" (sortchange)="onSortChange($event)">Status</th>
+                <th sortable="rating" (sortchange)="onSortChange($event)">Rating</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="(rows$ | async) as rows">
+              <tr *ngFor="let taxi of rows">
+                <td>{{ taxi.id }}</td>
+                <td class="fw-medium">{{ taxi.telephone || '—' }}</td>
+                <td>{{ taxi.nom || '—' }}</td>
+                <td>{{ taxi.type || '—' }}</td>
+                <td>
+                  <span class="badge mb-0" [ngClass]="badgeFor(taxi.taxiStatus).class">
+                    {{ badgeFor(taxi.taxiStatus).label }}
+                  </span>
+                </td>
+                <td>{{ taxi.rating ?? '—' }}</td>
+                <td class="text-end text-nowrap">
+                  <a
+                    *ngIf="taxi.id != null"
+                    class="btn btn-sm btn-outline-secondary me-1"
+                    [routerLink]="['/taxis', taxi.id]"
+                  >
+                    <i class="bx bx-show-alt me-1"></i>View
+                  </a>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="openEditModal(taxi)">
+                    <i class="bx bx-pencil me-1"></i>Edit
+                  </button>
+                  <button
+                    type="button"
+                    *ngIf="taxi.taxiStatus !== 'APPROVED'"
+                    class="btn btn-sm btn-outline-success me-1"
+                    (click)="setStatus(taxi, 'APPROVED')"
+                  >
+                    <i class="bx bx-check me-1"></i>Approve
+                  </button>
+                  <button
+                    type="button"
+                    *ngIf="taxi.taxiStatus !== 'REJECTED'"
+                    class="btn btn-sm btn-outline-danger me-1"
+                    (click)="setStatus(taxi, 'REJECTED')"
+                  >
+                    <i class="bx bx-x me-1"></i>Reject
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteTaxi(taxi)">
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="!loading && !loadError && rows.length === 0">
+                <td colspan="7" class="text-center text-muted py-4">No taxis found.</td>
+              </tr>
+              <tr *ngIf="loading">
+                <td colspan="7" class="text-center py-4">
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>Loading taxis…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination footer -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3">
+          <div class="text-muted">
+            Showing {{ state.startIndex }}–{{ state.endIndex }} of {{ state.totalRecords }} taxis
+          </div>
+          <ngb-pagination
+            [collectionSize]="state.totalRecords"
+            [page]="state.page"
+            [pageSize]="state.pageSize"
+            [maxSize]="5"
+            [rotate]="true"
+            (pageChange)="onPageChange($event)"
+          ></ngb-pagination>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

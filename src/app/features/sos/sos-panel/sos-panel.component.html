@@ -1,0 +1,118 @@
+<app-page-title [title]="'SOS Alerts'" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+<!-- (a) Spec-gap info card — live alerting is not yet available. -->
+<div class="alert alert-warning" role="alert">
+  <i class="bx bx-error me-1"></i>
+  <strong>Live alerting is not available yet.</strong>
+  The backend specification currently documents only the manual trigger endpoint
+  (<code>POST /api/sosNotification/&#123;id&#125;</code>) — there is no SOS alert list,
+  live feed or acknowledge endpoint. This gap is tracked in the project ROADMAP.
+</div>
+
+<div class="row">
+  <!-- (b) Trigger form -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Trigger an SOS notification</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">
+          Sends an SOS SMS alert for the taxi with the given ID. The backend replies with a
+          plain result message (for example <em>"SMS sent successfully"</em> or
+          <em>"Taxi not found"</em>).
+        </p>
+
+        <div class="alert alert-success" role="alert" *ngIf="successMessage">{{ successMessage }}</div>
+        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+        <form [formGroup]="form" (ngSubmit)="triggerSos()" novalidate>
+          <div class="mb-3">
+            <label class="form-label" for="sos-taxi-id">Taxi ID <span class="text-danger">*</span></label>
+            <input type="number" id="sos-taxi-id" class="form-control" formControlName="taxiId"
+              min="1" step="1" placeholder="e.g. 42"
+              [class.is-invalid]="submitted && f.taxiId.errors" />
+            <div class="invalid-feedback" *ngIf="submitted && f.taxiId.errors?.required">
+              Taxi ID is required.
+            </div>
+            <div class="invalid-feedback" *ngIf="submitted && f.taxiId.errors?.min">
+              Taxi ID must be a positive number.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-danger" [disabled]="sending">
+            <span class="spinner-border spinner-border-sm me-1" *ngIf="sending"></span>
+            {{ sending ? 'Sending…' : 'Send SOS notification' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- (c) Static alert-protocol reference card (pure UI text). -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Alert protocol (reference)</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-2">
+          Standard contact flow when an SOS is triggered — for operator reference only; the
+          dashboard cannot track alert state yet.
+        </p>
+        <ol class="mb-0 ps-3">
+          <li class="mb-2">Driver triggers the SOS button from the taxi application.</li>
+          <li class="mb-2">
+            Backend sends an SMS alert for the taxi ID
+            (<code>POST /api/sosNotification/&#123;id&#125;</code>).
+          </li>
+          <li class="mb-2">Dispatch receives the alert and calls the driver to confirm the situation.</li>
+          <li class="mb-2">If the driver cannot be reached, escalate to emergency services.</li>
+          <li>Log the incident outcome in the operations record.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">Alert history</h5>
+        <span class="badge badge-soft-secondary">Not available</span>
+      </div>
+      <div class="card-body pb-0">
+        <p class="text-muted">
+          Placeholder only — no alert data can be listed until the backend documents an SOS
+          list endpoint (see ROADMAP). The row below is a disabled sample showing where live
+          alerts will appear.
+        </p>
+      </div>
+      <!-- Spec gap (ROADMAP): no SOS list / acknowledge endpoints are documented.
+           The row below is a DISABLED, clearly-labelled sample — not real data. -->
+      <div class="table-responsive">
+        <table class="table table-centered table-nowrap mb-0">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>Taxi</th>
+              <th>Triggered</th>
+              <th>Status</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="opacity: 0.5; pointer-events: none;" aria-disabled="true">
+              <td class="text-muted">—</td>
+              <td class="text-muted">Sample row (disabled)</td>
+              <td class="text-muted">—</td>
+              <td><span class="badge badge-soft-secondary">Sample</span></td>
+              <td class="text-end text-muted">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

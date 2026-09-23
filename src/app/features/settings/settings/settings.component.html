@@ -1,0 +1,140 @@
+<app-page-title [title]="'Settings'" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+<ul ngbNav #settingsNav="ngbNav" class="nav-tabs">
+  <li [ngbNavItem]="'matching'">
+    <a ngbNavLink>Matching radius</a>
+    <ng-template ngbNavContent>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Matching radius</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted">
+            Ride-matching / broadcast radius in meters. The server caps the max radius at
+            5000&nbsp;m and clamps the base radius to (0,&nbsp;max].
+          </p>
+
+          <div class="alert alert-success" role="alert" *ngIf="matchingSuccess">{{ matchingSuccess }}</div>
+          <div class="alert alert-danger" role="alert" *ngIf="matchingError">{{ matchingError }}</div>
+
+          <form [formGroup]="matchingForm" (ngSubmit)="saveMatching()" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label" for="mc-base">Base radius (m) <span class="text-danger">*</span></label>
+                  <input type="number" id="mc-base" class="form-control" formControlName="baseRadius"
+                    min="0" step="1" placeholder="e.g. 500"
+                    [class.is-invalid]="matchingSubmitted && mf.baseRadius.errors" />
+                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.baseRadius.errors?.required">
+                    Base radius is required.
+                  </div>
+                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.baseRadius.errors?.min">
+                    Base radius must be 0 or more.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label" for="mc-max">Max radius (m) <span class="text-danger">*</span></label>
+                  <input type="number" id="mc-max" class="form-control" formControlName="maxRadius"
+                    min="0" step="1" placeholder="e.g. 2000"
+                    [class.is-invalid]="matchingSubmitted && mf.maxRadius.errors" />
+                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.maxRadius.errors?.required">
+                    Max radius is required.
+                  </div>
+                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.maxRadius.errors?.min">
+                    Max radius must be 0 or more.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="matchingSaving">
+              <span class="spinner-border spinner-border-sm me-1" *ngIf="matchingSaving"></span>
+              {{ matchingSaving ? 'Saving…' : 'Save changes' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li [ngbNavItem]="'airport'">
+    <a ngbNavLink>Airport pricing</a>
+    <ng-template ngbNavContent>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Airport pricing</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted">
+            Surcharge applied near airports and the detection radius used to decide
+            "near an airport". Only the provided fields are updated server-side.
+          </p>
+          <p class="text-muted" *ngIf="airportCount !== null">
+            Configured airports: <strong>{{ airportCount }}</strong>
+            <span class="small"> — read-only; the update endpoint accepts surcharge and radius
+              fields only (airport coordinates are managed server-side).</span>
+          </p>
+
+          <div class="alert alert-success" role="alert" *ngIf="airportSuccess">{{ airportSuccess }}</div>
+          <div class="alert alert-danger" role="alert" *ngIf="airportError">{{ airportError }}</div>
+
+          <form [formGroup]="airportForm" (ngSubmit)="saveAirportPricing()" novalidate>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label" for="ap-value">Surcharge value <span class="text-danger">*</span></label>
+                  <input type="number" id="ap-value" class="form-control" formControlName="surchargeValue"
+                    min="0" step="0.01" placeholder="e.g. 10"
+                    [class.is-invalid]="airportSubmitted && af.surchargeValue.errors" />
+                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeValue.errors?.required">
+                    Surcharge value is required.
+                  </div>
+                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeValue.errors?.min">
+                    Surcharge value must be 0 or more.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label" for="ap-type">Surcharge type <span class="text-danger">*</span></label>
+                  <select id="ap-type" class="form-select" formControlName="surchargeType"
+                    [class.is-invalid]="airportSubmitted && af.surchargeType.errors">
+                    <option [ngValue]="null" disabled>Select a type…</option>
+                    <option *ngFor="let t of surchargeTypes" [ngValue]="t">
+                      {{ t === 'PERCENTAGE' ? 'Percentage (%)' : 'Fixed amount' }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeType.errors?.required">
+                    Surcharge type is required.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label" for="ap-radius">Airport radius (m) <span class="text-danger">*</span></label>
+                  <input type="number" id="ap-radius" class="form-control" formControlName="airportRadiusMeters"
+                    min="0" step="1" placeholder="e.g. 1500"
+                    [class.is-invalid]="airportSubmitted && af.airportRadiusMeters.errors" />
+                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.airportRadiusMeters.errors?.required">
+                    Airport radius is required.
+                  </div>
+                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.airportRadiusMeters.errors?.min">
+                    Airport radius must be 0 or more.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="airportSaving">
+              <span class="spinner-border spinner-border-sm me-1" *ngIf="airportSaving"></span>
+              {{ airportSaving ? 'Saving…' : 'Save changes' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="settingsNav"></div>

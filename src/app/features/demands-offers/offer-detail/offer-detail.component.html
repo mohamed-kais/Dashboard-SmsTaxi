@@ -1,0 +1,200 @@
+<app-page-title [title]="title" [breadcrumbItems]="breadcrumb"></app-page-title>
+
+<div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+<div class="text-muted" *ngIf="loading">
+  <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading offer&hellip;
+</div>
+
+<div class="row" *ngIf="!loading && offre">
+  <!-- fields card -->
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Offer details</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">ID</span>
+            <span class="fw-medium">#{{ offre.id }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Status</span>
+            <span class="badge" [ngClass]="badge(offre.etat).class">{{ badge(offre.etat).label }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Deposited</span>
+            <span>{{ (offre.date_depot | date: 'medium') || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Channel (type)</span>
+            <span>{{ offre.type || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Client phone</span>
+            <span>{{ clientPhone || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Client name</span>
+            <span>{{ offre.client?.name || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Taxi phone</span>
+            <span>{{ offre.taxi?.telephone || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Taxi name</span>
+            <span>{{ offre.taxi?.nom || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Pickup</span>
+            <span>{{ offre.locationHistory || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Destination</span>
+            <span>{{ offre.destinationHistory || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Duration</span>
+            <span>{{ offre.duration || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Distance</span>
+            <span>{{ offre.distance || '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Latitude / Longitude</span>
+            <span>{{ offre.latitude !== undefined ? offre.latitude : '-' }} / {{ offre.longitude !== undefined ? offre.longitude : '-' }}</span>
+          </div>
+          <div class="col-md-6 mb-3">
+            <span class="text-muted small d-block">Auto-cancelled (annulee_auto)</span>
+            <span>{{ offre.annulee_auto ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="col-md-12 mb-3">
+            <span class="text-muted small d-block">Info</span>
+            <span>{{ offre.info || '-' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- prices + rating + comments -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Price &amp; rating</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <span class="text-muted small d-block">Total price</span>
+            <span class="fw-medium">{{ offre.total_price || '-' }}</span>
+          </div>
+          <div class="col-md-3 mb-3">
+            <span class="text-muted small d-block">Real price</span>
+            <span class="fw-medium">{{ offre.realPrice !== undefined ? offre.realPrice : '-' }}</span>
+          </div>
+          <div class="col-md-3 mb-3">
+            <span class="text-muted small d-block">Variance</span>
+            <span>{{ offre.variance !== undefined ? offre.variance : '-' }}</span>
+          </div>
+          <div class="col-md-3 mb-3">
+            <span class="text-muted small d-block">Rating</span>
+            <span>{{ offre.rating !== undefined ? offre.rating : '-' }}</span>
+          </div>
+          <div class="col-md-12">
+            <span class="text-muted small d-block">Comments</span>
+            <span>{{ offre.comments || '-' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- route text patch -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Route text</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted small" *ngIf="!canPatchRouteText">
+          The client phone is required as a path segment of the route-text update but is missing from
+          the offer response — patching is unavailable for this offer.
+        </p>
+        <div class="row g-2 align-items-end">
+          <div class="col-md-5">
+            <label class="form-label">Pickup label</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="routeText.location"
+              [disabled]="!canPatchRouteText || savingRouteText"
+            />
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Destination label</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="routeText.destination"
+              [disabled]="!canPatchRouteText || savingRouteText"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-primary w-100"
+              [disabled]="!canPatchRouteText || savingRouteText"
+              (click)="saveRouteText()"
+            >
+              {{ savingRouteText ? 'Saving...' : 'Save' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- status + actions card -->
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Status</h5>
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-2">
+          <span class="badge me-2" [ngClass]="badge(offre.etat).class">{{ badge(offre.etat).label }}</span>
+          <span class="text-muted small">since {{ (offre.date_depot | date: 'short') || '-' }}</span>
+        </div>
+        <p class="text-muted small mb-0">
+          The API exposes only the current status and the deposit date &mdash; no per-state history is
+          available, so no timeline is shown.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Actions</h5>
+      </div>
+      <div class="card-body d-grid gap-2">
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary dropdown-toggle" ngbDropdownToggle>
+            Change state
+          </button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <button
+              type="button"
+              class="dropdown-item"
+              *ngFor="let e of etatOptions"
+              (click)="changeState(e)"
+            >
+              {{ e }}
+            </button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-warning" (click)="confirmCancel()">Cancel offer</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Delete offer</button>
+      </div>
+    </div>
+  </div>
+</div>
