@@ -1,212 +1,514 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 import {
+  OFFRE_STATUS,
+  StatusBadge,
+  TAXI_STATUS,
+  statusBadge,
+} from '../../../core/constants/status-badges';
+import { StatusEnum } from '../../../core/models/common.model';
+import {
+  GetAllTaxisCriteriaResponse,
   NotificationChannel,
-  NotificationTargetType,
+  NotificationClientRow,
+  NotificationTaxiRow,
   NotificationType,
+  PageNotificationClientDto,
   SendNotificationRequest,
 } from '../../../core/models/notification.model';
-import { NotificationService } from '../../../core/services/notification.service';
-import { WhatsappService } from '../../../core/services/whatsapp.service';
 import {
-  NOTIFICATION_CHANNELS,
-  NOTIFICATION_TARGET_TYPES,
-  NOTIFICATION_TYPES,
-  apiErrorMessage,
-} from '../notifications.constants';
+  ClientsCriteriaQuery,
+  NotificationService,
+  TaxisCriteriaQuery,
+} from '../../../core/services/notification.service';
+import { apiErrorMessage } from '../notifications.constants';
+
+/** Recipient tab — maps 1:1 to the send `targetType` (`ADMIN` has no table). */
+type RecipientTab = 'TAXI' | 'CLIENT' | 'ADMIN';
+/** Tabs backed by a server-side picker. */
+type PickerTab = 'TAXI' | 'CLIENT';
+
+/** Minimal selection contract shared by both pickers (template helpers). */
+interface SelectionState {
+  selectedIds: Set<number>;
+  selectAll: boolean;
+}
+
+/** Local per-tab picker state (server-side paging + search + selection). */
+interface PickerState<T> extends SelectionState {
+  rows: T[];
+  loading: boolean;
+  error: string;
+  /** 1-based page (template); the API query is 0-based. */
+  page: number;
+  pageSize: number;
+  totalRecords: number;
+  totalPages: number;
+  searchTerm: string;
+  loaded: boolean;
+}
+
+function createPickerState<T>(pageSize = 10): PickerState<T> {
+  return {
+    rows: [],
+    loading: false,
+    error: '',
+    page: 1,
+    pageSize,
+    totalRecords: 0,
+    totalPages: 1,
+    searchTerm: '',
+    selectedIds: new Set<number>(),
+    selectAll: false,
+    loaded: false,
+  };
+}
 
 /**
- * Notification send form (route `notifications/send`).
+ * Send notification — two-step wizard (route `notifications/send`).
  *
- * One reactive form, two delivery surfaces:
+ * Step 1 "Contenu": title / channel / type / message + a live phone preview.
+ * Step 2 "Destinataires": Taxis / Clients picker tabs (server-side paging +
+ * search over the NOTIFICATION domain `get-all-*-criteria` endpoints) and a
+ * "Tableau de bord" tab that targets every administrator (`['ALL']`).
  *
- *   - CLIENT / TAXI / ADMIN → `NotificationService.send()` (POST
- *     /api/notifications/send) with the SELECTED channel (SMS/EMAIL/PUSH/
- *     WHATSAPP). `targetIds` = comma-separated existing entity ids.
- *
- *   - ANY_TAXI → WhatsApp broadcast to a list of taxi ids, routed through
- *     `NotificationService.send()` with `channel` forced to WHATSAPP. The
- *     `WhatsappService.sendToPhones` manual-send surface (targetType ANYONE)
- *     is dedicated to raw phone numbers (send-any-one), so ANY_TAXI with a
- *     target-id list is the supported convention here.
- *
- *   - ANYONE → raw phone-number WhatsApp manual send via
- *     `WhatsappService.sendToPhones()` (POST /api/notifications/send-any-one);
- *     `targetIds` = comma-separated raw phone numbers, `channel` forced to
- *     WHATSAPP.
- *
- * Feedback style mirrors the sibling send form (sms-inject): inline
- * success/error alerts, no modal.
+ * Send goes through `NotificationService.send()`
+ * (`POST /api/notifications/send`); "Sélectionner tout" (and always the ADMIN
+ * tab) sends `targetIds: ['ALL']`, otherwise the selected row ids as strings.
  */
 @Component({
   selector: 'app-notification-send',
   templateUrl: './notification-send.component.html',
+  styleUrls: ['./notification-send.component.scss'],
 })
-export class NotificationSendComponent implements OnInit {
+export class NotificationSendComponent implements OnInit, OnDestroy {
   breadCrumbItems: { label: string; active: boolean }[] = [
-    { label: 'Alerts', active: false },
     { label: 'Notifications', active: false },
-    { label: 'Send', active: true },
+    { label: 'Envoyer une notification', active: true },
   ];
 
+  /** 1 = Contenu, 2 = Destinataires. */
+  step: 1 | 2 = 1;
+  /** Set once "Suivant" is pressed on an invalid form (drives error display). */
+  step1Submitted = false;
   form!: FormGroup;
-  submitted = false;
-  submitting = false;
-  successMessage = '';
-  errorMessage = '';
 
-  readonly types: readonly NotificationType[] = NOTIFICATION_TYPES;
-  readonly channels: readonly NotificationChannel[] = NOTIFICATION_CHANNELS;
-  readonly targetTypes: readonly NotificationTargetType[] = NOTIFICATION_TARGET_TYPES;
+  /** Live clock for the preview phone head (`HH:mm`, refreshed every 30s). */
+  now = new Date();
+  private clockTimer: ReturnType<typeof setInterval> | null = null;
+  private readonly destroy$ = new Subject<void>();
+
+  /** Channel select — value↔label mapping (backend enum uses PUSH). */
+  readonly channels: { value: NotificationChannel; label: string }[] = [
+    { value: 'PUSH', label: 'Diffusion APP' },
+    { value: 'WHATSAPP', label: 'WHATSAPP' },
+    { value: 'SMS', label: 'SMS' },
+  ];
+  readonly types: NotificationType[] = ['INFO', 'WARNING', 'ERROR'];
+
+  // -------------------------------------------------------------------------
+  // Step 2 — recipient pickers
+  // -------------------------------------------------------------------------
+
+  activeTab: RecipientTab = 'TAXI';
+  taxis: PickerState<NotificationTaxiRow> = createPickerState<NotificationTaxiRow>();
+  clients: PickerState<NotificationClientRow> = createPickerState<NotificationClientRow>();
+  readonly searchControl = new FormControl('', { nonNullable: true });
+  readonly pageSizes = [10, 25, 50, 100];
+
+  sending = false;
+  sendError = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private notificationService: NotificationService,
-    private whatsappService: WhatsappService
+    private readonly formBuilder: FormBuilder,
+    private readonly notificationService: NotificationService
   ) {}
 
   get f(): FormGroup['controls'] {
     return this.form.controls;
   }
 
+  /** Raw form values for the live preview (empty-safe). */
+  get titleValue(): string {
+    return String(this.f.title.value ?? '');
+  }
+
+  get messageValue(): string {
+    return String(this.f.message.value ?? '');
+  }
+
+  get typeValue(): NotificationType {
+    return this.f.type.value as NotificationType;
+  }
+
+  get channelValue(): NotificationChannel {
+    return this.f.channel.value as NotificationChannel;
+  }
+
+  /** Picker state of the active non-ADMIN tab (toolbar + pagination bindings). */
+  get activePicker(): PickerState<NotificationTaxiRow> | PickerState<NotificationClientRow> {
+    return this.activeTab === 'CLIENT' ? this.clients : this.taxis;
+  }
+
+  /** "Envoyer" is enabled on ADMIN always, else only with a selection. */
+  get canSend(): boolean {
+    if (this.activeTab === 'ADMIN') {
+      return true;
+    }
+    const st = this.activeTab === 'TAXI' ? this.taxis : this.clients;
+    return st.selectAll || st.selectedIds.size > 0;
+  }
+
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      title: [''],
+      title: ['', [Validators.required]],
       message: ['', [Validators.required]],
+      channel: ['PUSH' as NotificationChannel, [Validators.required]],
       type: ['INFO' as NotificationType, [Validators.required]],
-      channel: ['SMS' as NotificationChannel, [Validators.required]],
-      targetType: ['CLIENT' as NotificationTargetType, [Validators.required]],
-      targetIds: ['', [Validators.required]],
     });
-    this.syncChannelForTarget();
-  }
 
-  // ---------------------------------------------------------------------------
-  // Target-scope → channel coupling
-  // ---------------------------------------------------------------------------
+    this.clockTimer = setInterval(() => {
+      this.now = new Date();
+    }, 30_000);
 
-  /** ANYONE / ANY_TAXI always go out as WhatsApp (channel locked). */
-  isWhatsAppOnly(): boolean {
-    const tt = this.f.targetType.value as NotificationTargetType;
-    return tt === 'ANYONE' || tt === 'ANY_TAXI';
-  }
-
-  /** Re-sync the channel control when the target scope changes. */
-  onTargetTypeChange(): void {
-    this.syncChannelForTarget();
-  }
-
-  private syncChannelForTarget(): void {
-    if (this.isWhatsAppOnly()) {
-      this.f.channel.setValue('WHATSAPP' as NotificationChannel);
-      this.f.channel.disable();
-    } else {
-      this.f.channel.enable();
-    }
-  }
-
-  /** Plain-language hint for the currently selected target scope. */
-  modeHint(): string {
-    switch (this.f.targetType.value as NotificationTargetType) {
-      case 'CLIENT':
-        return 'Targets existing client accounts. Enter comma-separated client ids; the message is delivered through the selected channel.';
-      case 'TAXI':
-        return 'Targets existing taxi accounts. Enter comma-separated taxi ids; the message is delivered through the selected channel.';
-      case 'ADMIN':
-        return 'Targets existing admin accounts. Enter comma-separated admin ids; the message is delivered through the selected channel.';
-      case 'ANY_TAXI':
-        return 'WhatsApp broadcast to a list of taxi ids. Enter comma-separated taxi ids; the channel is locked to WhatsApp.';
-      case 'ANYONE':
-        return 'Manual WhatsApp send. Enter comma-separated raw phone numbers (with country code); the channel is locked to WhatsApp.';
-      default:
-        return '';
-    }
-  }
-
-  targetIdsPlaceholder(): string {
-    return this.f.targetType.value === 'ANYONE'
-      ? 'comma-separated phone numbers, e.g. 213661234567, 213771234567'
-      : 'comma-separated ids, e.g. 1, 2, 3';
-  }
-
-  // ---------------------------------------------------------------------------
-  // Submission
-  // ---------------------------------------------------------------------------
-
-  onSubmit(): void {
-    this.submitted = true;
-    this.successMessage = '';
-    this.errorMessage = '';
-    if (this.form.invalid) {
-      return;
-    }
-
-    const targetType = this.f.targetType.value as NotificationTargetType;
-    const message = String(this.f.message.value ?? '').trim();
-    const title = String(this.f.title.value ?? '').trim();
-    const type = this.f.type.value as NotificationType;
-    const targetIds = this.parseTargetIds(this.f.targetIds.value);
-
-    if (!targetIds.length) {
-      this.errorMessage = 'Enter at least one comma-separated target id or phone number.';
-      return;
-    }
-
-    this.submitting = true;
-
-    // ANYONE → raw phone numbers, WhatsApp manual send (send-any-one).
-    if (targetType === 'ANYONE') {
-      this.whatsappService.sendToPhones(targetIds, message, title || undefined, type).subscribe({
-        next: (res) => this.handleSuccess(res),
-        error: (err) => this.handleError(err),
+    // One debounced search box drives the active tab's picker (digits → phone
+    // param, anything else → name param; page resets to 0 server-side).
+    this.searchControl.valueChanges
+      .pipe(debounceTime(350), takeUntil(this.destroy$))
+      .subscribe((term) => {
+        const tab = this.activeTab;
+        if (tab === 'ADMIN') {
+          return;
+        }
+        const st = tab === 'TAXI' ? this.taxis : this.clients;
+        st.searchTerm = term.trim();
+        st.page = 1;
+        this.loadPicker(tab);
       });
+
+    // Eagerly load the default tab so step 2 opens instantly.
+    this.loadPicker('TAXI');
+  }
+
+  ngOnDestroy(): void {
+    if (this.clockTimer !== null) {
+      clearInterval(this.clockTimer);
+      this.clockTimer = null;
+    }
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // -------------------------------------------------------------------------
+  // Stepper navigation
+  // -------------------------------------------------------------------------
+
+  /** "Suivant" — stay on step 1 with errors, else advance (lazy-loads tab). */
+  goToStep2(): void {
+    if (this.form.invalid) {
+      this.step1Submitted = true;
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.step = 2;
+    const tab = this.activeTab;
+    if (tab === 'ADMIN') {
+      return;
+    }
+    const st = tab === 'TAXI' ? this.taxis : this.clients;
+    if (!st.loaded && !st.loading) {
+      this.loadPicker(tab);
+    }
+  }
+
+  /** "Retour" — back to step 1, form values and selections preserved. */
+  goToStep1(): void {
+    this.step = 1;
+    this.sendError = '';
+  }
+
+  /** Tab switch — restores that tab's search term, lazy-loads on first visit. */
+  setTab(tab: RecipientTab): void {
+    this.activeTab = tab;
+    this.sendError = '';
+    if (tab === 'ADMIN') {
+      return;
+    }
+    const st = tab === 'TAXI' ? this.taxis : this.clients;
+    this.searchControl.setValue(st.searchTerm, { emitEvent: false });
+    if (!st.loaded && !st.loading) {
+      this.loadPicker(tab);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Picker data pipeline (switchMap/takeUntil style, cf. taxis-list)
+  // -------------------------------------------------------------------------
+
+  clearSearch(): void {
+    this.searchControl.setValue('');
+  }
+
+  onPageChange(page: number): void {
+    const tab = this.activeTab;
+    if (tab === 'ADMIN') {
+      return;
+    }
+    const st = tab === 'TAXI' ? this.taxis : this.clients;
+    st.page = page;
+    this.loadPicker(tab);
+  }
+
+  onPageSizeChange(raw: string): void {
+    const tab = this.activeTab;
+    if (tab === 'ADMIN') {
+      return;
+    }
+    const st = tab === 'TAXI' ? this.taxis : this.clients;
+    st.pageSize = Number(raw) || 10;
+    st.page = 1;
+    this.loadPicker(tab);
+  }
+
+  totalPagesOf(st: { totalRecords: number; pageSize: number }): number {
+    return Math.max(1, Math.ceil(st.totalRecords / st.pageSize));
+  }
+
+  private loadPicker(tab: PickerTab): void {
+    if (tab === 'TAXI') {
+      this.loadTaxis();
+    } else {
+      this.loadClients();
+    }
+  }
+
+  private loadTaxis(): void {
+    const st = this.taxis;
+    st.loading = true;
+    st.error = '';
+    const query: TaxisCriteriaQuery = { page: st.page - 1, size: st.pageSize };
+    if (st.searchTerm) {
+      if (/^\d+$/.test(st.searchTerm)) {
+        query.phone = st.searchTerm;
+      } else {
+        query.name = st.searchTerm;
+      }
+    }
+    this.notificationService
+      .getTaxisCriteria(query)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (resp: GetAllTaxisCriteriaResponse) => {
+          const page = resp?.taxis;
+          st.rows = page?.content ?? [];
+          st.totalRecords = page?.totalElements ?? st.rows.length;
+          st.totalPages = page?.totalPages ?? 1;
+          st.loading = false;
+          st.loaded = true;
+        },
+        error: (err: unknown) => {
+          st.rows = [];
+          st.totalRecords = 0;
+          st.totalPages = 1;
+          st.loading = false;
+          st.error = apiErrorMessage(err) || 'Échec du chargement des taxis.';
+        },
+      });
+  }
+
+  private loadClients(): void {
+    const st = this.clients;
+    st.loading = true;
+    st.error = '';
+    const query: ClientsCriteriaQuery = { page: st.page - 1, size: st.pageSize };
+    if (st.searchTerm) {
+      if (/^\d+$/.test(st.searchTerm)) {
+        query.phone = st.searchTerm;
+      } else {
+        query.name = st.searchTerm;
+      }
+    }
+    this.notificationService
+      .getClientsCriteria(query)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (resp: PageNotificationClientDto) => {
+          st.rows = resp?.content ?? [];
+          st.totalRecords = resp?.totalElements ?? st.rows.length;
+          st.totalPages = resp?.totalPages ?? 1;
+          st.loading = false;
+          st.loaded = true;
+        },
+        error: (err: unknown) => {
+          st.rows = [];
+          st.totalRecords = 0;
+          st.totalPages = 1;
+          st.loading = false;
+          st.error = apiErrorMessage(err) || 'Échec du chargement des clients.';
+        },
+      });
+  }
+
+  // -------------------------------------------------------------------------
+  // Selection
+  // -------------------------------------------------------------------------
+
+  isSelected(st: SelectionState, id: number): boolean {
+    return st.selectAll || st.selectedIds.has(id);
+  }
+
+  toggleRow(st: SelectionState, id: number): void {
+    if (st.selectAll) {
+      return;
+    }
+    if (st.selectedIds.has(id)) {
+      st.selectedIds.delete(id);
+    } else {
+      st.selectedIds.add(id);
+    }
+  }
+
+  toggleSelectAll(st: SelectionState): void {
+    st.selectAll = !st.selectAll;
+    st.selectedIds.clear();
+  }
+
+  /** Users-icon badge under the toolbar (exact French copy per tab). */
+  selectionLabel(): string {
+    if (this.activeTab === 'ADMIN') {
+      return 'Tous les administrateurs';
+    }
+    if (this.activeTab === 'TAXI') {
+      if (this.taxis.selectAll) {
+        return 'Tous les taxis sélectionnés';
+      }
+      const n = this.taxis.selectedIds.size;
+      return n === 0 ? 'Aucun taxi sélectionné' : `${n} taxi(s) sélectionné(s)`;
+    }
+    if (this.clients.selectAll) {
+      return 'Tous les clients sélectionnés';
+    }
+    const n = this.clients.selectedIds.size;
+    return n === 0 ? 'Aucun client sélectionné' : `${n} client(s) sélectionné(s)`;
+  }
+
+  trackById(_index: number, row: { id: number }): number {
+    return row.id;
+  }
+
+  // -------------------------------------------------------------------------
+  // Display helpers (badges / icons / labels)
+  // -------------------------------------------------------------------------
+
+  /** Taxi `taxiStatus` badge via the shared TAXI_STATUS scheme. */
+  taxiBadge(status?: NotificationTaxiRow['taxiStatus']): StatusBadge {
+    return status
+      ? statusBadge(status, TAXI_STATUS)
+      : { label: '—', class: 'badge-soft-secondary' };
+  }
+
+  /** Client `etat` badge via the shared OFFRE_STATUS scheme (cf. clients-list). */
+  clientBadge(row: NotificationClientRow): StatusBadge {
+    if (!row.etat) {
+      return { label: '—', class: 'badge-soft-secondary' };
+    }
+    return statusBadge(row.etat as StatusEnum, OFFRE_STATUS);
+  }
+
+  /** Backend enum value → display label (PUSH renders as "Diffusion APP"). */
+  channelLabel(channel: NotificationChannel): string {
+    switch (channel) {
+      case 'WHATSAPP':
+        return 'WHATSAPP';
+      case 'SMS':
+        return 'SMS';
+      default:
+        return 'Diffusion APP';
+    }
+  }
+
+  /** Channel glyph (FontAwesome 5 bundle — `fab` brands are included). */
+  channelIcon(channel: NotificationChannel): string {
+    switch (channel) {
+      case 'WHATSAPP':
+        return 'fab fa-whatsapp';
+      case 'SMS':
+        return 'fas fa-sms';
+      default:
+        return 'fas fa-bell';
+    }
+  }
+
+  /** Severity glyph tinted by the `type-icon--*` SCSS modifiers. */
+  typeIcon(type: NotificationType): string {
+    switch (type) {
+      case 'WARNING':
+        return 'fas fa-exclamation-triangle';
+      case 'ERROR':
+        return 'fas fa-exclamation-circle';
+      default:
+        return 'fas fa-info-circle';
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Send
+  // -------------------------------------------------------------------------
+
+  send(): void {
+    if (!this.canSend || this.sending) {
+      return;
+    }
+    const tab = this.activeTab;
+    const st = tab === 'TAXI' ? this.taxis : tab === 'CLIENT' ? this.clients : null;
+    const targetIds: string[] =
+      tab === 'ADMIN' || !st
+        ? ['ALL']
+        : st.selectAll
+          ? ['ALL']
+          : [...st.selectedIds].map((id) => String(id));
+    if (!targetIds.length) {
+      this.sendError = 'Veuillez sélectionner au moins un destinataire.';
       return;
     }
 
-    // CLIENT / TAXI / ADMIN → /send with the selected channel.
-    // ANY_TAXI → /send forced to WHATSAPP (see class doc: the manual-send
-    // surface only supports raw-number ANYONE sends).
     const request: SendNotificationRequest = {
-      title: title || undefined,
-      message,
-      type,
-      channel:
-        targetType === 'ANY_TAXI' ? 'WHATSAPP' : (this.f.channel.value as NotificationChannel),
-      targetType,
+      title: this.titleValue.trim(),
+      message: this.messageValue.trim(),
+      type: this.typeValue,
+      channel: this.channelValue,
+      targetType: tab,
       targetIds,
     };
+    this.sending = true;
+    this.sendError = '';
     this.notificationService.send(request).subscribe({
-      next: (res) => this.handleSuccess(res),
-      error: (err) => this.handleError(err),
+      next: (res) => {
+        this.sending = false;
+        const detail = typeof res === 'string' ? res.trim() : '';
+        Swal.fire('Notification envoyée avec succès', detail, 'success');
+        this.resetAfterSuccess();
+      },
+      error: (err: unknown) => {
+        this.sending = false;
+        this.sendError = apiErrorMessage(err) || "Échec de l'envoi de la notification.";
+      },
     });
   }
 
-  /** Comma-separated input → trimmed, non-empty string array. */
-  private parseTargetIds(raw: unknown): string[] {
-    return String(raw ?? '')
-      .split(',')
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
-  }
-
-  private handleSuccess(res: string): void {
-    this.submitting = false;
-    this.successMessage = res?.trim() ? res : 'Notification sent.';
-    this.form.reset({
-      title: '',
-      message: '',
-      type: 'INFO',
-      channel: 'SMS',
-      targetType: 'CLIENT',
-      targetIds: '',
-    });
-    this.submitted = false;
-    this.syncChannelForTarget();
-  }
-
-  private handleError(err: unknown): void {
-    this.submitting = false;
-    this.errorMessage = apiErrorMessage(err) || 'Failed to send the notification.';
+  /** Success reset — defaults, step 1, selections + select-all flags cleared. */
+  private resetAfterSuccess(): void {
+    this.form.reset({ title: '', message: '', channel: 'PUSH', type: 'INFO' });
+    this.step1Submitted = false;
+    this.step = 1;
+    this.activeTab = 'TAXI';
+    this.searchControl.setValue('', { emitEvent: false });
+    this.taxis = createPickerState<NotificationTaxiRow>();
+    this.clients = createPickerState<NotificationClientRow>();
+    this.sendError = '';
   }
 }

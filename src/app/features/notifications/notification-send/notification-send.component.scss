@@ -1,0 +1,276 @@
+// Send-notification wizard (route `notifications/send`).
+// Skote palette accents: primary #556ee6, success #34c38f, info #50a5f1,
+// warning #f1b44c, danger #f46a76, muted #7b8794.
+
+// ---------------------------------------------------------------------------
+// Stepper header (always visible above the content card)
+// ---------------------------------------------------------------------------
+.stepper-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding: 0 0.25rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #7b8794;
+}
+
+.step-circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: #eff2f7;
+  color: #7b8794;
+  border: 1px solid #e0e6ed;
+}
+
+.step-item.active .step-circle {
+  background: #556ee6;
+  border-color: #556ee6;
+  color: #fff;
+  box-shadow: 0 0 0 0.25rem rgba(85, 110, 230, 0.15);
+}
+
+.step-item.done .step-circle {
+  background: #34c38f;
+  border-color: #34c38f;
+  color: #fff;
+}
+
+.step-item.active .step-label {
+  color: #343a40;
+  font-weight: 600;
+}
+
+.step-item.done .step-label {
+  color: #34c38f;
+  font-weight: 600;
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  min-width: 2rem;
+  margin: 0 0.75rem;
+  border-radius: 2px;
+  background: #e0e6ed;
+}
+
+.step-label {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Step 1 — message counter + live preview panel
+// ---------------------------------------------------------------------------
+.message-wrap {
+  position: relative;
+}
+
+.message-wrap textarea {
+  padding-bottom: 1.75rem;
+}
+
+.message-counter {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.55rem;
+  font-size: 0.72rem;
+  color: #7b8794;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0 0.3rem;
+  border-radius: 0.25rem;
+  pointer-events: none;
+}
+
+.live-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #34c38f;
+  background: rgba(52, 195, 143, 0.12);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.live-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #34c38f;
+  animation: live-pulse 1.6s infinite;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 195, 143, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 0.45rem rgba(52, 195, 143, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 195, 143, 0);
+  }
+}
+
+// Device frame ("phone" card).
+.phone {
+  border: 1px solid #e0e6ed;
+  border-radius: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+}
+
+.phone-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid #e9edf2;
+}
+
+.phone-sender {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #343a40;
+}
+
+.phone-time {
+  font-size: 0.75rem;
+  color: #7b8794;
+}
+
+.phone-type {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.type-icon--info {
+  color: #50a5f1;
+}
+
+.type-icon--warning {
+  color: #b98218;
+}
+
+.type-icon--error {
+  color: #d33f4e;
+}
+
+.type-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 0.35rem;
+  padding: 0.15rem 0.5rem;
+}
+
+.type-badge--info {
+  background: rgba(80, 165, 241, 0.15);
+  color: #2f8fdd;
+}
+
+.type-badge--warning {
+  background: rgba(241, 180, 76, 0.2);
+  color: #92690f;
+}
+
+.type-badge--error {
+  background: rgba(244, 106, 118, 0.14);
+  color: #d33f4e;
+}
+
+.phone-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #343a40;
+  margin-bottom: 0.25rem;
+  overflow-wrap: break-word;
+}
+
+.phone-message {
+  font-size: 0.83rem;
+  color: #495057;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  margin-bottom: 0.75rem;
+}
+
+.phone-channel {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #556ee6;
+  background: rgba(85, 110, 230, 0.1);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+
+.preview-hint {
+  font-size: 0.78rem;
+  color: #7b8794;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Step 2 — tabs, toolbar, selection, tables
+// ---------------------------------------------------------------------------
+.recipient-tabs .nav-link {
+  cursor: pointer;
+  color: #7b8794;
+}
+
+.recipient-tabs .nav-link.active {
+  color: #556ee6;
+}
+
+.search-wrap {
+  position: relative;
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7b8794;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+}
+
+.selection-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #556ee6;
+  background: rgba(85, 110, 230, 0.08);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+}
+
+.table tbody tr {
+  cursor: pointer;
+}
+
+.row-selected {
+  background-color: rgba(85, 110, 230, 0.07) !important;
+}

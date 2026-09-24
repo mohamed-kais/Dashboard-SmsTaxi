@@ -88,3 +88,67 @@ export interface PageNotificationDto {
   last: boolean;
   empty: boolean;
 }
+
+// ---------------------------------------------------------------------------
+// Recipient picker rows (notification-domain criteria endpoints, base URL
+// `environment.notificationsBaseUrl` — a DIFFERENT taxi database than the
+// main `apiBaseUrl`, so picker ids must come from here)
+// ---------------------------------------------------------------------------
+
+/** Minimal taxi row of the `GET /api/get-all-taxis-criteria` page content. */
+export interface NotificationTaxiRow {
+  id: number;
+  nom: string;
+  telephone: string;
+  numeroMatricule?: string;
+  numeroTaxi?: string;
+  taxiStatus?: 'APPROVED' | 'PENDING' | 'REJECTED';
+}
+
+/** Minimal client row of the `GET /api/get-all-clients-criteria` page content. */
+export interface NotificationClientRow {
+  id: number;
+  nom: string;
+  telephone: string;
+  email?: string;
+  etat?: string;
+  type?: string;
+}
+
+/** Spring page slice over `NotificationTaxiRow` (only the fields we consume). */
+export interface PageNotificationTaxi {
+  content: NotificationTaxiRow[];
+  /** int64 */
+  totalElements: number;
+  /** int32 */
+  totalPages: number;
+  /** int32 */
+  size: number;
+  /** int32 */
+  number: number;
+}
+
+/**
+ * `GET /api/get-all-taxis-criteria` response wrapper — NESTED: the Spring page
+ * lives under `taxis`; `stats` carries aggregate counters we do not consume.
+ */
+export interface GetAllTaxisCriteriaResponse {
+  taxis: PageNotificationTaxi;
+  stats?: Record<string, unknown>;
+}
+
+/**
+ * `GET /api/get-all-clients-criteria` response — FLAT Spring page over
+ * `NotificationClientRow` (only the fields we consume).
+ */
+export interface PageNotificationClientDto {
+  content: NotificationClientRow[];
+  /** int64 */
+  totalElements: number;
+  /** int32 */
+  totalPages: number;
+  /** int32 */
+  size: number;
+  /** int32 */
+  number: number;
+}

@@ -1,100 +1,302 @@
-<app-page-title [title]="'Send Notification'" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+<app-page-title [title]="'Envoyer une notification'" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
-<div class="row">
+<!-- Stepper header (always visible above the content card) -->
+<div class="stepper-header">
+  <div class="step-item" [class.done]="step > 1" [class.active]="step === 1">
+    <span class="step-circle">
+      <i *ngIf="step > 1" class="fas fa-check"></i>
+      <span *ngIf="step <= 1">1</span>
+    </span>
+    <span class="step-label">Contenu</span>
+  </div>
+  <div class="step-line"></div>
+  <div class="step-item" [class.active]="step === 2">
+    <span class="step-circle"><span>2</span></span>
+    <span class="step-label">Destinataires</span>
+  </div>
+</div>
+
+<!-- ============================================================ Step 1 — Contenu -->
+<div class="row" *ngIf="step === 1">
   <div class="col-lg-8">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Send a notification</h5>
+        <h5 class="card-title mb-0">Contenu de la notification</h5>
       </div>
       <div class="card-body">
-        <p class="text-muted">
-          Targeted sends go through <code>/api/notifications/send</code>; raw phone-number
-          WhatsApp sends go through <code>/api/notifications/send-any-one</code>.
-        </p>
-
-        <div class="alert alert-success" role="alert" *ngIf="successMessage">{{ successMessage }}</div>
-        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
-
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <form [formGroup]="form" novalidate>
           <div class="mb-3">
-            <label class="form-label" for="notif-title">Title</label>
+            <label class="form-label" for="notif-title">Titre <span class="text-danger">*</span></label>
             <input type="text" id="notif-title" class="form-control" formControlName="title"
-              placeholder="Optional short title" />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="notif-message">Message <span class="text-danger">*</span></label>
-            <textarea id="notif-message" class="form-control" formControlName="message" rows="4"
-              placeholder="Notification text" [class.is-invalid]="submitted && f.message.errors"></textarea>
-            <div class="invalid-feedback" *ngIf="submitted && f.message.errors?.required">
-              Message is required.
+              placeholder="Titre de la notification"
+              [class.is-invalid]="step1Submitted && f.title.errors" />
+            <div class="invalid-feedback" *ngIf="step1Submitted && f.title.errors?.required">
+              Le titre est requis.
             </div>
           </div>
 
           <div class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="notif-channel">Canal <span class="text-danger">*</span></label>
+              <select id="notif-channel" class="form-select" formControlName="channel">
+                <option *ngFor="let c of channels" [value]="c.value">{{ c.label }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
               <label class="form-label" for="notif-type">Type <span class="text-danger">*</span></label>
               <select id="notif-type" class="form-select" formControlName="type">
                 <option *ngFor="let t of types" [value]="t">{{ t }}</option>
               </select>
             </div>
-            <div class="col-md-4 mb-3">
-              <label class="form-label" for="notif-channel">Channel <span class="text-danger">*</span></label>
-              <select id="notif-channel" class="form-select" formControlName="channel">
-                <option *ngFor="let c of channels" [value]="c">{{ c }}</option>
-              </select>
-              <div class="form-text" *ngIf="isWhatsAppOnly()">Locked to WhatsApp for this target scope.</div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label class="form-label" for="notif-targetType">Target scope <span class="text-danger">*</span></label>
-              <select id="notif-targetType" class="form-select" formControlName="targetType"
-                (change)="onTargetTypeChange()">
-                <option *ngFor="let tt of targetTypes" [value]="tt">{{ tt }}</option>
-              </select>
-            </div>
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="notif-targetIds">Target ids / phones <span class="text-danger">*</span></label>
-            <input type="text" id="notif-targetIds" class="form-control" formControlName="targetIds"
-              [placeholder]="targetIdsPlaceholder()" [class.is-invalid]="submitted && f.targetIds.errors" />
-            <div class="invalid-feedback" *ngIf="submitted && f.targetIds.errors?.required">
-              Enter comma-separated target ids or phone numbers.
+            <label class="form-label" for="notif-message">Message <span class="text-danger">*</span></label>
+            <div class="message-wrap">
+              <textarea id="notif-message" class="form-control" formControlName="message" rows="5"
+                placeholder="Votre message…" [class.is-invalid]="step1Submitted && f.message.errors"></textarea>
+              <span class="message-counter"><span>{{ messageValue.length }}</span></span>
             </div>
-            <div class="form-text">{{ modeHint() }}</div>
+            <div class="invalid-feedback d-block" *ngIf="step1Submitted && f.message.errors?.required">
+              Le message est requis.
+            </div>
           </div>
 
-          <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-primary" [disabled]="submitting">
-              <span class="spinner-border spinner-border-sm me-1" *ngIf="submitting"></span>
-              {{ submitting ? 'Sending…' : (isWhatsAppOnly() ? 'Send WhatsApp' : 'Send notification') }}
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" (click)="goToStep2()">
+              Suivant <i class="fas fa-arrow-right ms-1"></i>
             </button>
-            <button type="button" class="btn btn-light" [routerLink]="['/notifications']"
-              [disabled]="submitting">Back to list</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- Live preview panel -->
   <div class="col-lg-4">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-0">Targeting</h5>
+    <div class="card preview-card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-eye me-1"></i> Aperçu en temps réel</span>
+        <span class="live-chip"><span class="live-dot"></span> Live</span>
       </div>
       <div class="card-body">
-        <dl class="row mb-0">
-          <dt class="col-sm-6">CLIENT / TAXI / ADMIN</dt>
-          <dd class="col-sm-6"><code>POST /send</code></dd>
-          <dt class="col-sm-6">ANY_TAXI</dt>
-          <dd class="col-sm-6"><code>POST /send</code> (WhatsApp)</dd>
-          <dt class="col-sm-6">ANYONE</dt>
-          <dd class="col-sm-6"><code>POST /send-any-one</code></dd>
-        </dl>
-        <p class="text-muted small mt-3 mb-0">
-          Managed targets take existing entity ids; <code>ANYONE</code> takes raw phone
-          numbers and always goes out as WhatsApp. Unknown ids are reported by the backend.
+        <div class="phone">
+          <div class="phone-head">
+            <span class="phone-sender"><i class="fas fa-taxi me-1"></i> SMS Taxi</span>
+            <span class="phone-time">{{ now | date:'HH:mm' }}</span>
+          </div>
+          <div class="phone-type">
+            <i [ngClass]="[typeIcon(typeValue), 'type-icon--' + typeValue.toLowerCase()]"></i>
+            <span class="type-badge" [ngClass]="'type-badge--' + typeValue.toLowerCase()">{{ typeValue }}</span>
+          </div>
+          <div class="phone-title" [class.text-muted]="!titleValue.trim()">
+            {{ titleValue.trim() || 'Titre de la notification' }}
+          </div>
+          <p class="phone-message" [class.text-muted]="!messageValue.trim()">
+            {{ messageValue.trim() || 'Votre message apparaîtra ici…' }}
+          </p>
+          <div class="phone-channel">
+            <i [ngClass]="channelIcon(channelValue)"></i>
+            <span class="ms-1">{{ channelLabel(channelValue) }}</span>
+          </div>
+        </div>
+        <p class="preview-hint">
+          <i class="fas fa-lightbulb me-1"></i>
+          L'aperçu se met à jour automatiquement au fur et à mesure de la saisie.
         </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ Step 2 — Destinataires -->
+<div class="row" *ngIf="step === 2">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Destinataires</h5>
+      </div>
+      <div class="card-body">
+        <!-- Tabs row -->
+        <ul class="nav nav-tabs recipient-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'TAXI'" (click)="setTab('TAXI')">
+              <i class="fas fa-taxi me-1"></i> Taxis
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'CLIENT'" (click)="setTab('CLIENT')">
+              <i class="fas fa-users me-1"></i> Clients
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'ADMIN'" (click)="setTab('ADMIN')">
+              <i class="fas fa-user-shield me-1"></i> Tableau de bord
+            </button>
+          </li>
+        </ul>
+
+        <!-- Toolbar (pickers only) -->
+        <div class="row g-2 align-items-center mt-3" *ngIf="activeTab !== 'ADMIN'">
+          <div class="col-md-7">
+            <div class="search-wrap">
+              <input type="text" class="form-control" placeholder="Rechercher par nom ou numéro…"
+                [formControl]="searchControl" />
+              <button *ngIf="searchControl.value" type="button" class="btn btn-link search-clear"
+                (click)="clearSearch()" aria-label="Effacer la recherche">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-5 text-md-end">
+            <button type="button" class="btn btn-outline-primary" (click)="toggleSelectAll(activePicker)">
+              <i [ngClass]="activePicker.selectAll ? 'fas fa-check-double' : 'fas fa-list'" class="me-1"></i>
+              {{ activePicker.selectAll ? 'Désélectionner tout' : 'Sélectionner tout' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Selection badge -->
+        <div class="selection-badge mt-3">
+          <i class="fas fa-users me-1"></i> {{ selectionLabel() }}
+        </div>
+
+        <div class="alert alert-danger mt-3 mb-0" *ngIf="activeTab !== 'ADMIN' && activePicker.error">
+          {{ activePicker.error }}
+        </div>
+
+        <!-- Taxis table -->
+        <div class="table-responsive mt-3" *ngIf="activeTab === 'TAXI'">
+          <table class="table table-centered align-middle mb-0">
+            <thead>
+              <tr>
+                <th style="width: 40px;">
+                  <input type="checkbox" class="form-check-input" [checked]="taxis.selectAll"
+                    (click)="$event.stopPropagation(); toggleSelectAll(taxis)" aria-label="Sélectionner tout" />
+                </th>
+                <th>#ID</th>
+                <th>Nom et prénom</th>
+                <th>Téléphone</th>
+                <th>N. matricule</th>
+                <th>N. plaque</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of taxis.rows; trackBy: trackById" (click)="toggleRow(taxis, row.id)"
+                [class.row-selected]="isSelected(taxis, row.id)">
+                <td (click)="$event.stopPropagation()">
+                  <input type="checkbox" class="form-check-input" [checked]="isSelected(taxis, row.id)"
+                    [disabled]="taxis.selectAll" (click)="$event.stopPropagation(); toggleRow(taxis, row.id)"
+                    [attr.aria-label]="'Sélectionner le taxi ' + row.id" />
+                </td>
+                <td>{{ row.id }}</td>
+                <td class="fw-medium">{{ row.nom || '—' }}</td>
+                <td>{{ row.telephone || '—' }}</td>
+                <td>{{ row.numeroMatricule || '—' }}</td>
+                <td>{{ row.numeroTaxi || '—' }}</td>
+                <td>
+                  <span class="badge mb-0" [ngClass]="taxiBadge(row.taxiStatus).class">
+                    {{ taxiBadge(row.taxiStatus).label }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="!taxis.loading && !taxis.error && taxis.rows.length === 0">
+                <td colspan="7" class="text-center text-muted py-4">Aucun taxi trouvé.</td>
+              </tr>
+              <tr *ngIf="taxis.loading">
+                <td colspan="7" class="text-center py-4">
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>Chargement en cours…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Clients table -->
+        <div class="table-responsive mt-3" *ngIf="activeTab === 'CLIENT'">
+          <table class="table table-centered align-middle mb-0">
+            <thead>
+              <tr>
+                <th style="width: 40px;">
+                  <input type="checkbox" class="form-check-input" [checked]="clients.selectAll"
+                    (click)="$event.stopPropagation(); toggleSelectAll(clients)" aria-label="Sélectionner tout" />
+                </th>
+                <th>#ID</th>
+                <th>Nom et prénom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>État</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of clients.rows; trackBy: trackById" (click)="toggleRow(clients, row.id)"
+                [class.row-selected]="isSelected(clients, row.id)">
+                <td (click)="$event.stopPropagation()">
+                  <input type="checkbox" class="form-check-input" [checked]="isSelected(clients, row.id)"
+                    [disabled]="clients.selectAll" (click)="$event.stopPropagation(); toggleRow(clients, row.id)"
+                    [attr.aria-label]="'Sélectionner le client ' + row.id" />
+                </td>
+                <td>{{ row.id }}</td>
+                <td class="fw-medium">{{ row.nom || '—' }}</td>
+                <td>{{ row.telephone || '—' }}</td>
+                <td>{{ row.email || '—' }}</td>
+                <td>
+                  <span class="badge mb-0" [ngClass]="clientBadge(row).class">
+                    {{ clientBadge(row).label }}
+                  </span>
+                </td>
+                <td>{{ row.type || '—' }}</td>
+              </tr>
+              <tr *ngIf="!clients.loading && !clients.error && clients.rows.length === 0">
+                <td colspan="7" class="text-center text-muted py-4">Aucun client trouvé.</td>
+              </tr>
+              <tr *ngIf="clients.loading">
+                <td colspan="7" class="text-center py-4">
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>Chargement en cours…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Admin tab info panel (no table — backend takes targetIds ["ALL"]) -->
+        <div class="alert alert-info d-flex align-items-center mt-3 mb-0" *ngIf="activeTab === 'ADMIN'">
+          <i class="fas fa-user-shield me-2"></i>
+          La notification sera envoyée à tous les administrateurs.
+        </div>
+
+        <!-- Pagination (pickers only) -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3"
+          *ngIf="activeTab !== 'ADMIN'">
+          <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-sm w-auto" [value]="activePicker.pageSize"
+              (change)="onPageSizeChange($any($event.target).value)" aria-label="Lignes par page">
+              <option *ngFor="let s of pageSizes" [value]="s">{{ s }}</option>
+            </select>
+            <span class="text-muted small">Lignes par page</span>
+          </div>
+          <div class="text-muted small">
+            Page {{ activePicker.page }} sur {{ totalPagesOf(activePicker) }} · {{ activePicker.totalRecords }} résultat(s)
+          </div>
+          <ngb-pagination [collectionSize]="activePicker.totalRecords" [page]="activePicker.page"
+            [pageSize]="activePicker.pageSize" [maxSize]="5" [rotate]="true"
+            (pageChange)="onPageChange($event)"></ngb-pagination>
+        </div>
+
+        <!-- Footer buttons -->
+        <div class="d-flex justify-content-between mt-3">
+          <button type="button" class="btn btn-light" (click)="goToStep1()" [disabled]="sending">
+            <i class="fas fa-arrow-left me-1"></i> Retour
+          </button>
+          <button type="button" class="btn btn-primary" (click)="send()" [disabled]="!canSend || sending">
+            <span class="spinner-border spinner-border-sm me-1" *ngIf="sending"></span>
+            <i *ngIf="!sending" class="fas fa-paper-plane me-1"></i>
+            {{ sending ? 'Envoi en cours…' : 'Envoyer' }}
+          </button>
+        </div>
+        <div class="alert alert-danger mt-3 mb-0" *ngIf="sendError">{{ sendError }}</div>
       </div>
     </div>
   </div>

@@ -17,7 +17,9 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import {
+  GetAllTaxisCriteriaResponse,
   NotificationDto,
+  PageNotificationClientDto,
   PageNotificationDto,
   SendNotificationRequest,
 } from '../models/notification.model';
@@ -49,6 +51,36 @@ export interface NotificationTargetQuery {
   size?: number;
   /** sort, e.g. `createdAt,desc`. */
   sort?: string;
+}
+
+/**
+ * Query of `GET /api/get-all-taxis-criteria` (notification domain — 0-based
+ * page, plus EITHER `name` OR `phone` when searching).
+ */
+export interface TaxisCriteriaQuery {
+  /** 0-based page. */
+  page?: number;
+  /** page size. */
+  size?: number;
+  /** name free-text filter. */
+  name?: string;
+  /** phone free-text filter. */
+  phone?: string;
+}
+
+/**
+ * Query of `GET /api/get-all-clients-criteria` (notification domain — 0-based
+ * page, plus EITHER `name` OR `phone` when searching).
+ */
+export interface ClientsCriteriaQuery {
+  /** 0-based page. */
+  page?: number;
+  /** page size. */
+  size?: number;
+  /** name free-text filter. */
+  name?: string;
+  /** phone free-text filter. */
+  phone?: string;
 }
 
 /** localStorage key backing the client-side read-state set. */
@@ -175,6 +207,32 @@ export class NotificationService {
   }
 
   /**
+   * `GET ${base}/api/get-all-taxis-criteria` — recipient picker source for the
+   * TAXI tab (notification domain — NOT the main `apiBaseUrl` database).
+   *
+   * NOTE — response wrapper is NESTED: `{ taxis: Page, stats: {...} }`.
+   */
+  getTaxisCriteria(query: TaxisCriteriaQuery = {}): Observable<GetAllTaxisCriteriaResponse> {
+    const params = this.buildCriteriaParams(query);
+    return this.http.get<GetAllTaxisCriteriaResponse>(
+      `${this.baseUrl}/api/get-all-taxis-criteria`,
+      { params }
+    );
+  }
+
+  /**
+   * `GET ${base}/api/get-all-clients-criteria` — recipient picker source for
+   * the CLIENT tab (notification domain). Response is a FLAT Spring page.
+   */
+  getClientsCriteria(query: ClientsCriteriaQuery = {}): Observable<PageNotificationClientDto> {
+    const params = this.buildCriteriaParams(query);
+    return this.http.get<PageNotificationClientDto>(
+      `${this.baseUrl}/api/get-all-clients-criteria`,
+      { params }
+    );
+  }
+
+  /**
    * Convenience — latest notifications for a target type, newest first
    * (delegates to `getByTargetTypeFiltered` with `createdAt,desc` sort).
    */
@@ -233,6 +291,24 @@ export class NotificationService {
     }
     if ('message' in query && query.message) {
       params = params.set('message', query.message);
+    }
+    return params;
+  }
+
+  /** Shared HttpParams builder for the criteria picker queries. */
+  private buildCriteriaParams(query: TaxisCriteriaQuery | ClientsCriteriaQuery): HttpParams {
+    let params = new HttpParams();
+    if (query.page != null) {
+      params = params.set('page', String(query.page));
+    }
+    if (query.size != null) {
+      params = params.set('size', String(query.size));
+    }
+    if (query.name) {
+      params = params.set('name', query.name);
+    }
+    if (query.phone) {
+      params = params.set('phone', query.phone);
     }
     return params;
   }
