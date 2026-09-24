@@ -273,7 +273,7 @@
                   </span>
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
-                  <h6 class="mb-1 text-truncate">{{ n.title || ('Notification #' + n.id) }}<span
+                  <h6 class="mb-1 text-truncate">{{ n.title || n.message || ('Notification #' + n.id) }}<span
                       *ngIf="isNotificationUnread(n)" class="unread-dot"></span></h6>
                   <div class="font-size-12 text-muted">
                     <p class="mb-1 text-truncate" *ngIf="n.message">{{ n.message }}</p>

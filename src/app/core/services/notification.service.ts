@@ -141,19 +141,21 @@ export class NotificationService {
   ): Observable<NotificationDto[]> {
     const params = this.buildParams(query);
     return this.http
-      .get<NotificationDto | NotificationDto[]>(
+      .get<PageNotificationDto | NotificationDto | NotificationDto[]>(
         `${this.baseUrl}/api/notifications/target/${encodeURIComponent(targetType)}`,
         { params }
       )
       .pipe(
-        map((response) => {
+        map((response): NotificationDto[] => {
           if (Array.isArray(response)) {
             return response;
           }
-          if (response) {
-            return [response];
+          // The backend serves the paginated target query as a Spring Page
+          // wrapper ({ content: [...] }), not a bare array — unwrap it.
+          if (response && Array.isArray((response as PageNotificationDto).content)) {
+            return (response as PageNotificationDto).content;
           }
-          return [];
+          return response ? [response as NotificationDto] : [];
         })
       );
   }
