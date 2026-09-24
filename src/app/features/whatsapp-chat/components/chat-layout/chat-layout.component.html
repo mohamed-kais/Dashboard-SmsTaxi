@@ -1,0 +1,27 @@
+<app-page-title [title]="'WhatsApp'" [breadcrumbItems]="breadcrumb"></app-page-title>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card wa-card">
+      <div class="card-body wa-card-body p-0">
+        <div class="wa-layout" [class.wa-layout--chat-open]="activeConversationId">
+          <app-conversation-list
+            class="wa-layout__sidebar"
+            [activeId]="activeConversationId"
+            (selectionChange)="onConversationSelected($event)">
+          </app-conversation-list>
+          <div class="wa-layout__main">
+            <app-chat-window
+              *ngIf="activeConversationId; else emptyState"
+              [conversationId]="activeConversationId"
+              (back)="onBackToList()">
+            </app-chat-window>
+            <ng-template #emptyState>
+              <app-empty-chat></app-empty-chat>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

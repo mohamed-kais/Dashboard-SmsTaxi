@@ -1,0 +1,49 @@
+<div class="wa-sidebar">
+  <div class="wa-sidebar__header">
+    <h5 class="wa-sidebar__title mb-0">Discussions</h5>
+  </div>
+
+  <div class="wa-sidebar__search">
+    <span class="wa-sidebar__search-icon"><i class="bx bx-search"></i></span>
+    <input
+      type="text"
+      class="form-control wa-sidebar__search-input"
+      placeholder="Rechercher une conversation ou un numéro"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchChange($event)" />
+  </div>
+
+  <div class="wa-sidebar__list">
+    <div
+      *ngFor="let conv of (filteredConversations$ | async); trackBy: trackById"
+      class="wa-conv-item"
+      role="button"
+      tabindex="0"
+      [class.wa-conv-item--active]="conv.id === activeId"
+      (click)="onSelect(conv)"
+      (keyup.enter)="onSelect(conv)">
+      <div class="wa-avatar" [style.background]="avatarColor(conv)">
+        {{ initials(conv) }}
+      </div>
+
+      <div class="wa-conv-item__body">
+        <div class="wa-conv-item__top">
+          <span class="wa-conv-item__name">{{ displayName(conv) }}</span>
+          <span class="wa-conv-item__time" *ngIf="conv.lastMessageAt">
+            {{ conv.lastMessageAt | date: 'shortTime' }}
+          </span>
+        </div>
+        <div class="wa-conv-item__bottom">
+          <span class="wa-conv-item__preview">{{ previewText(conv) }}</span>
+          <span class="badge rounded-pill bg-success wa-badge" *ngIf="conv.unreadCount > 0">
+            {{ conv.unreadCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wa-sidebar__empty" *ngIf="(filteredConversations$ | async)?.length === 0">
+      Aucune conversation trouvée
+    </div>
+  </div>
+</div>

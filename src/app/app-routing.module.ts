@@ -8,7 +8,7 @@ import { Page404Component } from './extrapages/page404/page404.component';
 const routes: Routes = [
   { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
   // Layout wrapper: renders the shell (vertical/horizontal) around feature routes.
-  // All 9 feature modules are LAZY children here (plan §4, integration lane L8).
+  // All 10 feature modules are LAZY children here (plan §4, integration lane L8).
   {
     path: '',
     component: LayoutComponent,
@@ -23,6 +23,8 @@ const routes: Routes = [
       { path: 'ratings', loadChildren: () => import('./features/ratings/ratings.module').then(m => m.RatingsModule) },
       { path: 'sms-log', loadChildren: () => import('./features/sms-log/sms-log.module').then(m => m.SmsLogModule) },
       { path: 'sos', loadChildren: () => import('./features/sos/sos.module').then(m => m.SosModule) },
+      { path: 'notifications', loadChildren: () => import('./features/notifications/notifications.module').then(m => m.NotificationsModule) },
+      { path: 'whatsapp', loadChildren: () => import('./features/whatsapp-chat/whatsapp-chat.module').then(m => m.WhatsappChatModule) },
       { path: 'settings', loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule) },
       // DemandsOffersModule serves BOTH URL families (/demands… and /offers…) from
       // ONE lazy module. Its own children are 'demands', 'demands/:id', 'offers',

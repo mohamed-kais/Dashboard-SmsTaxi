@@ -1,0 +1,46 @@
+<div class="wa-chat" *ngIf="conversation">
+  <div class="wa-chat__header">
+    <button type="button" class="btn btn-sm btn-soft-secondary wa-chat__back" (click)="onBack()" title="Retour aux discussions">
+      <i class="bx bx-arrow-back"></i>
+    </button>
+    <div class="wa-avatar wa-avatar--header" [style.background]="headerAvatarColor">
+      {{ headerInitials }}
+    </div>
+    <div class="wa-chat__header-info">
+      <span class="wa-chat__header-name">{{ headerName }}</span>
+      <span class="wa-chat__header-phone">{{ conversation.waId }}</span>
+    </div>
+    <span class="badge badge-soft-danger ms-auto" *ngIf="!connected">Hors ligne</span>
+  </div>
+
+  <div class="wa-chat__body" #scrollContainer>
+    <div class="wa-chat__loading" *ngIf="loading">
+      <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+      Chargement des messages...
+    </div>
+
+    <ng-container *ngFor="let group of groupedMessages; trackBy: trackByGroup">
+      <div class="wa-date-separator">
+        <span>{{ group.label }}</span>
+      </div>
+      <app-message-bubble
+        *ngFor="let message of group.messages; trackBy: trackByMessageId"
+        [message]="message">
+      </app-message-bubble>
+    </ng-container>
+
+    <div class="wa-chat__empty" *ngIf="!loading && messages.length === 0">
+      Aucun message pour le moment. Démarrez la conversation !
+    </div>
+  </div>
+
+  <div class="alert alert-danger wa-chat__error" role="alert" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <app-message-input
+    [conversation]="conversation"
+    (sent)="onSent($event)"
+    (sendError)="onSendError()">
+  </app-message-input>
+</div>

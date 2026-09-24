@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+
+.wa-input-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--wa-color-sidebar-bg);
+  border-top: 1px solid var(--wa-color-sidebar-border);
+
+  &__textarea {
+    flex: 1;
+    resize: none;
+    max-height: 120px;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 14px;
+    background: var(--wa-color-hover);
+    line-height: 1.4;
+
+    &:focus {
+      background: #fff;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
+  &__send {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

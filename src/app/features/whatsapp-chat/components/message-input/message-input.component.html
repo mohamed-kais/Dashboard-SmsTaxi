@@ -1,0 +1,19 @@
+<div class="wa-input-bar">
+  <textarea
+    class="form-control wa-input-bar__textarea"
+    rows="1"
+    placeholder="Tapez un message"
+    [(ngModel)]="content"
+    [disabled]="disabled"
+    (keydown)="onKeyDown($event)">
+  </textarea>
+  <button
+    type="button"
+    class="btn btn-primary wa-input-bar__send"
+    [disabled]="disabled || !content.trim()"
+    (click)="onSubmit()"
+    title="Envoyer">
+    <i class="bx bx-send" *ngIf="!sending"></i>
+    <span class="spinner-border spinner-border-sm" role="status" *ngIf="sending"></span>
+  </button>
+</div>

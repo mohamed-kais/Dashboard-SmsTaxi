@@ -5,19 +5,19 @@
       <div class="navbar-brand-box">
         <a routerLink="/" class="logo logo-dark">
           <span class="logo-sm">
-            <img src="assets/images/logo.svg" alt="" height="22">
+            <img src="assets/images/logo-sm.png" alt="" height="30">
           </span>
           <span class="logo-lg">
-            <img src="assets/images/logo-dark.png" alt="" height="17">
+            <img src="assets/images/logo-dark.png" alt="" height="23">
           </span>
         </a>
 
         <a routerLink="/" class="logo logo-light">
           <span class="logo-sm">
-            <img src="assets/images/logo-light.svg" alt="" height="22">
+            <img src="assets/images/logo-light-sm.png" alt="" height="30">
           </span>
           <span class="logo-lg">
-            <img src="assets/images/logo-light.png" alt="" height="19">
+            <img src="assets/images/logo-light.png" alt="" height="23">
           </span>
         </a>
       </div>
@@ -212,36 +212,9 @@
           <div class="px-lg-2">
             <div class="row no-gutters">
               <div class="col">
-                <a class="dropdown-icon-item" href="javascript: void(0);">
+                <a class="dropdown-icon-item" href="https://github.com/mohamed-kais/Dashboard-SmsTaxi">
                   <img src="assets/images/brands/github.png" alt="Github">
                   <span>GitHub</span>
-                </a>
-              </div>
-              <div class="col">
-                <a class="dropdown-icon-item" href="javascript: void(0);">
-                  <img src="assets/images/brands/bitbucket.png" alt="bitbucket">
-                  <span>Bitbucket</span>
-                </a>
-              </div>
-              <div class="col">
-                <a class="dropdown-icon-item" href="javascript: void(0);">
-                  <img src="assets/images/brands/dribbble.png" alt="dribbble">
-                  <span>Dribbble</span>
-                </a>
-              </div>
-            </div>
-
-            <div class="row no-gutters">
-              <div class="col">
-                <a class="dropdown-icon-item" href="javascript: void(0);">
-                  <img src="assets/images/brands/dropbox.png" alt="dropbox">
-                  <span>Dropbox</span>
-                </a>
-              </div>
-              <div class="col">
-                <a class="dropdown-icon-item" href="javascript: void(0);">
-                  <img src="assets/images/brands/mail_chimp.png" alt="mail_chimp">
-                  <span>Mail Chimp</span>
                 </a>
               </div>
               <div class="col">
@@ -251,6 +224,7 @@
                 </a>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -261,11 +235,13 @@
         </button>
       </div>
 
-      <div class="dropdown d-inline-block" ngbDropdown>
+      <div class="dropdown d-inline-block" ngbDropdown (openChange)="onNotificationsOpen($event)">
         <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
           ngbDropdownToggle>
           <i class="bx bx-bell bx-tada"></i>
-          <span class="badge bg-danger rounded-pill">3</span>
+          <ng-container *ngIf="unreadCount$ | async as unread">
+            <span *ngIf="unread > 0" class="badge bg-danger rounded-pill">{{ unread }}</span>
+          </ng-container>
         </button>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
           aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
@@ -275,74 +251,42 @@
                 <h6 class="m-0">{{ 'HEADER.NOTIFICATIONS.TITLE' | translate}} </h6>
               </div>
               <div class="col-auto">
-                <a href="javascript: void(0);" class="small">{{ 'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
+                <a href="javascript: void(0);" class="small" (click)="goToNotifications()">{{ 'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
               </div>
             </div>
           </div>
           <ngx-simplebar style="position: relative; height: 230px;">
-            <a href="javascript: void(0);" class="text-reset notification-item">
+            <div *ngIf="loadingNotifications" class="px-3 py-4 text-center text-muted font-size-12">
+              Loading...
+            </div>
+            <div *ngIf="!loadingNotifications && recentNotifications.length === 0"
+              class="px-3 py-4 text-center text-muted font-size-12">
+              No notifications yet
+            </div>
+            <a *ngFor="let n of recentNotifications" href="javascript: void(0);"
+              class="text-reset notification-item" [class.notification-unread]="isNotificationUnread(n)"
+              (click)="onNotificationClick(n)">
               <div class="d-flex">
                 <div class="avatar-xs me-3">
-                  <span class="avatar-title bg-primary rounded-circle font-size-16">
-                    <i class="bx bx-cart"></i>
+                  <span class="avatar-title rounded-circle font-size-16" [ngClass]="notificationAvatarClass(n)">
+                    <i [ngClass]="notificationAvatarIcon(n)"></i>
                   </span>
                 </div>
-                <div class="flex-grow-1">
-                  <h6 class="mb-1">{{ 'HEADER.NOTIFICATIONS.FIRST.TITLE' | translate}}</h6>
+                <div class="flex-grow-1 overflow-hidden">
+                  <h6 class="mb-1 text-truncate">{{ n.title || ('Notification #' + n.id) }}<span
+                      *ngIf="isNotificationUnread(n)" class="unread-dot"></span></h6>
                   <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.FIRST.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
-                      {{ 'HEADER.NOTIFICATIONS.FIRST.TIME' | translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="d-flex">
-                <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                <div class="flex-grow-1">
-                  <h6 class="mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.SECOND.TIME' |
-                      translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="d-flex">
-                <div class="avatar-xs me-3">
-                  <span class="avatar-title bg-success rounded-circle font-size-16">
-                    <i class="bx bx-badge-check"></i>
-                  </span>
-                </div>
-                <div class="flex-grow-1">
-                  <h6 class="mb-1">{{ 'HEADER.NOTIFICATIONS.THIRD.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.THIRD.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.THIRD.TIME' |
-                      translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="d-flex">
-                <img src="assets/images/users/avatar-4.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                <div class="flex-grow-1">
-                  <h6 class="mb-1">{{ 'HEADER.NOTIFICATIONS.FOUR.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.FOUR.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.FOUR.TIME' |
-                      translate}}</p>
+                    <p class="mb-1 text-truncate" *ngIf="n.message">{{ n.message }}</p>
+                    <p class="mb-0" *ngIf="notificationTime(n.createdAt)"><i class="mdi mdi-clock-outline"></i>
+                      {{ notificationTime(n.createdAt) }}</p>
                   </div>
                 </div>
               </div>
             </a>
           </ngx-simplebar>
           <div class="p-2 border-top d-grid">
-            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)"
+              (click)="goToNotifications()">
               <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">{{
                 'HEADER.NOTIFICATIONS.LOAD_MORE' | translate}}</span>
             </a>
@@ -353,7 +297,7 @@
       <div class="dropdown d-inline-block" ngbDropdown>
         <button type="button" class="btn header-item" ngbDropdownToggle id="page-header-user-dropdown">
           <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
-          <span class="d-none d-xl-inline-block ms-1">Henry</span>
+          <span class="d-none d-xl-inline-block ms-1">Administrateur</span>
           <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>

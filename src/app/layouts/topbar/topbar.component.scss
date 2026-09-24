@@ -1,0 +1,15 @@
+// Topbar notification bell — live list styling (Skote palette: primary #556ee6).
+.notification-item.notification-unread {
+  background-color: rgba(85, 110, 230, 0.06);
+  box-shadow: inset 3px 0 0 #556ee6;
+}
+
+.notification-item .unread-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #556ee6;
+  margin-left: 6px;
+  vertical-align: middle;
+}

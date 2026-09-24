@@ -1,0 +1,91 @@
+:host {
+  display: block;
+
+  /* Palette du module chat, calée sur l'accent primaire Skote (#556ee6). */
+  --wa-sidebar-width: 360px;
+  --wa-header-height: 60px;
+  --wa-color-sidebar-bg: #ffffff;
+  --wa-color-sidebar-border: #eff2f7;
+  --wa-color-chat-bg: #f8f8fb;
+  --wa-color-bubble-out: #e3e9fd;
+  --wa-color-bubble-in: #ffffff;
+  --wa-color-text-primary: #495057;
+  --wa-color-text-secondary: #74788d;
+  --wa-color-accent: #556ee6;
+  --wa-color-accent-dark: #485ec4;
+  --wa-color-unread-badge: #34c38f;
+  --wa-color-danger: #f46a6a;
+  --wa-color-hover: #f3f4fa;
+  --wa-color-active: #eef1fd;
+  --wa-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.wa-card-body {
+  overflow: hidden;
+}
+
+/* =========================
+   MAIN LAYOUT — two panes inside the Skote card
+   ========================= */
+.wa-layout {
+  display: flex;
+  width: 100%;
+  height: 640px;
+  max-height: calc(100vh - 260px);
+  min-height: 480px;
+  background: var(--wa-color-chat-bg);
+  color: var(--wa-color-text-primary);
+  overflow: hidden;
+}
+
+.wa-layout__sidebar {
+  flex: 0 0 var(--wa-sidebar-width);
+  width: var(--wa-sidebar-width);
+  max-width: var(--wa-sidebar-width);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--wa-color-sidebar-bg);
+  border-right: 1px solid var(--wa-color-sidebar-border);
+  overflow: hidden;
+}
+
+.wa-layout__main {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--wa-color-chat-bg);
+  overflow: hidden;
+}
+
+/* =========================
+   RESPONSIVE — single pane on small screens
+   ========================= */
+@media (max-width: 991.98px) {
+  .wa-layout {
+    height: calc(100vh - 220px);
+  }
+
+  .wa-layout__sidebar {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    border-right: none;
+  }
+
+  .wa-layout__main {
+    display: none;
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .wa-layout--chat-open .wa-layout__sidebar {
+    display: none;
+  }
+
+  .wa-layout--chat-open .wa-layout__main {
+    display: flex;
+  }
+}

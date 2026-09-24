@@ -12,6 +12,7 @@ import {
   StatusEnum,
   TaxiStatus,
 } from '../models/common.model';
+import { NotificationType } from '../models/notification.model';
 
 // ---------------------------------------------------------------------------
 // Map types (single shared shape per union)
@@ -28,6 +29,8 @@ export type TaxiStatusBadgeMap = StatusBadgeMap<TaxiStatus>;
 export type ReservationStatusBadgeMap = StatusBadgeMap<ReservationStatus>;
 /** Assignment `status` (6-value union) badge map. */
 export type AssignmentStatusBadgeMap = StatusBadgeMap<AssignmentStatus>;
+/** Notification `type` (3-value union) badge map. */
+export type NotificationTypeBadgeMap = StatusBadgeMap<NotificationType>;
 /** Reservation `source` → human label (label-only text badges, plan §7). */
 export type SourceLabelMap = Readonly<Record<ReservationSource, string>>;
 
@@ -93,6 +96,13 @@ export const ASSIGNMENT_STATUS: AssignmentStatusBadgeMap = {
   CANCELLED: 'badge-soft-danger',
   COMPLETED: 'badge-soft-success',
   EXPIRED: 'badge-soft-secondary',
+};
+
+/** Notification `type` → badge class. */
+export const NOTIFICATION_TYPE: NotificationTypeBadgeMap = {
+  INFO: 'badge-soft-info',
+  WARNING: 'badge-soft-warning',
+  ERROR: 'badge-soft-danger',
 };
 
 /** Reservation `source` → display label (label-only; no color scheme per plan §7). */

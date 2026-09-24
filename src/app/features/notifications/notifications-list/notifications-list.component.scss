@@ -1,0 +1,22 @@
+// Unread rows — soft tint so read/unread is distinguishable at a glance.
+// (Read state is client-side only; the page owns this helper convention.)
+.notif-unread {
+  background-color: rgba(38, 85, 202, 0.05);
+
+  .notif-unread-title {
+    font-weight: 600;
+  }
+}
+
+// Clickable rows ("click to mark as read").
+.notif-row {
+  cursor: pointer;
+}
+
+// Filter toolbar labels (mirrors demands-list conventions).
+.notifications-filters {
+  .form-label {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+}

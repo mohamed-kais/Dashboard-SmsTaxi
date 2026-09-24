@@ -75,6 +75,18 @@ export const MENU: MenuItem[] = [
     icon: 'bx-error-circle',
     link: '/sos',
   },
+  {
+    id: 13,
+    label: 'Notifications',
+    icon: 'bx-bell',
+    link: '/notifications',
+  },
+  {
+    id: 14,
+    label: 'WhatsApp',
+    icon: 'bx-chat',
+    link: '/whatsapp',
+  },
 
   // ── System ──────────────────────────────────────────────────
   { id: 14, isTitle: true, label: 'System' },
