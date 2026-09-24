@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -125,7 +126,8 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly translate: TranslateService
   ) {}
 
   get f(): FormGroup['controls'] {
@@ -315,7 +317,7 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
           st.totalRecords = 0;
           st.totalPages = 1;
           st.loading = false;
-          st.error = apiErrorMessage(err) || 'Échec du chargement des taxis.';
+          st.error = apiErrorMessage(err) || this.translate.instant('sendNotif.step2.loadTaxisError');
         },
       });
   }
@@ -348,7 +350,7 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
           st.totalRecords = 0;
           st.totalPages = 1;
           st.loading = false;
-          st.error = apiErrorMessage(err) || 'Échec du chargement des clients.';
+          st.error = apiErrorMessage(err) || this.translate.instant('sendNotif.step2.loadClientsError');
         },
       });
   }
@@ -380,20 +382,24 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
   /** Users-icon badge under the toolbar (exact French copy per tab). */
   selectionLabel(): string {
     if (this.activeTab === 'ADMIN') {
-      return 'Tous les administrateurs';
+      return this.translate.instant('sendNotif.adminAllSelected');
     }
     if (this.activeTab === 'TAXI') {
       if (this.taxis.selectAll) {
-        return 'Tous les taxis sélectionnés';
+        return this.translate.instant('sendNotif.taxisAllSelected');
       }
       const n = this.taxis.selectedIds.size;
-      return n === 0 ? 'Aucun taxi sélectionné' : `${n} taxi(s) sélectionné(s)`;
+      return n === 0
+        ? this.translate.instant('sendNotif.taxisNoneSelected')
+        : this.translate.instant('sendNotif.taxisCountSelected', { count: n });
     }
     if (this.clients.selectAll) {
-      return 'Tous les clients sélectionnés';
+      return this.translate.instant('sendNotif.clientsAllSelected');
     }
     const n = this.clients.selectedIds.size;
-    return n === 0 ? 'Aucun client sélectionné' : `${n} client(s) sélectionné(s)`;
+    return n === 0
+      ? this.translate.instant('sendNotif.clientsNoneSelected')
+      : this.translate.instant('sendNotif.clientsCountSelected', { count: n });
   }
 
   trackById(_index: number, row: { id: number }): number {
@@ -427,7 +433,7 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
       case 'SMS':
         return 'SMS';
       default:
-        return 'Diffusion APP';
+        return this.translate.instant('sendNotif.channelApp');
     }
   }
 
@@ -472,7 +478,7 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
           ? ['ALL']
           : [...st.selectedIds].map((id) => String(id));
     if (!targetIds.length) {
-      this.sendError = 'Veuillez sélectionner au moins un destinataire.';
+      this.sendError = this.translate.instant('sendNotif.noRecipientSelected');
       return;
     }
 
@@ -490,12 +496,12 @@ export class NotificationSendComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.sending = false;
         const detail = typeof res === 'string' ? res.trim() : '';
-        Swal.fire('Notification envoyée avec succès', detail, 'success');
+        Swal.fire(this.translate.instant('sendNotif.sendSuccess'), detail, 'success');
         this.resetAfterSuccess();
       },
       error: (err: unknown) => {
         this.sending = false;
-        this.sendError = apiErrorMessage(err) || "Échec de l'envoi de la notification.";
+        this.sendError = apiErrorMessage(err) || this.translate.instant('sendNotif.sendError');
       },
     });
   }

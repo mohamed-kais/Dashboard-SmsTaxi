@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 
 import { OffreAdminDto, PageOffreAdminDto } from '../../../core/models/offre.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -59,7 +60,11 @@ export class OffersListComponent implements OnInit, OnDestroy {
   private readonly filterChange$ = new Subject<void>();
   private readonly sub = new Subscription();
 
-  constructor(private offreService: OffreService, private route: ActivatedRoute) {}
+  constructor(
+    private offreService: OffreService,
+    private route: ActivatedRoute,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     // Deep-links (e.g. demand detail → offers by client phone / status).
@@ -138,44 +143,54 @@ export class OffersListComponent implements OnInit, OnDestroy {
 
   confirmCancel(row: OffreAdminDto): void {
     Swal.fire({
-      title: 'Cancel offer?',
-      text: `Offer #${row.id} will be cancelled.`,
+      title: this.translate.instant('offers.list.cancelOfferTitle'),
+      text: this.translate.instant('offers.list.cancelOfferText', { id: row.id }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Cancel offer',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('offers.list.cancelOffer'),
+      cancelButtonText: this.translate.instant('offers.list.keep'),
     }).then((result) => {
       if (!result.isConfirmed || row.id === undefined) {
         return;
       }
       this.offreService.cancelOffre(row.id).subscribe({
         next: () => {
-          Swal.fire('Cancelled', `Offer #${row.id} was cancelled.`, 'success');
+          Swal.fire(
+            this.translate.instant('offers.list.cancelled'),
+            this.translate.instant('offers.list.cancelledText', { id: row.id }),
+            'success'
+          );
           this.reload$.next();
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('offers.list.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
 
   confirmDelete(row: OffreAdminDto): void {
     Swal.fire({
-      title: 'Delete offer?',
-      text: `Offer #${row.id} will be permanently deleted.`,
+      title: this.translate.instant('offers.list.deleteOfferTitle'),
+      text: this.translate.instant('offers.list.deleteOfferText', { id: row.id }),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('common.delete'),
+      cancelButtonText: this.translate.instant('offers.list.keep'),
     }).then((result) => {
       if (!result.isConfirmed || row.id === undefined) {
         return;
       }
       this.offreService.deleteOffre(row.id).subscribe({
         next: () => {
-          Swal.fire('Deleted', `Offer #${row.id} was deleted.`, 'success');
+          Swal.fire(
+            this.translate.instant('offers.list.deleted'),
+            this.translate.instant('offers.list.deletedText', { id: row.id }),
+            'success'
+          );
           this.reload$.next();
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('offers.list.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
@@ -183,7 +198,7 @@ export class OffersListComponent implements OnInit, OnDestroy {
   /** Status badge via the shared scheme (plan §7). */
   badge(etat?: StatusEnum): StatusBadge {
     if (!etat) {
-      return { label: 'UNKNOWN', class: 'badge-soft-secondary' };
+      return { label: this.translate.instant('dashboard.unknown'), class: 'badge-soft-secondary' };
     }
     return statusBadge(etat, OFFRE_STATUS);
   }

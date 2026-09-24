@@ -176,7 +176,8 @@
           <form class="p-3">
             <div class="m-0">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                <input type="text" class="form-control" placeholder="{{ 'layout.topbar.searchPlaceholder' | translate }}"
+                  [attr.aria-label]="'layout.topbar.searchPlaceholder' | translate">
                 <div class="input-group-append">
                   <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                 </div>

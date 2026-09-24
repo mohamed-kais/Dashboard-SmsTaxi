@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -65,7 +66,10 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   private readonly filterChange$ = new Subject<void>();
   private readonly sub = new Subscription();
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.sub.add(
@@ -81,7 +85,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
           next: (page) => this.applyPage(page),
           error: (err) => {
             this.loading = false;
-            this.error = apiErrorMessage(err) || 'Failed to load notifications.';
+            this.error = apiErrorMessage(err) || this.translate.instant('notification.list.loadError');
           },
         })
     );
@@ -164,8 +168,11 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
     this.notificationService.markAllAsRead(ids);
     Swal.fire(
-      'Marked as read',
-      `${ids.length} notification${ids.length === 1 ? '' : 's'} on this page marked as read.`,
+      this.translate.instant('notification.list.markedAsReadTitle'),
+      this.translate.instant('notification.list.markedAsReadDetail', {
+        count: ids.length,
+        plural: ids.length === 1 ? '' : 's',
+      }),
       'success'
     );
   }

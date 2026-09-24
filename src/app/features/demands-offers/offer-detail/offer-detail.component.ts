@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 
 import { OffreDto } from '../../../core/models/offre.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -52,7 +53,8 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private offreService: OffreService
+    private offreService: OffreService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +71,7 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
   }
 
   get title(): string {
-    return `Offer #${this.id}`;
+    return this.translate.instant('offer.detail.title', { id: this.id });
   }
 
   /** Client phone — required as a path segment of the route-text patch. */
@@ -85,53 +87,68 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
   changeState(etat: StatusEnum): void {
     this.offreService.updateStateById(this.id, etat).subscribe({
       next: () => {
-        Swal.fire('Updated', `Offer #${this.id} is now ${etat}.`, 'success');
+        Swal.fire(
+          this.translate.instant('offer.detail.updated'),
+          this.translate.instant('offer.detail.updatedText', { id: this.id, etat }),
+          'success'
+        );
         this.load();
       },
-      error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+      error: (err) =>
+        Swal.fire(this.translate.instant('offer.detail.error'), extractErrorMessage(err), 'error'),
     });
   }
 
   confirmCancel(): void {
     Swal.fire({
-      title: 'Cancel offer?',
-      text: `Offer #${this.id} will be cancelled.`,
+      title: this.translate.instant('offer.detail.cancelOfferTitle'),
+      text: this.translate.instant('offer.detail.cancelOfferText', { id: this.id }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Cancel offer',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('offer.detail.cancelOffer'),
+      cancelButtonText: this.translate.instant('offer.detail.keep'),
     }).then((result) => {
       if (!result.isConfirmed) {
         return;
       }
       this.offreService.cancelOffre(this.id).subscribe({
         next: () => {
-          Swal.fire('Cancelled', `Offer #${this.id} was cancelled.`, 'success');
+          Swal.fire(
+            this.translate.instant('offer.detail.cancelled'),
+            this.translate.instant('offer.detail.cancelledText', { id: this.id }),
+            'success'
+          );
           this.load();
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('offer.detail.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
 
   confirmDelete(): void {
     Swal.fire({
-      title: 'Delete offer?',
-      text: `Offer #${this.id} will be permanently deleted.`,
+      title: this.translate.instant('offer.detail.deleteOfferTitle'),
+      text: this.translate.instant('offer.detail.deleteOfferText', { id: this.id }),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('common.delete'),
+      cancelButtonText: this.translate.instant('offer.detail.keep'),
     }).then((result) => {
       if (!result.isConfirmed) {
         return;
       }
       this.offreService.deleteOffre(this.id).subscribe({
         next: () => {
-          Swal.fire('Deleted', `Offer #${this.id} was deleted.`, 'success');
+          Swal.fire(
+            this.translate.instant('offer.detail.deleted'),
+            this.translate.instant('offer.detail.deletedText', { id: this.id }),
+            'success'
+          );
           this.router.navigate(['/offers']);
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('offer.detail.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
@@ -154,11 +171,15 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
             this.offre = updated;
             this.syncRouteText();
           }
-          Swal.fire('Saved', 'Route text was updated.', 'success');
+          Swal.fire(
+            this.translate.instant('offer.detail.saved'),
+            this.translate.instant('offer.detail.routeTextUpdated'),
+            'success'
+          );
         },
         error: (err) => {
           this.savingRouteText = false;
-          Swal.fire('Error', extractErrorMessage(err), 'error');
+          Swal.fire(this.translate.instant('offer.detail.error'), extractErrorMessage(err), 'error');
         },
       });
   }
@@ -166,7 +187,7 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
   /** Status badge via the shared scheme (plan §7). */
   badge(etat?: StatusEnum): StatusBadge {
     if (!etat) {
-      return { label: 'UNKNOWN', class: 'badge-soft-secondary' };
+      return { label: this.translate.instant('dashboard.unknown'), class: 'badge-soft-secondary' };
     }
     return statusBadge(etat, OFFRE_STATUS);
   }

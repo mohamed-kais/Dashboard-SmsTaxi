@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
@@ -24,6 +25,7 @@ import { SettingsComponent } from './settings/settings.component';
     CommonModule,
     ReactiveFormsModule, // both settings forms
     NgbNavModule, // tabbed settings page
+    TranslateModule, // | translate pipe
     UIModule, // app-page-title (SharedModule does not re-export UIModule)
     SettingsRoutingModule,
   ],

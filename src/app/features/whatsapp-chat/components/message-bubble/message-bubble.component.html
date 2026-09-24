@@ -4,7 +4,7 @@
       <p *ngSwitchCase="'TEXT'" class="wa-bubble__content">{{ message.content }}</p>
 
       <ng-container *ngSwitchCase="'IMAGE'">
-        <img class="wa-media__image" [src]="mediaUrl" alt="Photo" *ngIf="mediaUrl; else mediaPending" />
+        <img class="wa-media__image" [src]="mediaUrl" alt="{{ 'whatsapp.bubble.photo' | translate }}" *ngIf="mediaUrl; else mediaPending" />
         <p class="wa-bubble__content" *ngIf="media?.caption">{{ media?.caption }}</p>
       </ng-container>
 
@@ -21,15 +21,15 @@
         <div class="wa-media__document">
           <span class="wa-media__icon"><i class="bx bxs-file"></i></span>
           <div class="wa-media__body">
-            <span class="wa-media__name">{{ media?.fileName || 'Document' }}</span>
+            <span class="wa-media__name">{{ media?.fileName || ('whatsapp.bubble.document' | translate) }}</span>
             <span class="wa-media__meta">{{ formatFileSize(media?.size) }} · {{ media?.mimeType }}</span>
-            <a class="wa-media__link" [href]="mediaUrl" target="_blank" rel="noopener" *ngIf="mediaUrl">Télécharger</a>
+            <a class="wa-media__link" [href]="mediaUrl" target="_blank" rel="noopener" *ngIf="mediaUrl">{{ 'whatsapp.bubble.download' | translate }}</a>
           </div>
         </div>
       </ng-container>
 
       <ng-container *ngSwitchCase="'STICKER'">
-        <img class="wa-media__sticker" [src]="mediaUrl" alt="Sticker" *ngIf="mediaUrl; else mediaPending" />
+        <img class="wa-media__sticker" [src]="mediaUrl" alt="{{ 'whatsapp.bubble.sticker' | translate }}" *ngIf="mediaUrl; else mediaPending" />
       </ng-container>
 
       <ng-container *ngSwitchCase="'LOCATION'">
@@ -47,7 +47,7 @@
         <div class="wa-media__contact">
           <span class="wa-media__icon"><i class="bx bxs-user"></i></span>
           <div class="wa-media__body">
-            <span class="wa-media__name">{{ media?.contactName || 'Contact' }}</span>
+            <span class="wa-media__name">{{ media?.contactName || ('whatsapp.bubble.contact' | translate) }}</span>
             <span class="wa-media__meta" *ngIf="media?.contactPhone">{{ media?.contactPhone }}</span>
           </div>
         </div>
@@ -59,7 +59,7 @@
     <ng-template #mediaPending>
       <span class="wa-media__pending text-muted">
         <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-        Chargement du média...
+        {{ 'whatsapp.bubble.mediaLoading' | translate }}
       </span>
     </ng-template>
 

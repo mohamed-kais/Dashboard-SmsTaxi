@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 
 import { TaxiService } from '../../core/services/taxi.service';
@@ -38,7 +39,8 @@ export class TaxiFormModalComponent implements OnInit {
   constructor(
     public readonly activeModal: NgbActiveModal,
     private readonly fb: FormBuilder,
-    private readonly taxiService: TaxiService
+    private readonly taxiService: TaxiService,
+    private readonly translate: TranslateService
   ) {}
 
   get f(): { [key: string]: AbstractControl } {
@@ -92,7 +94,7 @@ export class TaxiFormModalComponent implements OnInit {
       .subscribe({
         next: (saved) => this.activeModal.close(saved),
         error: (err) => {
-          this.errorMessage = err?.error?.message || err?.message || 'Failed to save taxi.';
+          this.errorMessage = err?.error?.message || err?.message || this.translate.instant('taxis.form.saveFailed');
         },
       });
   }

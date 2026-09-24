@@ -7,34 +7,34 @@
         <!-- Filter toolbar -->
         <div class="row mb-3 align-items-end">
           <div class="col-md-4 col-lg-3">
-            <label class="form-label" for="reservation-status">Status</label>
+            <label class="form-label" for="reservation-status">{{ 'common.status' | translate }}</label>
             <select
               id="reservation-status"
               class="form-select"
               [(ngModel)]="statusFilter"
               (ngModelChange)="onStatusChange($event)"
             >
-              <option value="">All statuses</option>
+              <option value="">{{ 'reservations.list.allStatuses' | translate }}</option>
               <option *ngFor="let status of statuses" [value]="status">
                 {{ status }}
               </option>
             </select>
           </div>
           <div class="col-md-4 col-lg-4">
-            <label class="form-label" for="reservation-search">Search</label>
+            <label class="form-label" for="reservation-search">{{ 'common.search' | translate }}</label>
             <input
               id="reservation-search"
               type="text"
               class="form-control"
-              placeholder="Telephone, pickup, destination, taxi..."
+              placeholder="{{ 'reservations.list.searchPlaceholder' | translate }}"
               [(ngModel)]="searchTerm"
               (ngModelChange)="onSearchChange($event)"
             />
-            <small class="text-muted">Free-text search applies to the current results page (the list endpoint has no search query param).</small>
+            <small class="text-muted">{{ 'reservations.list.searchHint' | translate }}</small>
           </div>
           <div class="col-lg-5 text-lg-end">
             <button type="button" class="btn btn-soft-primary" (click)="refresh()">
-              <i class="bx bx-refresh me-1"></i>Refresh
+              <i class="bx bx-refresh me-1"></i>{{ 'common.refresh' | translate }}
             </button>
           </div>
         </div>
@@ -45,32 +45,32 @@
           <table class="table table-centered table-nowrap mb-0">
             <thead class="thead-light">
               <tr>
-                <th sortable="id" (sortchange)="onSortChange($event)">ID</th>
-                <th sortable="telephone" (sortchange)="onSortChange($event)">Client</th>
-                <th>Route</th>
-                <th>Source</th>
-                <th sortable="status" (sortchange)="onSortChange($event)">Status</th>
-                <th>Taxi / Driver</th>
-                <th>Assignment</th>
-                <th sortable="reservationDateTime" (sortchange)="onSortChange($event)">Date</th>
-                <th class="text-end">Actions</th>
+                <th sortable="id" (sortchange)="onSortChange($event)">{{ 'common.id' | translate }}</th>
+                <th sortable="telephone" (sortchange)="onSortChange($event)">{{ 'reservations.list.client' | translate }}</th>
+                <th>{{ 'reservations.list.route' | translate }}</th>
+                <th>{{ 'reservations.list.source' | translate }}</th>
+                <th sortable="status" (sortchange)="onSortChange($event)">{{ 'common.status' | translate }}</th>
+                <th>{{ 'reservations.list.taxiDriver' | translate }}</th>
+                <th>{{ 'reservations.list.assignment' | translate }}</th>
+                <th sortable="reservationDateTime" (sortchange)="onSortChange($event)">{{ 'common.date' | translate }}</th>
+                <th class="text-end">{{ 'common.actions' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngIf="loading">
                 <td colspan="9" class="text-center py-4">
-                  <span class="spinner-border spinner-border-sm me-2"></span>Loading reservations...
+                  <span class="spinner-border spinner-border-sm me-2"></span>{{ 'reservations.list.loading' | translate }}
                 </td>
               </tr>
               <tr *ngIf="!loading && reservations.length === 0">
-                <td colspan="9" class="text-center text-muted py-4">No reservations found.</td>
+                <td colspan="9" class="text-center text-muted py-4">{{ 'reservations.list.empty' | translate }}</td>
               </tr>
               <tr *ngFor="let reservation of reservations">
                 <td class="fw-medium">#{{ reservation.id }}</td>
                 <td>
                   <div>{{ reservation.telephone || '—' }}</div>
                   <small *ngIf="reservation.clientId" class="text-muted">
-                    Client #{{ reservation.clientId }}
+                    {{ 'reservations.list.clientRef' | translate:{ clientId: reservation.clientId } }}
                   </small>
                 </td>
                 <td>
@@ -90,12 +90,12 @@
                 </td>
                 <td>
                   <ng-container *ngIf="reservation.assignment">
-                    <div>{{ reservation.assignment.taxiNom || ('Taxi #' + reservation.assignment.taxiId) }}</div>
+                    <div>{{ reservation.assignment.taxiNom || ('reservations.list.taxiRef' | translate:{ taxiId: reservation.assignment.taxiId }) }}</div>
                     <small class="text-muted">
                       {{ reservation.assignment.taxiTelephone || reservation.assignment.taxiNumero || '' }}
                     </small>
                   </ng-container>
-                  <span *ngIf="!reservation.assignment" class="text-muted">Not assigned</span>
+                  <span *ngIf="!reservation.assignment" class="text-muted">{{ 'reservations.list.notAssigned' | translate }}</span>
                 </td>
                 <td>
                   <ng-container *ngIf="reservation.assignment">
@@ -112,7 +112,7 @@
                     class="btn btn-outline-secondary btn-sm me-1"
                     (click)="viewReservation(reservation)"
                   >
-                    View
+                    {{ 'common.view' | translate }}
                   </button>
                   <button
                     *ngIf="!canUnassign(reservation)"
@@ -120,7 +120,7 @@
                     class="btn btn-outline-primary btn-sm me-1"
                     (click)="openAssignModal(assignModal, reservation)"
                   >
-                    Assign
+                    {{ 'common.assign' | translate }}
                   </button>
                   <button
                     *ngIf="canUnassign(reservation)"
@@ -128,7 +128,7 @@
                     class="btn btn-outline-danger btn-sm"
                     (click)="openUnassignModal(unassignModal, reservation)"
                   >
-                    Unassign
+                    {{ 'common.unassign' | translate }}
                   </button>
                 </td>
               </tr>
@@ -140,7 +140,7 @@
         <div class="row mt-3 align-items-center">
           <div class="col-sm-6">
             <p class="text-muted mb-0">
-              Showing {{ reservations.length }} of {{ collectionSize }} reservations
+              {{ 'reservations.list.showing' | translate:{ shown: reservations.length, collectionSize: collectionSize } }}
             </p>
           </div>
           <div class="col-sm-6">
@@ -164,49 +164,49 @@
 <!-- Assign taxi modal -->
 <ng-template #assignModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Assign taxi</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <h5 class="modal-title">{{ 'reservations.list.assignModalTitle' | translate }}</h5>
+    <button type="button" class="btn-close" [attr.aria-label]="'reservations.list.close' | translate" (click)="modal.dismiss()"></button>
   </div>
   <form [formGroup]="assignForm" (ngSubmit)="submitAssign(modal)">
     <div class="modal-body">
       <p class="text-muted">
-        Reservation #{{ selectedReservation?.id }} — assigning a taxi creates a
-        new assignment via <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
+        {{ 'reservations.list.assignModalIntro' | translate:{ id: selectedReservation?.id } }}
+        <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
       </p>
       <div class="mb-3">
-        <label class="form-label" for="assign-taxi-id">Taxi ID <span class="text-danger">*</span></label>
+        <label class="form-label" for="assign-taxi-id">{{ 'reservations.list.taxiId' | translate }} <span class="text-danger">*</span></label>
         <input
           id="assign-taxi-id"
           type="number"
           class="form-control"
           formControlName="taxiId"
-          placeholder="e.g. 42"
+          placeholder="{{ 'reservations.list.taxiIdPlaceholder' | translate }}"
         />
         <div *ngIf="assignSubmitted && af.taxiId.errors" class="text-danger small mt-1">
-          A valid taxi ID is required.
+          {{ 'reservations.list.taxiIdRequired' | translate }}
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="assign-type">Assignment type</label>
+        <label class="form-label" for="assign-type">{{ 'reservations.list.assignmentType' | translate }}</label>
         <select id="assign-type" class="form-select" formControlName="assignmentType">
-          <option value="MANUAL">MANUAL</option>
-          <option value="AUTO">AUTO</option>
+          <option value="MANUAL">{{ 'reservations.list.assignTypeManual' | translate }}</option>
+          <option value="AUTO">{{ 'reservations.list.assignTypeAuto' | translate }}</option>
         </select>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="assign-by">Assigned by</label>
+        <label class="form-label" for="assign-by">{{ 'reservations.list.assignedBy' | translate }}</label>
         <input id="assign-by" type="text" class="form-control" formControlName="assignedBy" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="assign-comment">Comment</label>
+        <label class="form-label" for="assign-comment">{{ 'reservations.list.comment' | translate }}</label>
         <textarea id="assign-comment" class="form-control" rows="2" formControlName="comment"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-primary" [disabled]="assigning">
         <span *ngIf="assigning" class="spinner-border spinner-border-sm me-1"></span>
-        Assign taxi
+        {{ 'reservations.list.assignModalConfirm' | translate }}
       </button>
     </div>
   </form>
@@ -215,29 +215,31 @@
 <!-- Unassign taxi modal -->
 <ng-template #unassignModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Unassign taxi</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <h5 class="modal-title">{{ 'reservations.list.unassignModalTitle' | translate }}</h5>
+    <button type="button" class="btn-close" [attr.aria-label]="'reservations.list.close' | translate" (click)="modal.dismiss()"></button>
   </div>
   <form [formGroup]="unassignForm" (ngSubmit)="confirmUnassign(modal)">
     <div class="modal-body">
       <p>
-        Unassign the taxi from reservation <strong>#{{ selectedReservation?.id }}</strong>?
-        This calls <code>DELETE /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
+        {{ 'reservations.list.unassignModalIntro' | translate }}
+        <strong>#{{ selectedReservation?.id }}</strong>
+        {{ 'reservations.list.unassignModalCalls' | translate }}
+        <code>DELETE /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
       </p>
       <div class="mb-3">
-        <label class="form-label" for="unassign-by">Cancelled by (optional)</label>
+        <label class="form-label" for="unassign-by">{{ 'reservations.list.cancelledByOptional' | translate }}</label>
         <input id="unassign-by" type="text" class="form-control" formControlName="cancelledBy" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="unassign-reason">Reason (optional)</label>
+        <label class="form-label" for="unassign-reason">{{ 'reservations.list.reasonOptional' | translate }}</label>
         <textarea id="unassign-reason" class="form-control" rows="2" formControlName="reason"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-danger" [disabled]="unassigning">
         <span *ngIf="unassigning" class="spinner-border spinner-border-sm me-1"></span>
-        Confirm unassign
+        {{ 'reservations.list.unassignConfirm' | translate }}
       </button>
     </div>
   </form>

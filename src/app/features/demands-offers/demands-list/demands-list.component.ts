@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 
 import { DemandeAdminDto, PageDemandeAdminDto } from '../../../core/models/demande.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -58,7 +59,7 @@ export class DemandsListComponent implements OnInit, OnDestroy {
   private readonly filterChange$ = new Subject<void>();
   private readonly sub = new Subscription();
 
-  constructor(private demandeService: DemandeService) {}
+  constructor(private demandeService: DemandeService, private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.sub.add(
@@ -121,44 +122,54 @@ export class DemandsListComponent implements OnInit, OnDestroy {
 
   confirmCancel(row: DemandeAdminDto): void {
     Swal.fire({
-      title: 'Cancel demand?',
-      text: `Demand #${row.id} will be cancelled.`,
+      title: this.translate.instant('demands.list.cancelDemandTitle'),
+      text: this.translate.instant('demands.list.cancelDemandText', { id: row.id }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Cancel demand',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('demands.list.cancelDemand'),
+      cancelButtonText: this.translate.instant('demands.list.keep'),
     }).then((result) => {
       if (!result.isConfirmed || row.id === undefined) {
         return;
       }
       this.demandeService.cancelDemande(row.id).subscribe({
         next: () => {
-          Swal.fire('Cancelled', `Demand #${row.id} was cancelled.`, 'success');
+          Swal.fire(
+            this.translate.instant('demands.list.cancelled'),
+            this.translate.instant('demands.list.cancelledText', { id: row.id }),
+            'success'
+          );
           this.reload$.next();
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('demands.list.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
 
   confirmDelete(row: DemandeAdminDto): void {
     Swal.fire({
-      title: 'Delete demand?',
-      text: `Demand #${row.id} will be permanently deleted.`,
+      title: this.translate.instant('demands.list.deleteDemandTitle'),
+      text: this.translate.instant('demands.list.deleteDemandText', { id: row.id }),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('common.delete'),
+      cancelButtonText: this.translate.instant('demands.list.keep'),
     }).then((result) => {
       if (!result.isConfirmed || row.id === undefined) {
         return;
       }
       this.demandeService.deleteDemande(row.id).subscribe({
         next: () => {
-          Swal.fire('Deleted', `Demand #${row.id} was deleted.`, 'success');
+          Swal.fire(
+            this.translate.instant('demands.list.deleted'),
+            this.translate.instant('demands.list.deletedText', { id: row.id }),
+            'success'
+          );
           this.reload$.next();
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('demands.list.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
@@ -166,7 +177,7 @@ export class DemandsListComponent implements OnInit, OnDestroy {
   /** Status badge via the shared scheme (plan §7). */
   badge(etat?: StatusEnum): StatusBadge {
     if (!etat) {
-      return { label: 'UNKNOWN', class: 'badge-soft-secondary' };
+      return { label: this.translate.instant('dashboard.unknown'), class: 'badge-soft-secondary' };
     }
     return statusBadge(etat, DEMANDE_STATUS);
   }

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin, of } from 'rxjs';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 import { RatingService } from '../../core/services/rating.service';
 import { Rating } from '../../core/models/rating.model';
@@ -38,7 +39,8 @@ export class DriverRatingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly ratingService: RatingService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export class DriverRatingsComponent implements OnInit, OnDestroy {
           this.reported = false;
           if (!this.driverId) {
             this.loading = false;
-            this.error = 'No driver id provided.';
+            this.error = this.translate.instant('ratings.driver.noDriverId');
             return of({ average: NaN, ratings: [] as Rating[] });
           }
           return forkJoin({
@@ -71,7 +73,7 @@ export class DriverRatingsComponent implements OnInit, OnDestroy {
         this.average = this.hasAverage ? average : 0;
         this.ratings = ratings ?? [];
         if (!this.hasAverage && this.ratings.length === 0) {
-          this.error = 'No ratings found for this driver.';
+          this.error = this.translate.instant('ratings.driver.empty');
         }
       });
   }

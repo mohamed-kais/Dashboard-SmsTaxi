@@ -6,19 +6,19 @@
       <div class="card-header">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
           <div class="d-flex align-items-center gap-2">
-            <h5 class="card-title mb-0">Notification log</h5>
-            <span class="badge badge-soft-primary">{{ state.totalRecords }} total</span>
+            <h5 class="card-title mb-0">{{ 'notification.list.logTitle' | translate }}</h5>
+            <span class="badge badge-soft-primary">{{ state.totalRecords }} {{ 'common.total' | translate }}</span>
             <span class="badge badge-soft-warning" *ngIf="unreadOnPage() > 0">
-              {{ unreadOnPage() }} unread
+              {{ unreadOnPage() }} {{ 'common.unread' | translate }}
             </span>
           </div>
           <div class="d-flex align-items-center gap-2">
             <button type="button" class="btn btn-sm btn-soft-primary" [routerLink]="['/notifications/send']">
-              <i class="bx bx-send me-1"></i>Send notification
+              <i class="bx bx-send me-1"></i>{{ 'notification.list.sendButton' | translate }}
             </button>
             <button type="button" class="btn btn-sm btn-soft-secondary" (click)="markAllRead()"
-              [disabled]="unreadOnPage() === 0 || loading" title="Mark all notifications on this page as read">
-              <i class="bx bx-check-double me-1"></i>Mark all read
+              [disabled]="unreadOnPage() === 0 || loading" [title]="'notification.list.markAllReadTitle' | translate">
+              <i class="bx bx-check-double me-1"></i>{{ 'notification.list.markAllRead' | translate }}
             </button>
           </div>
         </div>
@@ -26,17 +26,17 @@
         <!-- Title / message free-text filters (server-side) -->
         <div class="row g-2 align-items-end mt-3 notifications-filters">
           <div class="col-md-4">
-            <label class="form-label">Title</label>
-            <input type="text" class="form-control" placeholder="Filter by title…"
+            <label class="form-label">{{ 'notification.list.filterTitle' | translate }}</label>
+            <input type="text" class="form-control" placeholder="{{ 'notification.list.filterTitlePlaceholder' | translate }}"
               [(ngModel)]="filter.title" (ngModelChange)="applyFilters()" />
           </div>
           <div class="col-md-4">
-            <label class="form-label">Message</label>
-            <input type="text" class="form-control" placeholder="Filter by message…"
+            <label class="form-label">{{ 'notification.list.filterMessage' | translate }}</label>
+            <input type="text" class="form-control" placeholder="{{ 'notification.list.filterMessagePlaceholder' | translate }}"
               [(ngModel)]="filter.message" (ngModelChange)="applyFilters()" />
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-secondary w-100" (click)="resetFilters()">Reset</button>
+            <button type="button" class="btn btn-secondary w-100" (click)="resetFilters()">{{ 'common.reset' | translate }}</button>
           </div>
         </div>
       </div>
@@ -47,27 +47,27 @@
         <table class="table table-centered table-nowrap mb-0">
           <thead class="table-light">
             <tr>
-              <th style="width: 40px;">#</th>
-              <th sortable="id" [direction]="directionFor('id')" (sortchange)="onSort($event)">ID</th>
-              <th sortable="title" [direction]="directionFor('title')" (sortchange)="onSort($event)">Title</th>
-              <th sortable="message" [direction]="directionFor('message')" (sortchange)="onSort($event)">Message</th>
-              <th sortable="type" [direction]="directionFor('type')" (sortchange)="onSort($event)">Type</th>
-              <th sortable="channel" [direction]="directionFor('channel')" (sortchange)="onSort($event)">Channel</th>
-              <th sortable="targetType" [direction]="directionFor('targetType')" (sortchange)="onSort($event)">Target</th>
-              <th sortable="createdAt" [direction]="directionFor('createdAt')" (sortchange)="onSort($event)">Created</th>
+              <th style="width: 40px;">{{ 'common.hash' | translate }}</th>
+              <th sortable="id" [direction]="directionFor('id')" (sortchange)="onSort($event)">{{ 'common.id' | translate }}</th>
+              <th sortable="title" [direction]="directionFor('title')" (sortchange)="onSort($event)">{{ 'notification.list.columnTitle' | translate }}</th>
+              <th sortable="message" [direction]="directionFor('message')" (sortchange)="onSort($event)">{{ 'notification.list.columnMessage' | translate }}</th>
+              <th sortable="type" [direction]="directionFor('type')" (sortchange)="onSort($event)">{{ 'common.type' | translate }}</th>
+              <th sortable="channel" [direction]="directionFor('channel')" (sortchange)="onSort($event)">{{ 'notification.list.columnChannel' | translate }}</th>
+              <th sortable="targetType" [direction]="directionFor('targetType')" (sortchange)="onSort($event)">{{ 'notification.list.columnTarget' | translate }}</th>
+              <th sortable="createdAt" [direction]="directionFor('createdAt')" (sortchange)="onSort($event)">{{ 'notification.list.columnCreated' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="loading && state.rows.length === 0">
               <td colspan="8" class="text-center text-muted py-4">
                 <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-                Loading notifications&hellip;
+                {{ 'notification.list.loading' | translate }}
               </td>
             </tr>
             <ng-container *ngIf="!(loading && state.rows.length === 0)">
               <tr *ngFor="let row of state.rows; let i = index" class="notif-row"
                 [class.notif-unread]="isUnread(row)" (click)="onRowClick(row)"
-                [title]="isUnread(row) ? 'Click to mark as read' : ''">
+                [title]="isUnread(row) ? ('notification.list.clickToMarkRead' | translate) : ''">
                 <td>{{ state.startIndex + i }}</td>
                 <td>{{ row.id }}</td>
                 <td class="text-truncate" style="max-width: 180px;"
@@ -85,7 +85,7 @@
                 <td>{{ row.createdAt ? (row.createdAt | date: 'medium') : '—' }}</td>
               </tr>
               <tr *ngIf="!loading && !error && state.rows.length === 0">
-                <td colspan="8" class="text-center text-muted py-4">No notifications found.</td>
+                <td colspan="8" class="text-center text-muted py-4">{{ 'notification.list.empty' | translate }}</td>
               </tr>
             </ng-container>
           </tbody>
@@ -95,7 +95,7 @@
       <div class="card-footer">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
           <div>
-            <span class="text-muted">Showing {{ state.startIndex }} to {{ state.endIndex }} of {{ state.totalRecords }} entries</span>
+            <span class="text-muted">{{ 'notification.list.range' | translate:{ start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}</span>
             <select name="notifPageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
               [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
               <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>

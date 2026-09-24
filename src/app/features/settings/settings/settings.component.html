@@ -2,16 +2,15 @@
 
 <ul ngbNav #settingsNav="ngbNav" class="nav-tabs">
   <li [ngbNavItem]="'matching'">
-    <a ngbNavLink>Matching radius</a>
+    <a ngbNavLink>{{ 'settings.matching.tab' | translate }}</a>
     <ng-template ngbNavContent>
       <div class="card">
         <div class="card-header">
-          <h5 class="card-title mb-0">Matching radius</h5>
+          <h5 class="card-title mb-0">{{ 'settings.matching.title' | translate }}</h5>
         </div>
         <div class="card-body">
           <p class="text-muted">
-            Ride-matching / broadcast radius in meters. The server caps the max radius at
-            5000&nbsp;m and clamps the base radius to (0,&nbsp;max].
+            {{ 'settings.matching.description' | translate }}
           </p>
 
           <div class="alert alert-success" role="alert" *ngIf="matchingSuccess">{{ matchingSuccess }}</div>
@@ -21,29 +20,29 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label class="form-label" for="mc-base">Base radius (m) <span class="text-danger">*</span></label>
+                  <label class="form-label" for="mc-base">{{ 'settings.matching.baseRadiusLabel' | translate }} <span class="text-danger">*</span></label>
                   <input type="number" id="mc-base" class="form-control" formControlName="baseRadius"
-                    min="0" step="1" placeholder="e.g. 500"
+                    min="0" step="1" [placeholder]="'settings.matching.baseRadiusPlaceholder' | translate"
                     [class.is-invalid]="matchingSubmitted && mf.baseRadius.errors" />
                   <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.baseRadius.errors?.required">
-                    Base radius is required.
+                    {{ 'settings.matching.baseRadiusRequired' | translate }}
                   </div>
                   <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.baseRadius.errors?.min">
-                    Base radius must be 0 or more.
+                    {{ 'settings.matching.baseRadiusMin' | translate }}
                   </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label class="form-label" for="mc-max">Max radius (m) <span class="text-danger">*</span></label>
+                  <label class="form-label" for="mc-max">{{ 'settings.matching.maxRadiusLabel' | translate }} <span class="text-danger">*</span></label>
                   <input type="number" id="mc-max" class="form-control" formControlName="maxRadius"
-                    min="0" step="1" placeholder="e.g. 2000"
+                    min="0" step="1" [placeholder]="'settings.matching.maxRadiusPlaceholder' | translate"
                     [class.is-invalid]="matchingSubmitted && mf.maxRadius.errors" />
                   <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.maxRadius.errors?.required">
-                    Max radius is required.
+                    {{ 'settings.matching.maxRadiusRequired' | translate }}
                   </div>
                   <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.maxRadius.errors?.min">
-                    Max radius must be 0 or more.
+                    {{ 'settings.matching.maxRadiusMin' | translate }}
                   </div>
                 </div>
               </div>
@@ -51,7 +50,7 @@
 
             <button type="submit" class="btn btn-primary" [disabled]="matchingSaving">
               <span class="spinner-border spinner-border-sm me-1" *ngIf="matchingSaving"></span>
-              {{ matchingSaving ? 'Saving…' : 'Save changes' }}
+              {{ matchingSaving ? ('settings.saving' | translate) : ('common.saveChanges' | translate) }}
             </button>
           </form>
         </div>
@@ -60,21 +59,19 @@
   </li>
 
   <li [ngbNavItem]="'airport'">
-    <a ngbNavLink>Airport pricing</a>
+    <a ngbNavLink>{{ 'settings.airport.tab' | translate }}</a>
     <ng-template ngbNavContent>
       <div class="card">
         <div class="card-header">
-          <h5 class="card-title mb-0">Airport pricing</h5>
+          <h5 class="card-title mb-0">{{ 'settings.airport.title' | translate }}</h5>
         </div>
         <div class="card-body">
           <p class="text-muted">
-            Surcharge applied near airports and the detection radius used to decide
-            "near an airport". Only the provided fields are updated server-side.
+            {{ 'settings.airport.description' | translate }}
           </p>
           <p class="text-muted" *ngIf="airportCount !== null">
-            Configured airports: <strong>{{ airportCount }}</strong>
-            <span class="small"> — read-only; the update endpoint accepts surcharge and radius
-              fields only (airport coordinates are managed server-side).</span>
+            {{ 'settings.airport.configuredLabel' | translate }} <strong>{{ airportCount }}</strong>
+            <span class="small">{{ 'settings.airport.readOnlyNote' | translate }}</span>
           </p>
 
           <div class="alert alert-success" role="alert" *ngIf="airportSuccess">{{ airportSuccess }}</div>
@@ -84,44 +81,44 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="mb-3">
-                  <label class="form-label" for="ap-value">Surcharge value <span class="text-danger">*</span></label>
+                  <label class="form-label" for="ap-value">{{ 'settings.airport.surchargeValueLabel' | translate }} <span class="text-danger">*</span></label>
                   <input type="number" id="ap-value" class="form-control" formControlName="surchargeValue"
-                    min="0" step="0.01" placeholder="e.g. 10"
+                    min="0" step="0.01" [placeholder]="'settings.airport.surchargeValuePlaceholder' | translate"
                     [class.is-invalid]="airportSubmitted && af.surchargeValue.errors" />
                   <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeValue.errors?.required">
-                    Surcharge value is required.
+                    {{ 'settings.airport.surchargeValueRequired' | translate }}
                   </div>
                   <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeValue.errors?.min">
-                    Surcharge value must be 0 or more.
+                    {{ 'settings.airport.surchargeValueMin' | translate }}
                   </div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
-                  <label class="form-label" for="ap-type">Surcharge type <span class="text-danger">*</span></label>
+                  <label class="form-label" for="ap-type">{{ 'settings.airport.surchargeTypeLabel' | translate }} <span class="text-danger">*</span></label>
                   <select id="ap-type" class="form-select" formControlName="surchargeType"
                     [class.is-invalid]="airportSubmitted && af.surchargeType.errors">
-                    <option [ngValue]="null" disabled>Select a type…</option>
+                    <option [ngValue]="null" disabled>{{ 'settings.airport.selectTypePlaceholder' | translate }}</option>
                     <option *ngFor="let t of surchargeTypes" [ngValue]="t">
-                      {{ t === 'PERCENTAGE' ? 'Percentage (%)' : 'Fixed amount' }}
+                      {{ t === 'PERCENTAGE' ? ('settings.airport.percentage' | translate) : ('settings.airport.fixedAmount' | translate) }}
                     </option>
                   </select>
                   <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeType.errors?.required">
-                    Surcharge type is required.
+                    {{ 'settings.airport.surchargeTypeRequired' | translate }}
                   </div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
-                  <label class="form-label" for="ap-radius">Airport radius (m) <span class="text-danger">*</span></label>
+                  <label class="form-label" for="ap-radius">{{ 'settings.airport.airportRadiusLabel' | translate }} <span class="text-danger">*</span></label>
                   <input type="number" id="ap-radius" class="form-control" formControlName="airportRadiusMeters"
-                    min="0" step="1" placeholder="e.g. 1500"
+                    min="0" step="1" [placeholder]="'settings.airport.airportRadiusPlaceholder' | translate"
                     [class.is-invalid]="airportSubmitted && af.airportRadiusMeters.errors" />
                   <div class="invalid-feedback" *ngIf="airportSubmitted && af.airportRadiusMeters.errors?.required">
-                    Airport radius is required.
+                    {{ 'settings.airport.airportRadiusRequired' | translate }}
                   </div>
                   <div class="invalid-feedback" *ngIf="airportSubmitted && af.airportRadiusMeters.errors?.min">
-                    Airport radius must be 0 or more.
+                    {{ 'settings.airport.airportRadiusMin' | translate }}
                   </div>
                 </div>
               </div>
@@ -129,7 +126,7 @@
 
             <button type="submit" class="btn btn-primary" [disabled]="airportSaving">
               <span class="spinner-border spinner-border-sm me-1" *ngIf="airportSaving"></span>
-              {{ airportSaving ? 'Saving…' : 'Save changes' }}
+              {{ airportSaving ? ('settings.saving' | translate) : ('common.saveChanges' | translate) }}
             </button>
           </form>
         </div>

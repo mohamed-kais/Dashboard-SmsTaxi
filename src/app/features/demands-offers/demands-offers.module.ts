@@ -7,6 +7,7 @@ import {
   NgbDropdownModule,
   NgbPaginationModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UIModule } from '../../shared/ui/ui.module';
 
@@ -33,6 +34,7 @@ import { OfferDetailComponent } from './offer-detail/offer-detail.component';
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     UIModule, // app-page-title + th[sortable] (SharedModule also re-exports it now)
     NgbPaginationModule,
     NgbDatepickerModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ClientDto } from '../../../core/models/client.model';
 import { OffreDto, OffreHistoryPageDto } from '../../../core/models/offre.model';
@@ -49,16 +50,17 @@ export class ClientDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private modalService: NgbModal,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.clientId = Number(id);
-    this.pageTitle = `Client #${id}`;
+    this.pageTitle = this.translate.instant('client.detail.pageTitle', { id });
     this.breadcrumbItems = [
       { label: 'Clients', active: false },
-      { label: `#${id}`, active: true },
+      { label: this.translate.instant('client.detail.breadcrumbHash', { id }), active: true },
     ];
     this.loadClient();
   }
@@ -69,7 +71,7 @@ export class ClientDetailComponent implements OnInit {
 
   private loadClient(): void {
     if (this.clientId === null || Number.isNaN(this.clientId)) {
-      this.loadError = 'Invalid client ID.';
+      this.loadError = this.translate.instant('client.detail.invalidId');
       this.loading = false;
       return;
     }
@@ -85,7 +87,7 @@ export class ClientDetailComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.loadError = apiErrorMessage(err) || `Failed to load client #${this.clientId}.`;
+        this.loadError = apiErrorMessage(err) || this.translate.instant('client.detail.loadFailed', { id: this.clientId });
       },
     });
   }
@@ -136,7 +138,7 @@ export class ClientDetailComponent implements OnInit {
       backdrop: 'static',
     });
     modalRef.componentInstance.client = this.client;
-    modalRef.componentInstance.title = 'Edit client';
+    modalRef.componentInstance.title = this.translate.instant('clients.form.titleEdit');
     modalRef.result.then(
       () => this.loadClient(),
       () => undefined
@@ -165,7 +167,7 @@ export class ClientDetailComponent implements OnInit {
       },
       error: (err) => {
         this.deleting = false;
-        this.loadError = apiErrorMessage(err) || 'Failed to delete client.';
+        this.loadError = apiErrorMessage(err) || this.translate.instant('client.detail.deleteFailed');
       },
     });
   }
@@ -190,7 +192,7 @@ export class ClientDetailComponent implements OnInit {
         },
         error: (err) => {
           this.historyLoading = false;
-          this.historyError = apiErrorMessage(err) || 'Failed to load ride history.';
+          this.historyError = apiErrorMessage(err) || this.translate.instant('client.detail.historyLoadFailed');
         },
       });
   }

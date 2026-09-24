@@ -1,0 +1,1179 @@
+{
+  "HEADER": {
+    "SEARCH": "بحث...",
+    "MEGA_MENU": "القائمة الموسّعة",
+    "NOTIFICATIONS": {
+      "TITLE": "الإشعارات",
+      "VIEW_ALL": "عرض الكل",
+      "LOAD_MORE": "عرض المزيد..",
+      "FIRST": {
+        "TITLE": "تم تقديم طلبك",
+        "TEXT": "إذا تعددت اللغات وتداخلت القواعد",
+        "TIME": "قبل 3 دقائق"
+      },
+      "SECOND": {
+        "TITLE": "James Lemire",
+        "TEXT": "سيبدو مثل الإنجليزية المبسطة.",
+        "TIME": "قبل ساعة"
+      },
+      "THIRD": {
+        "TITLE": "تم شحن طلبك",
+        "TEXT": "إذا تعددت اللغات وتداخلت القواعد",
+        "TIME": "قبل 3 دقائق"
+      },
+      "FOUR": {
+        "TITLE": "Salena Layfield",
+        "TEXT": "كما قال صديقي الكامبريجي المتشكك",
+        "TIME": "قبل ساعة"
+      }
+    },
+    "SETTINGS": "الإعدادات",
+    "UI": {
+      "TITLE": "مكوّنات الواجهة",
+      "LIGHTBOX": "عارض الوسائط",
+      "RANGE_SLIDER": "منزلق المدى",
+      "SWEET_ALERT": "Sweet Alert",
+      "RATING": "التقييم",
+      "FORMS": "النماذج",
+      "TABLES": "الجداول",
+      "CHARTS": "الرسوم البيانية"
+    },
+    "APPLICATIONS": {
+      "TITLE": "التطبيقات",
+      "ECOMMERCE": "التجارة الإلكترونية",
+      "CALENDAR": "التقويم",
+      "EMAIL": "البريد الإلكتروني",
+      "PROJECTS": "المشاريع",
+      "TASKS": "المهام",
+      "CONTACTS": "جهات الاتصال"
+    },
+    "EXTRA_PAGES": {
+      "TITLE": "صفحات إضافية",
+      "LIGHT_SIDEBAR": "شريط جانبي فاتح",
+      "COMPACT_SIDEBAR": "شريط جانبي مضغوط",
+      "HORIZONTAL_LAYOUT": "تخطيط أفقي",
+      "MAINTENANCE": "الصيانة",
+      "COMING SOON": "قريباً",
+      "TIMELINE": "الخط الزمني",
+      "FAQ": "الأسئلة الشائعة"
+    },
+    "LOGIN": {
+      "PROFILE": "الملف الشخصي",
+      "MY_WALLET": "محفظتي",
+      "SETTINGS": "الإعدادات",
+      "LOCK_SCREEN": "قفل الشاشة",
+      "LOGOUT": "تسجيل الخروج"
+    }
+  },
+  "MENUITEMS": {
+    "MENU": {
+      "TEXT": "القائمة"
+    },
+    "DASHBOARDS": {
+      "TEXT": "لوحات التحكم",
+      "BADGE": "04",
+      "LIST": {
+        "DEFAULT": "افتراضي",
+        "SAAS": "SaaS",
+        "CRYPTO": "العملات الرقمية",
+        "BLOG": "المدونة",
+        "JOBS": "الوظائف"
+      }
+    },
+    "LAYOUTS": {
+      "TEXT": "التخطيطات",
+      "LIST": {
+        "HORIZONTAL": "أفقي",
+        "LIGHTSIDEBAR": "شريط جانبي فاتح",
+        "COMPACTSIDEBAR": "شريط جانبي مضغوط",
+        "ICONSIDEBAR": "شريط جانبي بأيقونات",
+        "BOXED": "تخطيط صندوقي",
+        "COLOREDSIDEBAR": "شريط جانبي ملون",
+        "VERTICAL": "عمودي",
+        "LIGHTTOPBAR": "شريط علوي فاتح",
+        "COLOREDHEADER": "ترويسة ملونة",
+        "SCROLLABLE": "قابل للتمرير"
+      }
+    },
+    "APPS": {
+      "TEXT": "التطبيقات"
+    },
+    "CALENDAR": {
+      "TEXT": "التقويم"
+    },
+    "CHAT": {
+      "TEXT": "الدردشة",
+      "BADGE": "جديد"
+    },
+    "FILEMANAGER": {
+      "TEXT": "مدير الملفات",
+      "BADGE": "جديد"
+    },
+    "ECOMMERCE": {
+      "TEXT": "التجارة الإلكترونية",
+      "LIST": {
+        "PRODUCTS": "المنتجات",
+        "PRODUCTDETAIL": "تفاصيل المنتج",
+        "ORDERS": "الطلبات",
+        "CUSTOMERS": "العملاء",
+        "CART": "سلة التسوق",
+        "CHECKOUT": "إتمام الشراء",
+        "SHOPS": "المتاجر",
+        "ADDPRODUCT": "إضافة منتج"
+      }
+    },
+    "CRYPTO": {
+      "TEXT": "العملات الرقمية",
+      "LIST": {
+        "WALLET": "المحفظة",
+        "BUY/SELL": "شراء/بيع",
+        "EXCHANGE": "التداول",
+        "LENDING": "الإقراض",
+        "ORDERS": "الطلبات",
+        "KYCAPPLICATION": "طلب التحقق من الهوية",
+        "ICOLANDING": "صفحة ICO"
+      }
+    },
+    "EMAIL": {
+      "TEXT": "البريد الإلكتروني",
+      "LIST": {
+        "INBOX": "الوارد",
+        "READEMAIL": "قراءة البريد",
+        "TEMPLATE": {
+          "BADGE": "جديد",
+          "TEXT": "القالب",
+          "LIST": {
+            "BASIC": "إجراء أساسي",
+            "ALERT": "بريد تنبيه",
+            "BILLING": "بريد الفوترة"
+          }
+        }
+      }
+    },
+    "INVOICES": {
+      "TEXT": "الفواتير",
+      "LIST": {
+        "INVOICELIST": "قائمة الفواتير",
+        "INVOICEDETAIL": "تفاصيل الفاتورة"
+      }
+    },
+    "PROJECTS": {
+      "TEXT": "المشاريع",
+      "LIST": {
+        "GRID": "شبكة المشاريع",
+        "PROJECTLIST": "قائمة المشاريع",
+        "OVERVIEW": "نظرة عامة على المشروع",
+        "CREATE": "إنشاء جديد"
+      }
+    },
+    "TASKS": {
+      "TEXT": "المهام",
+      "LIST": {
+        "TASKLIST": "قائمة المهام",
+        "KANBAN": "لوحة كانبان",
+        "CREATETASK": "إنشاء مهمة"
+      }
+    },
+    "CONTACTS": {
+      "TEXT": "جهات الاتصال",
+      "LIST": {
+        "USERGRID": "شبكة المستخدمين",
+        "USERLIST": "قائمة المستخدمين",
+        "PROFILE": "الملف الشخصي"
+      }
+    },
+    "BLOG": {
+      "TEXT": "المدونة",
+      "BADGE": "جديد",
+      "LIST": {
+        "BLOGLIST": "قائمة المدونة",
+        "BLOGGRID": "شبكة المدونة",
+        "DETAIL": "تفاصيل المدونة"
+      }
+    },
+    "JOBS": {
+      "TEXT": "الوظائف",
+      "BADGE": "جديد",
+      "LIST": {
+        "JOBLIST": "قائمة الوظائف",
+        "JOBGRID": "شبكة الوظائف",
+        "APPLYJOB": "التقديم على وظيفة",
+        "JOBDETAILS": "تفاصيل الوظيفة",
+        "JOBCATEGORIES": "فئات الوظائف",
+        "CANDIDATE": {
+          "TEXT": "المرشح",
+          "LIST": {
+            "LIST": "القائمة",
+            "OVERVIEW": "نظرة عامة"
+          }
+        }
+      }
+    },
+    "PAGES": {
+      "TEXT": "الصفحات"
+    },
+    "AUTHENTICATION": {
+      "TEXT": "المصادقة",
+      "BADGE": "جديد",
+      "LIST": {
+        "LOGIN": "تسجيل الدخول",
+        "LOGIN2": "تسجيل الدخول 2",
+        "REGISTER": "إنشاء حساب",
+        "REGISTER2": "إنشاء حساب 2",
+        "RECOVERPWD": "استعادة كلمة المرور",
+        "RECOVERPWD2": "استعادة كلمة المرور 2",
+        "LOCKSCREEN": "قفل الشاشة",
+        "LOCKSCREEN2": "قفل الشاشة 2",
+        "CONFIRMMAIL": "تأكيد البريد",
+        "CONFIRMMAIL2": "تأكيد البريد 2",
+        "EMAILVERIFICATION": "التحقق من البريد الإلكتروني",
+        "EMAILVERIFICATION2": "التحقق من البريد الإلكتروني 2",
+        "TWOSTEPVERIFICATION": "التحقق بخطوتين",
+        "TWOSTEPVERIFICATION2": "التحقق بخطوتين 2"
+      }
+    },
+    "UTILITY": {
+      "TEXT": "أدوات",
+      "LIST": {
+        "STARTER": "صفحة البداية",
+        "MAINTENANCE": "الصيانة",
+        "TIMELINE": "الخط الزمني",
+        "FAQS": "الأسئلة الشائعة",
+        "PRICING": "الأسعار",
+        "ERROR404": "خطأ 404",
+        "ERROR500": "خطأ 500"
+      }
+    },
+    "COMPONENTS": {
+      "TEXT": "المكوّنات"
+    },
+    "UIELEMENTS": {
+      "TEXT": "عناصر الواجهة",
+      "LIST": {
+        "ALERTS": "التنبيهات",
+        "BUTTONS": "الأزرار",
+        "CARDS": "البطاقات",
+        "CAROUSEL": "الدوّار",
+        "DROPDOWNS": "القوائم المنسدلة",
+        "GRID": "الشبكة",
+        "IMAGES": "الصور",
+        "LIGHTBOX": "عارض الوسائط",
+        "MODALS": "النوافذ المنبثقة",
+        "RANGESLIDER": "منزلق المدى",
+        "PROGRESSBAR": "أشرطة التقدم",
+        "PLACEHOLDER": "النص الإرشادي",
+        "SWEETALERT": "Sweet Alert",
+        "TABS": "التبويبات والأكورديون",
+        "TYPOGRAPHY": "الخطوط والطباعة",
+        "TOASTS": "الإشعارات المنبثقة",
+        "VIDEO": "الفيديو",
+        "GENERAL": "عام",
+        "COLORS": "الألوان",
+        "RATING": "التقييم",
+        "NOTIFICATION": "الإشعار",
+        "UTILITIES": "الأدوات المساعدة",
+        "CROPPER": "قص الصور"
+      }
+    },
+    "FORMS": {
+      "TEXT": "النماذج",
+      "BADGE": "09",
+      "LIST": {
+        "ELEMENTS": "عناصر النموذج",
+        "VALIDATION": "التحقق من النموذج",
+        "ADVANCED": "نموذج متقدم",
+        "EDITOR": "محرر النموذج",
+        "FILEUPLOAD": "رفع ملفات النموذج",
+        "REPEATER": "مكرر النموذج",
+        "WIZARD": "معالج النموذج",
+        "MASK": "قناع النموذج",
+        "LAYOUTS": "تخطيطات النموذج"
+      }
+    },
+    "TABLES": {
+      "TEXT": "الجداول",
+      "LIST": {
+        "BASIC": "الجداول الأساسية",
+        "DataTables": "جداول البيانات",
+        "EditTableTables": "جدول قابل للتحرير"
+      }
+    },
+    "CHARTS": {
+      "TEXT": "الرسوم البيانية",
+      "LIST": {
+        "APEX": "رسم Apex",
+        "CHARTJS": "رسم Chartjs",
+        "CHARTIST": "رسم Chartist",
+        "ECHART": "رسم E"
+      }
+    },
+    "ICONS": {
+      "TEXT": "الأيقونات",
+      "LIST": {
+        "BOXICONS": "Boxicons",
+        "MATERIALDESIGN": "Material Design",
+        "DRIPICONS": "Dripicons",
+        "FONTAWESOME": "Font Awesome"
+      }
+    },
+    "MAPS": {
+      "TEXT": "الخرائط",
+      "LIST": {
+        "GOOGLEMAP": "خرائط جوجل",
+        "LEAFLETMAP": "خرائط Leaflet"
+      }
+    },
+    "MULTILEVEL": {
+      "TEXT": "متعدد المستويات",
+      "LIST": {
+        "LEVEL1": {
+          "1": "المستوى 1.1",
+          "2": "المستوى 1.2",
+          "LEVEL2": {
+            "1": "المستوى 2.1",
+            "2": "المستوى 2.2"
+          }
+        }
+      }
+    }
+  },
+  "Alerts": "التنبيهات",
+  "Clients": "العملاء",
+  "Demands": "الطلبات",
+  "Envoyer une notification": "إرسال إشعار",
+  "Notifications": "الإشعارات",
+  "Offers": "العروض",
+  "Settings": "الإعدادات",
+  "System": "النظام",
+  "Taxis": "سيارات الأجرة",
+  "WhatsApp": "واتساب",
+  "Overview": "نظرة عامة",
+  "Dashboard": "لوحة التحكم",
+  "Fleet": "الأسطول",
+  "Ratings": "التقييمات",
+  "Operations": "العمليات",
+  "Reservations": "الحجوزات",
+  "SMS Log": "سجل الرسائل",
+  "common": {
+    "actions": "إجراءات",
+    "approve": "اعتماد",
+    "cancel": "إلغاء",
+    "date": "التاريخ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "email": "البريد الإلكتروني",
+    "hash": "#",
+    "id": "المعرف",
+    "name": "الاسم",
+    "no": "لا",
+    "phone": "الهاتف",
+    "reject": "رفض",
+    "reset": "إعادة تعيين",
+    "save": "حفظ",
+    "saveChanges": "حفظ التغييرات",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "type": "النوع",
+    "unread": "غير مقروء",
+    "view": "عرض",
+    "yes": "نعم",
+    "assign": "إسناد",
+    "clear": "مسح",
+    "refresh": "تحديث",
+    "search": "بحث",
+    "unassign": "إلغاء الإسناد",
+    "update": "تحديث",
+    "close": "إغلاق"
+  },
+  "layout": {
+    "footer": {
+      "developedBy": "تطوير MKF",
+      "rights": "جميع الحقوق محفوظة © SMS TAXI {{year}} — خدمة مطابقة للتشريع التونسي"
+    },
+    "rightSidebar": {
+      "boxed": "صندوقي",
+      "colored": "ملوّن",
+      "compact": "مضغوط",
+      "dark": "داكن",
+      "fluid": "سائل",
+      "horizontal": "أفقي",
+      "icon": "أيقونة",
+      "layout": "التخطيط",
+      "light": "فاتح",
+      "scrollable": "قابل للتمرير",
+      "settings": "الإعدادات",
+      "sidebarColor": "لون الشريط الجانبي",
+      "themeMode": "وضع المظهر",
+      "topbarColor": "لون الشريط العلوي",
+      "vertical": "عمودي",
+      "width": "العرض"
+    },
+    "topbar": {
+      "hourAgo": " منذ ساعة",
+      "hoursAgo": " منذ ساعات",
+      "justNow": "الآن",
+      "loading": "جارٍ التحميل...",
+      "minAgo": " منذ دقيقة",
+      "minsAgo": " منذ دقائق",
+      "noNotifications": "لا توجد إشعارات بعد",
+      "roleLabel": "مدير النظام",
+      "searchPlaceholder": "بحث ..."
+    }
+  },
+  "dashboard": {
+    "badges": {
+      "inProgress": "قيد التنفيذ",
+      "waiting": "في الانتظار"
+    },
+    "cards": {
+      "demandsInProgress": "طلبات قيد التنفيذ",
+      "demandsWaiting": "طلبات في الانتظار",
+      "offersInProgress": "عروض قيد التنفيذ",
+      "offersWaiting": "عروض في الانتظار",
+      "smsReceived": "رسائل SMS مستلمة"
+    },
+    "recent": {
+      "demands": "أحدث الطلبات",
+      "demandsError": "تعذّر تحميل أحدث الطلبات.",
+      "demandsRange": "عرض {{count}} من {{total}} طلبًا",
+      "emptyDemands": "لا توجد طلبات حديثة.",
+      "emptyOffers": "لا توجد عروض حديثة.",
+      "loadingDemands": "جارٍ تحميل الطلبات…",
+      "loadingOffers": "جارٍ تحميل العروض…",
+      "newest": "· الأحدث {{count}}",
+      "offers": "أحدث العروض",
+      "offersError": "تعذّر تحميل أحدث العروض.",
+      "offersRange": "عرض {{count}} من {{total}} عرضًا",
+      "viewAll": "عرض الكل"
+    },
+    "refresh": "تحديث",
+    "statsError": "تعذّر تحميل بعض الإحصائيات: {{labels}}.",
+    "statsErrorHint": "تعرض البطاقات المتأثرة —.",
+    "table": {
+      "client": "العميل",
+      "estPrice": "السعر التقديري",
+      "route": "المسار",
+      "taxiClient": "سيارة / عميل",
+      "totalPrice": "السعر الإجمالي"
+    },
+    "unknown": "غير معروف"
+  },
+  "taxis": {
+    "list": {
+      "addTaxi": "إضافة سيارة",
+      "allStatuses": "كل الحالات",
+      "deleteConfirm": "حذف السيارة {{label}}؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteFailed": "تعذّر حذف السيارة.",
+      "empty": "لا توجد سيارات أجرة.",
+      "loadFailed": "تعذّر تحميل السيارات.",
+      "loading": "جارٍ تحميل السيارات…",
+      "ratingHeader": "التقييم",
+      "searchPlaceholder": "ابحث بالهاتف أو الاسم...",
+      "setStatusFailed": "تعذّر تعيين الحالة إلى {{status}}.",
+      "showing": "عرض {{ start }}–{{ end }} من {{ total }} سيارة"
+    },
+    "form": {
+      "cin": "CIN",
+      "constructor": "الصانع",
+      "content": "المحتوى",
+      "destination": "الوجهة",
+      "emailInvalid": "أدخل عنوان بريد إلكتروني صالحًا.",
+      "location": "الموقع",
+      "matricule": "رقم التسجيل",
+      "max100": "الحد الأقصى 100 حرف.",
+      "max1000": "الحد الأقصى 1000 حرف.",
+      "max20": "الحد الأقصى 20 حرفًا.",
+      "max50": "الحد الأقصى 50 حرفًا.",
+      "max500": "الحد الأقصى 500 حرف.",
+      "phonePattern": "يمكن أن يحتوي الهاتف على أرقام و+ و- ومسافات أو أقواس فقط.",
+      "phonePlaceholder": "0612345678",
+      "phoneRequired": "رقم الهاتف مطلوب.",
+      "saveFailed": "تعذّر حفظ السيارة.",
+      "taxiNumber": "رقم السيارة",
+      "titleAdd": "إضافة سيارة أجرة",
+      "titleEdit": "تعديل السيارة"
+    }
+  },
+  "taxi": {
+    "detail": {
+      "avgHistory": "المتوسط (السجل)",
+      "bearing": "الاتجاه",
+      "cin": "CIN",
+      "constructor": "الصانع",
+      "content": "المحتوى",
+      "count": "العدد",
+      "destination": "الوجهة",
+      "etat": "الحالة",
+      "gpsLat": "خط عرض GPS",
+      "gpsLng": "خط طول GPS",
+      "gpsLocation": "موقع GPS",
+      "gpsSaved": "تم تحديث موقع GPS.",
+      "gpsUpdateFailed": "تعذّر تحديث GPS.",
+      "historyLoadFailed": "تعذّر تحميل سجل الرحلات.",
+      "historyTitle": "سجل الرحلات — {{ phone }}",
+      "invalidId": "معرف سيارة غير صالح.",
+      "latitude": "خط العرض",
+      "latitudeInvalid": "يجب أن يتراوح خط العرض بين −90 و90.",
+      "latitudeRange": "خط العرض (−90…90)",
+      "loadFailed": "تعذّر تحميل السيارة.",
+      "loading": "جارٍ تحميل السيارة…",
+      "loadingHistory": "جارٍ تحميل سجل الرحلات…",
+      "location": "الموقع",
+      "longitude": "خط الطول",
+      "longitudeInvalid": "يجب أن يتراوح خط الطول بين −180 و180.",
+      "longitudeRange": "خط الطول (−180…180)",
+      "masquerNumber": "إخفاء الرقم",
+      "matricule": "رقم التسجيل",
+      "noPhone": "لا يوجد رقم هاتف للسيارة؛ تحديث السيارة يتطلب رقمًا.",
+      "noRatingSummary": "لا يتوفر ملخص تقييم.",
+      "noRides": "لا توجد رحلات.",
+      "notLoaded": "السيارة غير محمّلة.",
+      "pageOf": "صفحة {{ page }} من {{ pages }}",
+      "pageTitle": "سيارة #{{id}}",
+      "price": "السعر",
+      "profileTitle": "الملف الشخصي للسيارة",
+      "rating": "التقييم",
+      "ratingSummary": "ملخص التقييم",
+      "realPrice": "السعر الفعلي",
+      "registered": "مسجّل",
+      "rideOffers": "عروض الرحلات",
+      "route": "المسار",
+      "setStatusFailed": "تعذّر تعيين الحالة إلى {{status}}.",
+      "smsWinek": "SMS winek",
+      "smsWinekDate": "تاريخ SMS winek",
+      "sourceGpsFeed": "المصدر: بث GPS",
+      "sourceRegistration": "المصدر: التسجيل",
+      "tabHistory": "سجل الرحلات",
+      "tabProfile": "الملف الشخصي",
+      "taxiNumber": "رقم السيارة",
+      "treatment": "المعالجة",
+      "updateGps": "تحديث GPS"
+    }
+  },
+  "clients": {
+    "list": {
+      "addClient": "إضافة عميل",
+      "allClients": "كل العملاء",
+      "clientCount": "{{ total }} عميل",
+      "deleteBodyPrefix": "حذف العميل",
+      "deleteBodySuffix": "؟ ستتم إزالة العميل وبياناته. لا يمكن التراجع عن هذا الإجراء.",
+      "deleteFailed": "تعذّر حذف العميل.",
+      "deleteTitle": "حذف العميل",
+      "empty": "لا يوجد عملاء.",
+      "loadFailed": "تعذّر تحميل العملاء.",
+      "loading": "جارٍ تحميل العملاء…",
+      "registeredHeader": "مسجّل",
+      "searchPlaceholder": "بحث بالهاتف، البريد الإلكتروني، الاسم…",
+      "showing": "عرض {{ start }} إلى {{ end }} من {{ total }} عنصرًا",
+      "telephoneHeader": "الهاتف"
+    },
+    "form": {
+      "contenu": "المحتوى",
+      "contenuMax": "يجب ألا يتجاوز المحتوى 1000 حرف.",
+      "contenuPlaceholder": "ملاحظة إضافية (1000 حرف كحد أقصى)",
+      "emailInvalid": "أدخل عنوان بريد إلكتروني صالحًا.",
+      "emailMax": "يجب ألا يتجاوز البريد الإلكتروني 254 حرفًا.",
+      "emailPlaceholder": "name@example.com",
+      "masquerNumero": "إخفاء الرقم",
+      "nameMax": "يجب ألا يتجاوز الاسم 100 حرف.",
+      "namePlaceholder": "اسم العرض للعميل",
+      "phonePattern": "يمكن أن يحتوي الهاتف على أرقام و+ و- ومسافات وأقواس فقط.",
+      "phonePlaceholder": "مثل: 0612345678",
+      "phoneRequired": "الهاتف مطلوب.",
+      "saving": "جارٍ الحفظ…",
+      "telephone": "الهاتف",
+      "titleAdd": "إضافة عميل",
+      "titleEdit": "تعديل العميل",
+      "saveFailed": "تعذّر حفظ العميل."
+    }
+  },
+  "client": {
+    "detail": {
+      "backToClients": "العودة إلى العملاء",
+      "breadcrumbHash": "#{{id}}",
+      "contenu": "المحتوى",
+      "deleteBodyPrefix": "حذف العميل",
+      "deleteBodySuffix": "؟ ستتم إزالة العميل وبياناته. لا يمكن التراجع عن هذا الإجراء.",
+      "deleteFailed": "تعذّر حذف العميل.",
+      "deleteTitle": "حذف العميل",
+      "destination": "الوجهة",
+      "destinationCoords": "الوجهة (lat, lng)",
+      "historyLoadFailed": "تعذّر تحميل سجل الرحلات.",
+      "invalidId": "معرف عميل غير صالح.",
+      "loadFailed": "تعذّر تحميل العميل #{{id}}.",
+      "loading": "جارٍ تحميل العميل…",
+      "loadingHistory": "جارٍ تحميل السجل…",
+      "location": "الموقع",
+      "locationCoords": "الموقع (lat, lng)",
+      "masquerNumber": "إخفاء الرقم",
+      "noHistory": "لا يوجد سجل رحلات لهذا العميل.",
+      "pageTitle": "عميل #{{id}}",
+      "pickup": "نقطة الانطلاق",
+      "price": "السعر",
+      "profileTitle": "الملف الشخصي للعميل",
+      "registered": "مسجّل",
+      "showing": "عرض {{ shown }} من {{ total }} عنصرًا",
+      "tabHistory": "سجل الرحلات",
+      "tabOverview": "نظرة عامة",
+      "taxiHeader": "السيارة",
+      "telephone": "الهاتف",
+      "traitement": "المعالجة"
+    }
+  },
+  "ratings": {
+    "list": {
+      "aboutAggregate": "متوسط التقييم المخزّن على السيارة",
+      "aboutAverage": "المتوسط المحسوب من جدول سجل التقييمات",
+      "aboutCount": "عدد إدخالات سجل التقييمات.",
+      "aboutNumbers": "حول هذه الأرقام",
+      "aggregateRating": "التقييم الإجمالي",
+      "averageRating": "متوسط التقييم",
+      "explanation": "لا توفر الواجهة نقطة نهاية لسرد «كل السائقين مع تقييماتهم» — التقييمات قابلة للقراءة لكل سائق على حدة. ابحث عن سائق أدناه (بهاتف السيارة أو معرف السيارة/السائق) للوصول إلى معرف السائق، ثم افتح سجل تقييماته في صفحة التفاصيل.",
+      "fieldOfSummary": "حقل من الملخص",
+      "howRatingsWork": "كيف تعمل التقييمات",
+      "lookupButton": "البحث عن سائق",
+      "lookupFailed": "فشل البحث عن السائق. تحقق من رقم الهاتف أو معرف السيارة/السائق.",
+      "lookupHint": "أدخل رقم هاتف سيارة أو معرفًا رقميًا للسيارة/السائق. يُحدَّد معرف السائق عبر نقاط نهاية ملخص التقييمات الموثقة.",
+      "lookupInvalid": "أدخل رقم هاتف أو معرفًا رقميًا صالحًا.",
+      "lookupLabel": "هاتف السيارة أو معرف السيارة/السائق",
+      "lookupPlaceholder": "مثل: 21692569444 أو 42",
+      "lookupTitle": "البحث عن سائق",
+      "openHistory": "فتح سجل التقييمات",
+      "perDriverHistory": "يُعرض سجل التقييمات لكل سائق في صفحة التفاصيل",
+      "perDriverPathPrefix": "تفاصيل كل سائق موجودة في",
+      "ratingCount": "عدد التقييمات",
+      "resolvedDriver": "السائق المحدد:",
+      "usesEndpoints": "يستخدم"
+    },
+    "driver": {
+      "averageRating": "متوسط التقييم",
+      "backToRatings": "العودة إلى التقييمات",
+      "commentHeader": "التعليق",
+      "driverHeader": "السائق",
+      "driverIdStat": "معرف السائق",
+      "driverLabel": "سائق #{{ id }}",
+      "empty": "لا توجد تقييمات لهذا السائق.",
+      "historyTitle": "سجل التقييمات",
+      "loading": "جارٍ تحميل التقييمات...",
+      "lowAverageTitle": "متوسط تقييم منخفض",
+      "lowAvgMiddle": "بتقييم متوسط قدره",
+      "lowAvgPrefix": "السائق",
+      "lowAvgSuffix": " (أقل من 3.0). يُنصح بمراجعة الرحلات الأخيرة.",
+      "lowRatingsStat": "تقييمات منخفضة (< 3)",
+      "offerHeader": "العرض",
+      "ratingHeader": "التقييم",
+      "reportButton": "الإبلاغ عن تقييم منخفض",
+      "reportThanks": "شكرًا — تم تسجيل البلاغ محليًا. تفعيل العلامة على الخادم غير متاح بعد (انظر ROADMAP).",
+      "totalRatings": "إجمالي التقييمات",
+      "noDriverId": "لم يتم توفير معرف السائق."
+    }
+  },
+  "demands": {
+    "list": {
+      "allStatuses": "كل الحالات",
+      "broadcast": "بث",
+      "cancelDemand": "إلغاء الطلب",
+      "cancelDemandText": "سيتم إلغاء الطلب #{{id}}.",
+      "cancelDemandTitle": "إلغاء الطلب؟",
+      "cancelled": "تم الإلغاء",
+      "cancelledText": "تم إلغاء الطلب #{{id}}.",
+      "client": "العميل",
+      "clientPhone": "هاتف العميل",
+      "datePlaceholder": "yyyy-mm-dd",
+      "deleteDemandText": "سيتم حذف الطلب #{{id}} نهائيًا.",
+      "deleteDemandTitle": "حذف الطلب؟",
+      "deleted": "تم الحذف",
+      "deletedText": "تم حذف الطلب #{{id}}.",
+      "empty": "لا توجد طلبات.",
+      "error": "خطأ",
+      "estimatedPrice": "السعر التقديري",
+      "fromDate": "من تاريخ",
+      "keep": "إبقاء",
+      "loading": "جارٍ تحميل الطلبات…",
+      "max": "كحد أقصى",
+      "maxPrice": "أقصى سعر",
+      "min": "كحد أدنى",
+      "minPrice": "أدنى سعر",
+      "range": "عرض {{start}}–{{end}} من {{total}} طلبًا",
+      "route": "المسار",
+      "toDate": "إلى تاريخ",
+      "updating": "· جارٍ التحديث…"
+    }
+  },
+  "demand": {
+    "detail": {
+      "assignment": "الإسناد",
+      "assignmentNote": "يظهر إسناد السيارة للطلب عبر عروضه (تُظهر قائمة عروض الإدارة السيارة المطابقة). لا توجد نقطة نهاية لإعادة الإسناد في الواجهة — استخدم عرض العروض لمعاينتها.",
+      "cancelDemand": "إلغاء الطلب",
+      "cancelDemandText": "سيتم إلغاء الطلب #{{id}}.",
+      "cancelDemandTitle": "إلغاء الطلب؟",
+      "cancelled": "تم الإلغاء",
+      "cancelledText": "تم إلغاء الطلب #{{id}}.",
+      "changeState": "تغيير الحالة",
+      "clientEmail": "بريد العميل الإلكتروني",
+      "clientName": "اسم العميل",
+      "clientPhone": "هاتف العميل",
+      "deleteDemand": "حذف الطلب",
+      "deleteDemandText": "سيتم حذف الطلب #{{id}} نهائيًا.",
+      "deleteDemandTitle": "حذف الطلب؟",
+      "deleted": "تم الحذف",
+      "deletedText": "تم حذف الطلب #{{id}}.",
+      "deposited": "تم الإيداع",
+      "details": "تفاصيل الطلب",
+      "error": "خطأ",
+      "forClientPhone": " لـ {{phone}}",
+      "hideNumber": "إخفاء الرقم (masquerNumero)",
+      "keep": "إبقاء",
+      "loading": "جارٍ تحميل الطلب…",
+      "since": "منذ {{date}}",
+      "smsHideNumberProcessed": "تمت معالجة إخفاء الرقم عبر SMS",
+      "statusNote": "تعرض الواجهة الحالة الحالية وتاريخ الإيداع فقط — لا يتوفر سجل لكل حالة، لذلك لا يُعرض خط زمني.",
+      "title": "طلب #{{id}}",
+      "updated": "تم التحديث",
+      "updatedText": "الطلب #{{id}} أصبح الآن {{etat}}.",
+      "viewOffers": "عرض العروض"
+    }
+  },
+  "offers": {
+    "list": {
+      "allStatuses": "كل الحالات",
+      "cancelOffer": "إلغاء العرض",
+      "cancelOfferText": "سيتم إلغاء العرض #{{id}}.",
+      "cancelOfferTitle": "إلغاء العرض؟",
+      "cancelled": "تم الإلغاء",
+      "cancelledText": "تم إلغاء العرض #{{id}}.",
+      "client": "العميل",
+      "clientPhone": "هاتف العميل",
+      "datePlaceholder": "yyyy-mm-dd",
+      "deleteOfferText": "سيتم حذف العرض #{{id}} نهائيًا.",
+      "deleteOfferTitle": "حذف العرض؟",
+      "deleted": "تم الحذف",
+      "deletedText": "تم حذف العرض #{{id}}.",
+      "empty": "لا توجد عروض.",
+      "error": "خطأ",
+      "fromDate": "من تاريخ",
+      "keep": "إبقاء",
+      "loading": "جارٍ تحميل العروض…",
+      "max": "كحد أقصى",
+      "maxPrice": "أقصى سعر",
+      "min": "كحد أدنى",
+      "minPrice": "أدنى سعر",
+      "range": "عرض {{start}}–{{end}} من {{total}} عرضًا",
+      "rating": "التقييم",
+      "route": "المسار",
+      "taxi": "السيارة",
+      "taxiPhone": "هاتف السيارة",
+      "toDate": "إلى تاريخ",
+      "totalPrice": "السعر الإجمالي",
+      "updating": "· جارٍ التحديث…"
+    }
+  },
+  "offer": {
+    "detail": {
+      "autoCancelled": "تم الإلغاء تلقائيًا (annulee_auto)",
+      "cancelOffer": "إلغاء العرض",
+      "cancelOfferText": "سيتم إلغاء العرض #{{id}}.",
+      "cancelOfferTitle": "إلغاء العرض؟",
+      "cancelled": "تم الإلغاء",
+      "cancelledText": "تم إلغاء العرض #{{id}}.",
+      "changeState": "تغيير الحالة",
+      "channelType": "القناة (النوع)",
+      "clientName": "اسم العميل",
+      "clientPhone": "هاتف العميل",
+      "comments": "التعليقات",
+      "deleteOffer": "حذف العرض",
+      "deleteOfferText": "سيتم حذف العرض #{{id}} نهائيًا.",
+      "deleteOfferTitle": "حذف العرض؟",
+      "deleted": "تم الحذف",
+      "deletedText": "تم حذف العرض #{{id}}.",
+      "deposited": "تم الإيداع",
+      "destination": "الوجهة",
+      "destinationLabel": "تسمية الوجهة",
+      "details": "تفاصيل العرض",
+      "distance": "المسافة",
+      "duration": "المدة",
+      "error": "خطأ",
+      "info": "معلومات",
+      "keep": "إبقاء",
+      "latLong": "خط العرض / خط الطول",
+      "loading": "جارٍ تحميل العرض…",
+      "pickup": "نقطة الانطلاق",
+      "pickupLabel": "تسمية نقطة الانطلاق",
+      "priceRating": "السعر والتقييم",
+      "rating": "التقييم",
+      "realPrice": "السعر الفعلي",
+      "routeText": "نص المسار",
+      "routeTextUnavailable": "هاتف العميل مطلوب كجزء من مسار تحديث نص المسار لكنه غير موجود في استجابة العرض — التحديث غير متاح لهذا العرض.",
+      "routeTextUpdated": "تم تحديث نص المسار.",
+      "saved": "تم الحفظ",
+      "saving": "جارٍ الحفظ...",
+      "since": "منذ {{date}}",
+      "statusNote": "تعرض الواجهة الحالة الحالية وتاريخ الإيداع فقط — لا يتوفر سجل لكل حالة، لذلك لا يُعرض خط زمني.",
+      "taxiName": "اسم السيارة",
+      "taxiPhone": "هاتف السيارة",
+      "title": "عرض #{{id}}",
+      "totalPrice": "السعر الإجمالي",
+      "updated": "تم التحديث",
+      "updatedText": "العرض #{{id}} أصبح الآن {{etat}}.",
+      "variance": "الفرق"
+    }
+  },
+  "reservation": {
+    "detail": {
+      "acceptedAt": "وقت القبول",
+      "assignFailed": "تعذّر إسناد السيارة.",
+      "assignModalConfirm": "إسناد السيارة",
+      "assignModalIntro": "الحجز #{{ id }} — يتم الإسناد عبر",
+      "assignModalTitle": "إسناد سيارة",
+      "assignTaxiAction": "إسناد سيارة",
+      "assignedAt": "وقت الإسناد",
+      "assignedBy": "بواسطة",
+      "assignedTaxi": "السيارة المُسنَدة",
+      "assignmentId": "معرف الإسناد",
+      "assignmentType": "نوع الإسناد",
+      "back": "العودة إلى الحجوزات",
+      "cancelledAt": "وقت الإلغاء",
+      "cancelledBy": "أُلغي بواسطة",
+      "cancelledByOptional": "أُلغي بواسطة (اختياري)",
+      "clientId": "معرف العميل",
+      "close": "إغلاق",
+      "comment": "تعليق",
+      "commentaire": "تعليق",
+      "completedAt": "وقت الإكمال",
+      "convertedToDemande": "تحويل إلى طلب",
+      "created": "تم الإنشاء",
+      "destination": "الوجهة",
+      "destinationCoordinates": "إحداثيات الوجهة",
+      "estimatedDistance": "المسافة التقديرية",
+      "estimatedDuration": "المدة التقديرية",
+      "estimatedPrice": "السعر التقديري",
+      "finalPrice": "السعر النهائي",
+      "heading": "حجز #{{ id }}",
+      "language": "اللغة",
+      "loadFailed": "تعذّر تحميل الحجز.",
+      "loading": "جارٍ تحميل الحجز...",
+      "matricule": "رقم التسجيل",
+      "noAssignment": "لا توجد سيارة مُسنَدة لهذا الحجز بعد.",
+      "notFound": "الحجز غير موجود.",
+      "numero": "الرقم",
+      "pickup": "نقطة الانطلاق",
+      "pickupCoordinates": "إحداثيات نقطة الانطلاق",
+      "reasonOptional": "السبب (اختياري)",
+      "reminderSent": "تم إرسال التذكير",
+      "reservationDateTime": "تاريخ ووقت الحجز",
+      "reservationTime": "وقت الحجز",
+      "taxiId": "معرف السيارة",
+      "taxiIdPlaceholder": "مثل: 42",
+      "taxiIdRequired": "يلزم وجود معرف سيارة صالح.",
+      "taxiRef": "سيارة #{{ taxiId }}",
+      "telephone": "الهاتف",
+      "unassignConfirm": "تأكيد إلغاء الإسناد",
+      "unassignFailed": "تعذّر إلغاء إسناد السيارة.",
+      "unassignModalCalls": "؟ يستدعي",
+      "unassignModalIntro": "إلغاء إسناد السيارة من الحجز",
+      "unassignModalTitle": "إلغاء إسناد السيارة",
+      "unassignTaxiAction": "إلغاء الإسناد",
+      "updateFailed": "تعذّر تحديث الحجز.",
+      "updateModalIntro": "يرسل",
+      "updateModalTitle": "تحديث الحجز #{{ id }}",
+      "updateModalWith": "مع",
+      "updated": "تم التحديث",
+      "source": "المصدر",
+      "assignTypeManual": "يدوي",
+      "assignTypeAuto": "تلقائي"
+    }
+  },
+  "reservations": {
+    "list": {
+      "allStatuses": "كل الحالات",
+      "assignFailed": "تعذّر إسناد السيارة.",
+      "assignModalConfirm": "إسناد السيارة",
+      "assignModalIntro": "الحجز #{{ id }} — إنشاء إسناد جديد عبر",
+      "assignModalTitle": "إسناد سيارة",
+      "assignedBy": "بواسطة",
+      "assignment": "الإسناد",
+      "assignmentType": "نوع الإسناد",
+      "cancelledByOptional": "أُلغي بواسطة (اختياري)",
+      "client": "العميل",
+      "clientRef": "عميل #{{ clientId }}",
+      "close": "إغلاق",
+      "comment": "تعليق",
+      "empty": "لا توجد حجوزات.",
+      "loadFailed": "تعذّر تحميل الحجوزات.",
+      "loading": "جارٍ تحميل الحجوزات...",
+      "notAssigned": "غير مُسنَد",
+      "reasonOptional": "السبب (اختياري)",
+      "route": "المسار",
+      "searchHint": "ينطبق البحث النصي الحر على صفحة النتائج الحالية (نقطة نهاية القائمة لا تقبل معامل بحث).",
+      "searchPlaceholder": "هاتف، نقطة انطلاق، وجهة، سيارة...",
+      "showing": "عرض {{ shown }} من {{ collectionSize }} حجزًا",
+      "source": "المصدر",
+      "taxiDriver": "سيارة / سائق",
+      "taxiId": "معرف السيارة",
+      "taxiIdPlaceholder": "مثل: 42",
+      "taxiIdRequired": "يلزم وجود معرف سيارة صالح.",
+      "taxiRef": "سيارة #{{ taxiId }}",
+      "unassignConfirm": "تأكيد إلغاء الإسناد",
+      "unassignFailed": "تعذّر إلغاء إسناد السيارة.",
+      "unassignModalCalls": "؟ يستدعي",
+      "unassignModalIntro": "إلغاء إسناد السيارة من الحجز",
+      "unassignModalTitle": "إلغاء إسناد السيارة",
+      "assignTypeManual": "يدوي",
+      "assignTypeAuto": "تلقائي"
+    }
+  },
+  "sms": {
+    "inject": {
+      "body": "النص",
+      "contentLabel": "محتوى الرسالة",
+      "contentMaxLength": "يجب ألا يتجاوز محتوى الرسالة {{ maxContent }} حرفًا.",
+      "contentPlaceholder": "نص الرسالة (1000 حرف كحد أقصى)",
+      "contentRequired": "محتوى الرسالة مطلوب.",
+      "endpointHeading": "مرجع نقطة النهاية",
+      "endpointNote": "رقم الهاتف والمحتوى مطلوبان؛ المحتوى محدود بـ 1000 حرف. الحقول الاختيارية",
+      "endpointNoteTail": "تُترك للإعدادات الافتراضية للخادم.",
+      "heading": "حقن رسالة SMS في السجل",
+      "injectFailed": "فشل حقن الرسالة.",
+      "injecting": "جارٍ الحقن…",
+      "intro": "يرسل الرسالة عبر نقطة نهاية الحقن الموثقة المستخدمة للاختبار وربط بوابات SMS الخارجية.",
+      "method": "الطريقة",
+      "path": "المسار",
+      "phoneLabel": "رقم الهاتف",
+      "phonePattern": "يمكن أن يحتوي رقم الهاتف على أرقام و+ و- ومسافات وأقواس فقط.",
+      "phonePlaceholder": "مثل: 0612345678",
+      "phoneRequired": "رقم الهاتف مطلوب.",
+      "response": "الاستجابة",
+      "saved": "تم حفظ الرسالة.",
+      "submit": "حقن الرسالة"
+    },
+    "list": {
+      "close": "إغلاق",
+      "content": "المحتوى",
+      "deleteConfirmFrom": "من",
+      "deleteConfirmIntro": "حذف الرسالة",
+      "deleteConfirmSuffix": "؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteFailed": "تعذّر حذف الرسالة.",
+      "deleteModalTitle": "حذف الرسالة",
+      "empty": "لا توجد رسائل.",
+      "incoming": "رسالة SMS واردة",
+      "loadFailed": "تعذّر تحميل الرسائل.",
+      "loading": "جارٍ تحميل الرسائل…",
+      "processed": "معالجة",
+      "received": "مستلمة",
+      "searchPlaceholder": "بحث بالهاتف، المحتوى…",
+      "showingRange": "عرض {{ start }} إلى {{ end }} من {{ total }} عنصرًا",
+      "tabAll": "الكل",
+      "tabUntreated": "غير المعالجة فقط",
+      "total": "{{ totalCount }} إجمالي",
+      "untreated": "غير معالجة",
+      "viewModalTitle": "SMS #{{ id }}"
+    }
+  },
+  "sos": {
+    "panel": {
+      "historyNote": "مجرد عنصر نائب — لا يمكن عرض بيانات التنبيهات حتى توثّق الواجهة الخلفية نقطة نهاية لقائمة SOS (انظر ROADMAP). الصف أدناه نموذج معطّل يوضح مكان ظهور التنبيهات الحية.",
+      "historyTitle": "سجل التنبيهات",
+      "liveAlertingNotAvailable": "التنبيه المباشر غير متاح بعد.",
+      "liveAlertingNote": "توثّق مواصفات الواجهة الخلفية حاليًا نقطة نهاية التشغيل اليدوي فقط",
+      "liveAlertingTail": "لا توجد قائمة تنبيهات SOS أو بث مباشر أو نقطة نهاية تأكيد. هذه الثغرة مسجلة في خارطة طريق المشروع.",
+      "notAvailable": "غير متاح",
+      "protocolIntro": "مسار التواصل القياسي عند تشغيل SOS — للرجوع إليه من المشغّل فقط؛ لا يمكن للوحة التحكم تتبع حالة التنبيه بعد.",
+      "protocolTitle": "بروتوكول التنبيه (مرجع)",
+      "sampleBadge": "عينة",
+      "sampleRow": "صف تجريبي (معطّل)",
+      "sendButton": "إرسال إشعار SOS",
+      "sendDescriptionIntro": "يرسل إنذار SOS عبر SMS للسيارة ذات المعرف المُدخل. يستجيب الخادم برسالة نتيجة نصية (على سبيل المثال",
+      "sendDescriptionMiddle": "أو",
+      "sendDescriptionOutro": ").",
+      "sendFailed": "تعذّر إرسال إشعار SOS.",
+      "sendTitle": "تشغيل إشعار SOS",
+      "sending": "جارٍ الإرسال…",
+      "sent": "تم إرسال إشعار SOS.",
+      "step1": "يشغّل السائق زر SOS من تطبيق السيارة.",
+      "step2": "يرسل الخادم إنذار SMS لمعرف السيارة",
+      "step3": "يتلقى مركز التوزيع التنبيه ويتصل بالسائق للتأكد من الحالة.",
+      "step4": "إذا تعذّر الوصول إلى السائق، تصعّد إلى خدمات الطوارئ.",
+      "step5": "سجّل نتيجة الحادثة في سجل العمليات.",
+      "taxiHeader": "السيارة",
+      "taxiIdLabel": "معرف السيارة",
+      "taxiIdPlaceholder": "مثل: 42",
+      "taxiIdPositive": "يجب أن يكون معرف السيارة رقمًا موجبًا.",
+      "taxiIdRequired": "معرف السيارة مطلوب.",
+      "triggeredHeader": "تم الإرسال",
+      "smsSentSuccess": "\"تم إرسال الرسالة بنجاح\"",
+      "taxiNotFound": "\"السيارة غير موجودة\""
+    }
+  },
+  "notification": {
+    "list": {
+      "clickToMarkRead": "انقر للتحديد كمقروء",
+      "columnChannel": "القناة",
+      "columnCreated": "تم الإنشاء",
+      "columnMessage": "الرسالة",
+      "columnTarget": "الهدف",
+      "columnTitle": "العنوان",
+      "empty": "لا توجد إشعارات.",
+      "filterMessage": "الرسالة",
+      "filterMessagePlaceholder": "تصفية بالرسالة…",
+      "filterTitle": "العنوان",
+      "filterTitlePlaceholder": "تصفية بالعنوان…",
+      "loadError": "تعذّر تحميل الإشعارات.",
+      "loading": "جارٍ تحميل الإشعارات…",
+      "logTitle": "سجل الإشعارات",
+      "markAllRead": "تحديد الكل كمقروء",
+      "markAllReadTitle": "تحديد كل الإشعارات في هذه الصفحة كمقروء",
+      "markedAsReadDetail": "تم تحديد {{count}} إشعار{{plural}} في هذه الصفحة كمقروء.",
+      "markedAsReadTitle": "تم التحديد كمقروء",
+      "range": "عرض {{start}} إلى {{end}} من {{total}} عنصرًا",
+      "sendButton": "إرسال إشعار"
+    }
+  },
+  "sendNotif": {
+    "adminAllSelected": "كل المسؤولين",
+    "adminInfo": "سيتم إرسال الإشعار إلى جميع المسؤولين.",
+    "backButton": "رجوع",
+    "clearSearchLabel": "مسح البحث",
+    "clientsAllSelected": "كل العملاء المحددين",
+    "clientsCountSelected": "{{count}} عميل محدد",
+    "clientsNoneSelected": "لم يتم تحديد أي عميل",
+    "deselectAll": "إلغاء تحديد الكل",
+    "live": "مباشر",
+    "loading": "جارٍ التحميل…",
+    "messageFallback": "ستظهر رسالتك هنا…",
+    "messagePlaceholder": "رسالتك…",
+    "noRecipientSelected": "يرجى تحديد مستلم واحد على الأقل.",
+    "pagination": "صفحة {{page}} من {{pages}} · {{total}} نتيجة",
+    "previewHint": "تتحدث المعاينة تلقائيًا أثناء الكتابة.",
+    "previewTitle": "معاينة فورية",
+    "rowsPerPage": "صفوف لكل صفحة",
+    "searchPlaceholder": "البحث بالاسم أو الرقم…",
+    "selectAll": "تحديد الكل",
+    "selectClient": "تحديد العميل {{id}}",
+    "selectTaxi": "تحديد السيارة {{id}}",
+    "sendButton": "إرسال",
+    "sendError": "تعذّر إرسال الإشعار.",
+    "sendSuccess": "تم إرسال الإشعار بنجاح",
+    "sending": "جارٍ الإرسال…",
+    "smsTaxi": "SMS Taxi",
+    "step1": {
+      "channelLabel": "القناة",
+      "messageLabel": "الرسالة",
+      "messageRequired": "الرسالة مطلوبة.",
+      "next": "التالي",
+      "title": "محتوى الإشعار",
+      "titleLabel": "العنوان",
+      "titleRequired": "العنوان مطلوب."
+    },
+    "step2": {
+      "loadClientsError": "تعذّر تحميل العملاء.",
+      "loadTaxisError": "تعذّر تحميل السيارات.",
+      "noClients": "لا يوجد عملاء.",
+      "noTaxis": "لا توجد سيارات.",
+      "title": "المستلمون"
+    },
+    "stepContenu": "المحتوى",
+    "stepDestinataires": "المستلمون",
+    "tabClients": "العملاء",
+    "tabDashboard": "لوحة التحكم",
+    "tabTaxis": "السيارات",
+    "tableFullName": "الاسم واللقب",
+    "tableId": "#ID",
+    "tablePhone": "الهاتف",
+    "tablePlateNumber": "رقم اللوحة",
+    "tableRegistrationNumber": "رقم التسجيل",
+    "tableState": "الحالة",
+    "tableStatus": "الحالة",
+    "taxisAllSelected": "كل السيارات المحددة",
+    "taxisCountSelected": "{{count}} سيارة محددة",
+    "taxisNoneSelected": "لم يتم تحديد أي سيارة",
+    "titlePlaceholder": "عنوان الإشعار",
+    "channelApp": "بث التطبيق"
+  },
+  "whatsapp": {
+    "bubble": {
+      "contact": "جهة اتصال",
+      "document": "مستند",
+      "download": "تنزيل",
+      "mediaLoading": "جارٍ تحميل الوسائط...",
+      "photo": "صورة",
+      "sticker": "ملصق"
+    },
+    "chat": {
+      "backToDiscussions": "العودة إلى المحادثات",
+      "empty": "لا توجد رسائل بعد. ابدأ المحادثة!",
+      "loadFail": "تعذّر تحميل رسائل هذه المحادثة.",
+      "loading": "جارٍ تحميل الرسائل...",
+      "offline": "غير متصل",
+      "sendFail": "فشل إرسال الرسالة. تحقق من نافذة 24 ساعة أو أعد المحاولة."
+    },
+    "empty": {
+      "selectPrompt": "حدد محادثة لعرض الرسائل."
+    },
+    "input": {
+      "send": "إرسال",
+      "typeMessage": "اكتب رسالة"
+    },
+    "list": {
+      "empty": "لم يتم العثور على أي محادثة",
+      "searchPlaceholder": "ابحث عن محادثة أو رقم",
+      "title": "المحادثات"
+    },
+    "date": {
+      "today": "اليوم",
+      "yesterday": "أمس"
+    }
+  },
+  "settings": {
+    "airport": {
+      "airportRadiusLabel": "نصف قطر المطار (م)",
+      "airportRadiusMin": "يجب أن يكون نصف قطر المطار 0 أو أكثر.",
+      "airportRadiusPlaceholder": "مثل: 1500",
+      "airportRadiusRequired": "نصف قطر المطار مطلوب.",
+      "configuredLabel": "المطارات المكوّنة:",
+      "description": "رسوم إضافية تُطبق قرب المطارات ونصف قطر الكشف المستخدم لتحديد «قرب المطار». يتم تحديث الحقول المقدمة فقط على الخادم.",
+      "fixedAmount": "مبلغ ثابت",
+      "loadError": "تعذّر تحميل إعدادات تسعيرة المطار.",
+      "percentage": "نسبة (%)",
+      "readOnlyNote": " — للقراءة فقط؛ تقبل نقطة نهاية التحديث حقلي الرسوم الإضافية ونصف القطر فقط (تُدار إحداثيات المطار على الخادم).",
+      "saveError": "تعذّر حفظ إعدادات تسعيرة المطار.",
+      "saved": "تم حفظ إعدادات تسعيرة المطار.",
+      "selectTypePlaceholder": "حدد نوعًا…",
+      "surchargeTypeLabel": "نوع الرسوم الإضافية",
+      "surchargeTypeRequired": "نوع الرسوم الإضافية مطلوب.",
+      "surchargeValueLabel": "قيمة الرسوم الإضافية",
+      "surchargeValueMin": "يجب أن تكون قيمة الرسوم الإضافية 0 أو أكثر.",
+      "surchargeValuePlaceholder": "مثل: 10",
+      "surchargeValueRequired": "قيمة الرسوم الإضافية مطلوبة.",
+      "tab": "تسعيرة المطار",
+      "title": "تسعيرة المطار"
+    },
+    "matching": {
+      "baseRadiusLabel": "نصف القطر الأساسي (م)",
+      "baseRadiusMin": "يجب أن يكون نصف القطر الأساسي 0 أو أكثر.",
+      "baseRadiusPlaceholder": "مثل: 500",
+      "baseRadiusRequired": "نصف القطر الأساسي مطلوب.",
+      "description": "نصف قطر مطابقة الرحلات / البث بالأمتار. يحدّ الخادم أقصى نصف قطر عند 5000 م ويقصر نصف القطر الأساسي على (0، كحد أقصى].",
+      "loadError": "تعذّر تحميل إعدادات المطابقة.",
+      "maxRadiusLabel": "أقصى نصف قطر (م)",
+      "maxRadiusMin": "يجب أن يكون أقصى نصف قطر 0 أو أكثر.",
+      "maxRadiusPlaceholder": "مثل: 2000",
+      "maxRadiusRequired": "أقصى نصف قطر مطلوب.",
+      "saveError": "تعذّر حفظ إعدادات المطابقة.",
+      "saved": "تم حفظ إعدادات نصف قطر المطابقة.",
+      "tab": "نصف قطر المطابقة",
+      "title": "نصف قطر المطابقة"
+    },
+    "saving": "جارٍ الحفظ…"
+  },
+  "#": "#",
+  "Detail": "التفاصيل",
+  "Driver": "السائق",
+  "Driver ratings": "تقييمات السائق",
+  "Reservation detail": "تفاصيل الحجز",
+  "SMS Taxi": "SMS Taxi",
+  "Taxi": "سيارة",
+  "SOS": "SOS",
+  "SOS Alerts": "تنبيهات SOS",
+  "Inject SMS": "إرسال رسالة SMS",
+  "Client": "العميل"
+}

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
@@ -76,7 +77,8 @@ export class SmsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private smsService: SmsService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private translate: TranslateService
   ) {
     this._subscription = this._search$
       .pipe(
@@ -124,7 +126,7 @@ export class SmsListComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.loading$.next(false);
-        this.errorMessage = apiErrorMessage(err) || 'Failed to load SMS.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('sms.list.loadFailed');
       },
     });
   }
@@ -245,8 +247,8 @@ export class SmsListComponent implements OnInit, OnDestroy {
    */
   traitementBadge(sms: SmsIn): StatusBadge {
     return sms.traitement
-      ? { label: 'Processed', class: 'badge-soft-success' }
-      : { label: 'Untreated', class: 'badge-soft-warning' };
+      ? { label: this.translate.instant('sms.list.processed'), class: 'badge-soft-success' }
+      : { label: this.translate.instant('sms.list.untreated'), class: 'badge-soft-warning' };
   }
 
   // ---------------------------------------------------------------------------
@@ -288,7 +290,7 @@ export class SmsListComponent implements OnInit, OnDestroy {
         this.refreshCount();
       },
       error: (err) => {
-        this.errorMessage = apiErrorMessage(err) || 'Failed to delete SMS.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('sms.list.deleteFailed');
       },
     });
   }

@@ -1,6 +1,6 @@
 <div class="wa-sidebar">
   <div class="wa-sidebar__header">
-    <h5 class="wa-sidebar__title mb-0">Discussions</h5>
+    <h5 class="wa-sidebar__title mb-0">{{ 'whatsapp.list.title' | translate }}</h5>
   </div>
 
   <div class="wa-sidebar__search">
@@ -8,7 +8,7 @@
     <input
       type="text"
       class="form-control wa-sidebar__search-input"
-      placeholder="Rechercher une conversation ou un numéro"
+      [placeholder]="'whatsapp.list.searchPlaceholder' | translate"
       [(ngModel)]="searchTerm"
       (ngModelChange)="onSearchChange($event)" />
   </div>
@@ -49,7 +49,7 @@
     <div
       class="wa-sidebar__empty"
       *ngIf="!(conversationsError$ | async) && (filteredConversations$ | async)?.length === 0">
-      Aucune conversation trouvée
+      {{ 'whatsapp.list.empty' | translate }}
     </div>
   </div>
 </div>

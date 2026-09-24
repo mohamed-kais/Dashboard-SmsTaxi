@@ -1,6 +1,6 @@
 <div class="modal-header">
-  <h5 class="modal-title">{{ title }}</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('cancel')"></button>
+  <h5 class="modal-title">{{ title || ('clients.form.titleAdd' | translate) }}</h5>
+  <button type="button" class="btn-close" [attr.aria-label]="'common.close' | translate" (click)="activeModal.dismiss('cancel')"></button>
 </div>
 
 <div class="modal-body">
@@ -8,31 +8,31 @@
 
   <form [formGroup]="form" (ngSubmit)="save()" novalidate>
     <div class="mb-3">
-      <label class="form-label" for="cp-telephone">Telephone <span class="text-danger">*</span></label>
+      <label class="form-label" for="cp-telephone">{{ 'clients.form.telephone' | translate }} <span class="text-danger">*</span></label>
       <input type="text" id="cp-telephone" class="form-control" formControlName="telephone"
-        placeholder="e.g. 0612345678" maxlength="20"
+        placeholder="{{ 'clients.form.phonePlaceholder' | translate }}" maxlength="20"
         [class.is-invalid]="submitted && f.telephone.errors" />
-      <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.required">Telephone is required.</div>
-      <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.pattern">Telephone may only contain digits, +, -, spaces and parentheses.</div>
+      <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.required">{{ 'clients.form.phoneRequired' | translate }}</div>
+      <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.pattern">{{ 'clients.form.phonePattern' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label" for="cp-name">Name</label>
+      <label class="form-label" for="cp-name">{{ 'common.name' | translate }}</label>
       <input type="text" id="cp-name" class="form-control" formControlName="name" maxlength="100"
-        placeholder="Client display name" [class.is-invalid]="submitted && f.name.errors" />
-      <div class="invalid-feedback" *ngIf="submitted && f.name.errors?.maxlength">Name must be at most 100 characters.</div>
+        placeholder="{{ 'clients.form.namePlaceholder' | translate }}" [class.is-invalid]="submitted && f.name.errors" />
+      <div class="invalid-feedback" *ngIf="submitted && f.name.errors?.maxlength">{{ 'clients.form.nameMax' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label" for="cp-email">Email</label>
+      <label class="form-label" for="cp-email">{{ 'common.email' | translate }}</label>
       <input type="email" id="cp-email" class="form-control" formControlName="email" maxlength="254"
-        placeholder="name@example.com" [class.is-invalid]="submitted && f.email.errors" />
-      <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.email">Please enter a valid email address.</div>
-      <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.maxlength">Email must be at most 254 characters.</div>
+        placeholder="{{ 'clients.form.emailPlaceholder' | translate }}" [class.is-invalid]="submitted && f.email.errors" />
+      <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.email">{{ 'clients.form.emailInvalid' | translate }}</div>
+      <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.maxlength">{{ 'clients.form.emailMax' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label" for="cp-type">Type</label>
+      <label class="form-label" for="cp-type">{{ 'common.type' | translate }}</label>
       <select id="cp-type" class="form-select" formControlName="type">
         <option *ngFor="let t of typeOptions" [ngValue]="t">{{ t }}</option>
       </select>
@@ -41,23 +41,23 @@
     <div class="mb-3">
       <div class="form-check form-switch">
         <input type="checkbox" id="cp-masquer" class="form-check-input" formControlName="masquerNumero" />
-        <label class="form-check-label" for="cp-masquer">Masquer numero (hide the number)</label>
+        <label class="form-check-label" for="cp-masquer">{{ 'clients.form.masquerNumero' | translate }}</label>
       </div>
     </div>
 
     <div class="mb-0">
-      <label class="form-label" for="cp-contenu">Contenu</label>
+      <label class="form-label" for="cp-contenu">{{ 'clients.form.contenu' | translate }}</label>
       <textarea id="cp-contenu" class="form-control" formControlName="contenu" rows="3" maxlength="1000"
-        placeholder="Additional note (max 1000 chars)" [class.is-invalid]="submitted && f.contenu.errors"></textarea>
-      <div class="invalid-feedback" *ngIf="submitted && f.contenu.errors?.maxlength">Contenu must be at most 1000 characters.</div>
+        placeholder="{{ 'clients.form.contenuPlaceholder' | translate }}" [class.is-invalid]="submitted && f.contenu.errors"></textarea>
+      <div class="invalid-feedback" *ngIf="submitted && f.contenu.errors?.maxlength">{{ 'clients.form.contenuMax' | translate }}</div>
     </div>
   </form>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-light btn-sm" (click)="activeModal.dismiss('cancel')" [disabled]="saving">Cancel</button>
+  <button type="button" class="btn btn-light btn-sm" (click)="activeModal.dismiss('cancel')" [disabled]="saving">{{ 'common.cancel' | translate }}</button>
   <button type="button" class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving">
     <span class="spinner-border spinner-border-sm me-1" *ngIf="saving"></span>
-    {{ saving ? 'Saving…' : (isEdit ? 'Save changes' : 'Add client') }}
+    {{ (saving ? 'clients.form.saving' : (isEdit ? 'common.saveChanges' : 'clients.form.titleAdd')) | translate }}
   </button>
 </div>

@@ -51,6 +51,8 @@ export class TopbarComponent implements OnInit {
     { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
     { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
     { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
+    { text: 'Arabic', flag: 'assets/images/flags/tunisia.jpg', lang: 'ar' },
+    { text: 'French', flag: 'assets/images/flags/french.jpg', lang: 'fr' },
   ];
 
   openMobileMenu: boolean;
@@ -178,14 +180,14 @@ export class TopbarComponent implements OnInit {
     }
     const mins = Math.floor(diffMs / 60000);
     if (mins < 1) {
-      return 'Just now';
+      return this.translate.instant('layout.topbar.justNow');
     }
     if (mins < 60) {
-      return mins + (mins === 1 ? ' min ago' : ' mins ago');
+      return mins + (mins === 1 ? this.translate.instant('layout.topbar.minAgo') : this.translate.instant('layout.topbar.minsAgo'));
     }
     const hours = Math.floor(mins / 60);
     if (hours < 24) {
-      return hours + (hours === 1 ? ' hour ago' : ' hours ago');
+      return hours + (hours === 1 ? this.translate.instant('layout.topbar.hourAgo') : this.translate.instant('layout.topbar.hoursAgo'));
     }
     return date.toLocaleString();
   }

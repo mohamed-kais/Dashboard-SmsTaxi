@@ -20,6 +20,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { catchError, finalize, take, takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ClientService } from '../../core/services/client.service';
 import { DemandeService } from '../../core/services/demande.service';
@@ -73,7 +74,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly clientService: ClientService,
     private readonly demandeService: DemandeService,
     private readonly offreService: OffreService,
-    private readonly smsService: SmsService
+    private readonly smsService: SmsService,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -116,14 +118,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   demandBadge(etat?: StatusEnum): StatusBadge {
     return etat
       ? statusBadge(etat, DEMANDE_STATUS)
-      : { label: 'UNKNOWN', class: 'badge-soft-secondary' };
+      : { label: this.translate.instant('dashboard.unknown'), class: 'badge-soft-secondary' };
   }
 
   /** Offre `etat` → shared badge scheme (plan §7). */
   offerBadge(etat?: StatusEnum): StatusBadge {
     return etat
       ? statusBadge(etat, OFFRE_STATUS)
-      : { label: 'UNKNOWN', class: 'badge-soft-secondary' };
+      : { label: this.translate.instant('dashboard.unknown'), class: 'badge-soft-secondary' };
   }
 
   // -------------------------------------------------------------------------
@@ -139,25 +141,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Stat counts: one small combineLatest; per-channel failures degrade to
     // `undefined` (card shows —) instead of killing the whole group.
     combineLatest({
-      taxi: this.countPipe('taxi', 'Taxis', this.taxiService.getTaxiCount()),
-      client: this.countPipe('client', 'Clients', this.clientService.getClientCount()),
+      taxi: this.countPipe('taxi', this.translate.instant('Taxis'), this.taxiService.getTaxiCount()),
+      client: this.countPipe('client', this.translate.instant('Clients'), this.clientService.getClientCount()),
       demandeWaiting: this.countPipe(
         'demandeWaiting',
-        'Demands waiting',
+        this.translate.instant('dashboard.cards.demandsWaiting'),
         this.demandeService.countWaiting()
       ),
       demandeInProgress: this.countPipe(
         'demandeInProgress',
-        'Demands in progress',
+        this.translate.instant('dashboard.cards.demandsInProgress'),
         this.demandeService.countInProgress()
       ),
-      offreWaiting: this.countPipe('offreWaiting', 'Offers waiting', this.offreService.countWaiting()),
+      offreWaiting: this.countPipe(
+        'offreWaiting',
+        this.translate.instant('dashboard.cards.offersWaiting'),
+        this.offreService.countWaiting()
+      ),
       offreInProgress: this.countPipe(
         'offreInProgress',
-        'Offers in progress',
+        this.translate.instant('dashboard.cards.offersInProgress'),
         this.offreService.countInProgress()
       ),
-      sms: this.countPipe('sms', 'SMS received', this.smsService.countSms()),
+      sms: this.countPipe('sms', this.translate.instant('dashboard.cards.smsReceived'), this.smsService.countSms()),
     })
       .pipe(take(1), takeUntil(this.destroy$), finalize(whenDone))
       .subscribe({
@@ -177,7 +183,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.demandTotal = page?.totalElements ?? this.demands.length;
         },
         error: () => {
-          this.feedError = 'Recent demands could not be loaded.';
+          this.feedError = this.translate.instant('dashboard.recent.demandsError');
         },
       });
 
@@ -191,7 +197,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.offreTotal = page?.totalElements ?? this.offres.length;
         },
         error: () => {
-          this.feedError = 'Recent offers could not be loaded.';
+          this.feedError = this.translate.instant('dashboard.recent.offersError');
         },
       });
   }

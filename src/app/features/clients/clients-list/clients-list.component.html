@@ -6,17 +6,17 @@
       <div class="card-header">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
           <div>
-            <h5 class="card-title mb-0">All clients</h5>
+            <h5 class="card-title mb-0">{{ 'clients.list.allClients' | translate }}</h5>
             <p class="text-muted mb-0">
-              <span *ngIf="(totalRecords$ | async) !== null">{{ totalRecords$ | async }} client(s)</span>
+              <span *ngIf="(totalRecords$ | async) !== null">{{ 'clients.list.clientCount' | translate:{ total: (totalRecords$ | async) } }}</span>
             </p>
           </div>
           <div class="d-flex align-items-center gap-2">
             <input type="search" name="clientsSearch" class="form-control" style="width: 260px;"
-              placeholder="Search phone, email, name…"
+              placeholder="{{ 'clients.list.searchPlaceholder' | translate }}"
               [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" />
             <button type="button" class="btn btn-primary" (click)="openAddModal()">
-              <i class="bx bx-plus me-1"></i>Add client
+              <i class="bx bx-plus me-1"></i>{{ 'clients.list.addClient' | translate }}
             </button>
           </div>
         </div>
@@ -28,21 +28,21 @@
         <table class="table table-centered table-nowrap mb-0">
           <thead class="table-light">
             <tr>
-              <th style="width: 40px;">#</th>
-              <th sortable="id" [direction]="directionFor('id')" (sortchange)="onSortChange($event)">ID</th>
-              <th sortable="telephone" [direction]="directionFor('telephone')" (sortchange)="onSortChange($event)">Telephone</th>
-              <th>Name</th>
-              <th sortable="email" [direction]="directionFor('email')" (sortchange)="onSortChange($event)">Email</th>
-              <th sortable="type" [direction]="directionFor('type')" (sortchange)="onSortChange($event)">Type</th>
-              <th sortable="etat" [direction]="directionFor('etat')" (sortchange)="onSortChange($event)">Status</th>
-              <th sortable="dateEnregistrement" [direction]="directionFor('dateEnregistrement')" (sortchange)="onSortChange($event)">Registered</th>
-              <th class="text-end">Actions</th>
+              <th style="width: 40px;">{{ 'common.hash' | translate }}</th>
+              <th sortable="id" [direction]="directionFor('id')" (sortchange)="onSortChange($event)">{{ 'common.id' | translate }}</th>
+              <th sortable="telephone" [direction]="directionFor('telephone')" (sortchange)="onSortChange($event)">{{ 'clients.list.telephoneHeader' | translate }}</th>
+              <th>{{ 'common.name' | translate }}</th>
+              <th sortable="email" [direction]="directionFor('email')" (sortchange)="onSortChange($event)">{{ 'common.email' | translate }}</th>
+              <th sortable="type" [direction]="directionFor('type')" (sortchange)="onSortChange($event)">{{ 'common.type' | translate }}</th>
+              <th sortable="etat" [direction]="directionFor('etat')" (sortchange)="onSortChange($event)">{{ 'common.status' | translate }}</th>
+              <th sortable="dateEnregistrement" [direction]="directionFor('dateEnregistrement')" (sortchange)="onSortChange($event)">{{ 'clients.list.registeredHeader' | translate }}</th>
+              <th class="text-end">{{ 'common.actions' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="loading$ | async">
               <td colspan="9" class="text-center py-4">
-                <div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading clients…
+                <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'clients.list.loading' | translate }}
               </td>
             </tr>
             <ng-container *ngIf="!(loading$ | async)">
@@ -58,22 +58,22 @@
                 </td>
                 <td>{{ client.dateEnregistrement ? (client.dateEnregistrement | date: 'medium') : '—' }}</td>
                 <td class="text-end text-nowrap">
-                  <button type="button" class="btn btn-sm btn-soft-info" title="View"
+                  <button type="button" class="btn btn-sm btn-soft-info" [title]="'common.view' | translate"
                     [routerLink]="['/clients', client.id]">
-                    <i class="bx bx-show"></i> View
+                    <i class="bx bx-show"></i> {{ 'common.view' | translate }}
                   </button>
-                  <button type="button" class="btn btn-sm btn-soft-primary mx-1" title="Edit"
+                  <button type="button" class="btn btn-sm btn-soft-primary mx-1" [title]="'common.edit' | translate"
                     (click)="openEditModal(client)">
-                    <i class="bx bx-edit"></i> Edit
+                    <i class="bx bx-edit"></i> {{ 'common.edit' | translate }}
                   </button>
-                  <button type="button" class="btn btn-sm btn-soft-danger" title="Delete"
+                  <button type="button" class="btn btn-sm btn-soft-danger" [title]="'common.delete' | translate"
                     (click)="askDelete(client, confirmDeleteTemplate)">
-                    <i class="bx bx-trash"></i> Delete
+                    <i class="bx bx-trash"></i> {{ 'common.delete' | translate }}
                   </button>
                 </td>
               </tr>
               <tr *ngIf="(totalRecords$ | async) === 0">
-                <td colspan="9" class="text-center text-muted py-4">No clients found.</td>
+                <td colspan="9" class="text-center text-muted py-4">{{ 'clients.list.empty' | translate }}</td>
               </tr>
             </ng-container>
           </tbody>
@@ -83,7 +83,7 @@
       <div class="card-footer" *ngIf="(totalRecords$ | async) !== 0">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
           <div>
-            <span class="text-muted">Showing {{ state.startIndex }} to {{ state.endIndex }} of {{ state.totalRecords }} entries</span>
+            <span class="text-muted">{{ 'clients.list.showing' | translate:{ start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}</span>
             <select name="pageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
               [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
               <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
@@ -101,15 +101,14 @@
 
 <ng-template #confirmDeleteTemplate let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Delete client</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+    <h5 class="modal-title">{{ 'clients.list.deleteTitle' | translate }}</h5>
+    <button type="button" class="btn-close" [attr.aria-label]="'common.close' | translate" (click)="modal.dismiss('cancel')"></button>
   </div>
   <div class="modal-body">
-    <p>Delete client <strong>{{ pendingDelete?.telephone || ('#' + pendingDelete?.id) }}</strong>?
-      This action cannot be undone.</p>
+    <p>{{ 'clients.list.deleteBodyPrefix' | translate }} <strong>{{ pendingDelete?.telephone || ('#' + pendingDelete?.id) }}</strong>{{ 'clients.list.deleteBodySuffix' | translate }}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')">Cancel</button>
-    <button type="button" class="btn btn-danger btn-sm" (click)="modal.close('confirm')">Delete</button>
+    <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')">{{ 'common.cancel' | translate }}</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="modal.close('confirm')">{{ 'common.delete' | translate }}</button>
   </div>
 </ng-template>

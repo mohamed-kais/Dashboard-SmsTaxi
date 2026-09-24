@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
@@ -27,6 +28,7 @@ import { NotificationSendComponent } from './notification-send/notification-send
     FormsModule, // [(ngModel)] filter boxes + page-size select
     ReactiveFormsModule, // send form
     UIModule, // app-page-title + th[sortable]
+    TranslateModule, // | translate pipe
     NgbPaginationModule,
     NotificationsRoutingModule,
   ],

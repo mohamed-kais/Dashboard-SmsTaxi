@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 
@@ -55,7 +56,8 @@ export class ReservationDetailComponent implements OnInit, OnDestroy {
     private readonly modalService: NgbModal,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class ReservationDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.notFound = true;
           this.error =
-            typeof err === 'string' ? err : 'Failed to load reservation.';
+            typeof err === 'string' ? err : this.translate.instant('reservation.detail.loadFailed');
         },
       });
 
@@ -167,7 +169,7 @@ export class ReservationDetailComponent implements OnInit, OnDestroy {
         },
         error: (err: unknown) => {
           this.assigning = false;
-          this.error = typeof err === 'string' ? err : 'Failed to assign taxi.';
+          this.error = typeof err === 'string' ? err : this.translate.instant('reservation.detail.assignFailed');
         },
       });
   }
@@ -205,7 +207,7 @@ export class ReservationDetailComponent implements OnInit, OnDestroy {
         },
         error: (err: unknown) => {
           this.unassigning = false;
-          this.error = typeof err === 'string' ? err : 'Failed to unassign taxi.';
+          this.error = typeof err === 'string' ? err : this.translate.instant('reservation.detail.unassignFailed');
         },
       });
   }
@@ -263,7 +265,7 @@ export class ReservationDetailComponent implements OnInit, OnDestroy {
         },
         error: (err: unknown) => {
           this.updating = false;
-          this.error = typeof err === 'string' ? err : 'Failed to update reservation.';
+          this.error = typeof err === 'string' ? err : this.translate.instant('reservation.detail.updateFailed');
         },
       });
   }

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { NgbCollapseModule, NgbDatepickerModule, NgbTimepickerModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbdSortableHeader } from '../../core/directives/sortable.directive';
@@ -24,11 +26,12 @@ import { LoaderComponent } from './loader/loader.component';
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
     NgbDropdownModule
   ],
-  exports: [PagetitleComponent, LoaderComponent, NgbdSortableHeader]
+  exports: [PagetitleComponent, LoaderComponent, NgbdSortableHeader, TranslateModule]
 })
 export class UIModule { }

@@ -3,7 +3,7 @@
 <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
 
 <div class="text-muted" *ngIf="loading">
-  <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading demand&hellip;
+  <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'demand.detail.loading' | translate }}
 </div>
 
 <div class="row" *ngIf="!loading && demande">
@@ -11,40 +11,40 @@
   <div class="col-lg-8">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Demand details</h5>
+        <h5 class="card-title mb-0">{{ 'demand.detail.details' | translate }}</h5>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-6 mb-3">
-            <span class="text-muted small d-block">ID</span>
+            <span class="text-muted small d-block">{{ 'common.id' | translate }}</span>
             <span class="fw-medium">#{{ demande.id }}</span>
           </div>
           <div class="col-md-6 mb-3">
-            <span class="text-muted small d-block">Status</span>
+            <span class="text-muted small d-block">{{ 'common.status' | translate }}</span>
             <span class="badge" [ngClass]="badge(demande.etat).class">{{ badge(demande.etat).label }}</span>
           </div>
           <div class="col-md-6 mb-3">
-            <span class="text-muted small d-block">Deposited</span>
+            <span class="text-muted small d-block">{{ 'demand.detail.deposited' | translate }}</span>
             <span>{{ (demande.date_depot | date: 'medium') || '-' }}</span>
           </div>
           <div class="col-md-6 mb-3">
-            <span class="text-muted small d-block">Hide number (masquerNumero)</span>
-            <span>{{ demande.masquerNumero ? 'Yes' : 'No' }}</span>
+            <span class="text-muted small d-block">{{ 'demand.detail.hideNumber' | translate }}</span>
+            <span>{{ demande.masquerNumero ? ('common.yes' | translate) : ('common.no' | translate) }}</span>
           </div>
           <div class="col-md-6 mb-3">
-            <span class="text-muted small d-block">SMS hide-number processed</span>
+            <span class="text-muted small d-block">{{ 'demand.detail.smsHideNumberProcessed' | translate }}</span>
             <span>{{ (demande.date_smsMasquerNumero | date: 'medium') || '-' }}</span>
           </div>
           <div class="col-md-6 mb-3">
-            <span class="text-muted small d-block">Client phone</span>
+            <span class="text-muted small d-block">{{ 'demand.detail.clientPhone' | translate }}</span>
             <span>{{ clientPhone || '-' }}</span>
           </div>
           <div class="col-md-6 mb-3" *ngIf="demande.client">
-            <span class="text-muted small d-block">Client name</span>
+            <span class="text-muted small d-block">{{ 'demand.detail.clientName' | translate }}</span>
             <span>{{ demande.client.name || '-' }}</span>
           </div>
           <div class="col-md-6 mb-3" *ngIf="demande.client">
-            <span class="text-muted small d-block">Client email</span>
+            <span class="text-muted small d-block">{{ 'demand.detail.clientEmail' | translate }}</span>
             <span>{{ demande.client.email || '-' }}</span>
           </div>
         </div>
@@ -54,19 +54,16 @@
     <!-- assignment note (offers carry the taxi assignment) -->
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Assignment</h5>
+        <h5 class="card-title mb-0">{{ 'demand.detail.assignment' | translate }}</h5>
       </div>
       <div class="card-body">
-        <p class="mb-2">
-          Taxi assignment for a demand is surfaced through its offers (the admin offers list shows the
-          matched taxi). There is no reassign endpoint in the API — use the offers view to inspect it.
-        </p>
+        <p class="mb-2">{{ 'demand.detail.assignmentNote' | translate }}</p>
         <a
           class="btn btn-sm btn-outline-primary"
           [routerLink]="['/offers']"
           [queryParams]="clientPhone ? { clientPhone: clientPhone } : {}"
         >
-          View offers{{ clientPhone ? ' for ' + clientPhone : '' }}
+          {{ 'demand.detail.viewOffers' | translate }}{{ clientPhone ? ('demand.detail.forClientPhone' | translate: { phone: clientPhone }) : '' }}
         </a>
       </div>
     </div>
@@ -76,28 +73,27 @@
   <div class="col-lg-4">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Status</h5>
+        <h5 class="card-title mb-0">{{ 'common.status' | translate }}</h5>
       </div>
       <div class="card-body">
         <div class="d-flex align-items-center mb-2">
           <span class="badge me-2" [ngClass]="badge(demande.etat).class">{{ badge(demande.etat).label }}</span>
-          <span class="text-muted small">since {{ (demande.date_depot | date: 'short') || '-' }}</span>
+          <span class="text-muted small">{{ 'demand.detail.since' | translate: { date: (demande.date_depot | date: 'short') || '-' } }}</span>
         </div>
         <p class="text-muted small mb-0">
-          The API exposes only the current status and the deposit date &mdash; no per-state history is
-          available, so no timeline is shown.
+          {{ 'demand.detail.statusNote' | translate }}
         </p>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Actions</h5>
+        <h5 class="card-title mb-0">{{ 'common.actions' | translate }}</h5>
       </div>
       <div class="card-body d-grid gap-2">
         <div class="btn-group" ngbDropdown>
           <button type="button" class="btn btn-primary dropdown-toggle" ngbDropdownToggle>
-            Change state
+            {{ 'demand.detail.changeState' | translate }}
           </button>
           <div class="dropdown-menu" ngbDropdownMenu>
             <button
@@ -110,8 +106,8 @@
             </button>
           </div>
         </div>
-        <button type="button" class="btn btn-warning" (click)="confirmCancel()">Cancel demand</button>
-        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Delete demand</button>
+        <button type="button" class="btn btn-warning" (click)="confirmCancel()">{{ 'demand.detail.cancelDemand' | translate }}</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">{{ 'demand.detail.deleteDemand' | translate }}</button>
       </div>
     </div>
   </div>

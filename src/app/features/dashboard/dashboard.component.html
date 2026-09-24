@@ -10,7 +10,7 @@
     <button type="button" class="btn btn-primary btn-sm" (click)="refresh()" [disabled]="loading">
       <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status"></span>
       <i *ngIf="!loading" class="bx bx-refresh me-1"></i>
-      Refresh
+      {{ 'dashboard.refresh' | translate }}
     </button>
   </div>
 </div>
@@ -18,8 +18,8 @@
 <!-- Per-card HTTP failures (values show — on the affected cards). -->
 <div class="alert alert-warning" *ngIf="failedCardLabels.length > 0" role="alert">
   <i class="bx bxs-error-alt me-1"></i>
-  Some statistics could not be loaded: {{ failedCardLabels.join(', ') }}.
-  Affected cards show &mdash;.
+  {{ 'dashboard.statsError' | translate: { labels: failedCardLabels.join(', ') } }}
+  {{ 'dashboard.statsErrorHint' | translate }}
 </div>
 
 <!-- Feed failures. -->
@@ -31,11 +31,11 @@
 <!-- Stat cards row (shared app-stat widget; combined Demands/Offers cards add sub-values). -->
 <div class="row">
   <div class="col-md-6 col-xl-4">
-    <app-stat title="Taxis" [value]="countValue('taxi')" icon="bx bx-car"></app-stat>
+    <app-stat [title]="'Taxis' | translate" [value]="countValue('taxi')" icon="bx bx-car"></app-stat>
   </div>
 
   <div class="col-md-6 col-xl-4">
-    <app-stat title="Clients" [value]="countValue('client')" icon="bx bx-user"></app-stat>
+    <app-stat [title]="'Clients' | translate" [value]="countValue('client')" icon="bx bx-user"></app-stat>
   </div>
 
   <div class="col-md-6 col-xl-4">
@@ -43,15 +43,15 @@
       <div class="card-body">
         <div class="d-flex">
           <div class="flex-grow-1">
-            <p class="text-muted fw-medium mb-2">Demands</p>
+            <p class="text-muted fw-medium mb-2">{{ 'Demands' | translate }}</p>
             <div class="d-flex gap-3 flex-wrap">
               <div>
                 <h4 class="mb-1">{{ countValue('demandeWaiting') }}</h4>
-                <span class="badge badge-soft-warning">Waiting</span>
+                <span class="badge badge-soft-warning">{{ 'dashboard.badges.waiting' | translate }}</span>
               </div>
               <div>
                 <h4 class="mb-1">{{ countValue('demandeInProgress') }}</h4>
-                <span class="badge badge-soft-info">In progress</span>
+                <span class="badge badge-soft-info">{{ 'dashboard.badges.inProgress' | translate }}</span>
               </div>
             </div>
           </div>
@@ -72,15 +72,15 @@
       <div class="card-body">
         <div class="d-flex">
           <div class="flex-grow-1">
-            <p class="text-muted fw-medium mb-2">Offers</p>
+            <p class="text-muted fw-medium mb-2">{{ 'Offers' | translate }}</p>
             <div class="d-flex gap-3 flex-wrap">
               <div>
                 <h4 class="mb-1">{{ countValue('offreWaiting') }}</h4>
-                <span class="badge badge-soft-warning">Waiting</span>
+                <span class="badge badge-soft-warning">{{ 'dashboard.badges.waiting' | translate }}</span>
               </div>
               <div>
                 <h4 class="mb-1">{{ countValue('offreInProgress') }}</h4>
-                <span class="badge badge-soft-info">In progress</span>
+                <span class="badge badge-soft-info">{{ 'dashboard.badges.inProgress' | translate }}</span>
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@
   </div>
 
   <div class="col-md-6 col-xl-4">
-    <app-stat title="SMS received" [value]="countValue('sms')" icon="bx bx-message-square-dots"></app-stat>
+    <app-stat [title]="'dashboard.cards.smsReceived' | translate" [value]="countValue('sms')" icon="bx bx-message-square-dots"></app-stat>
   </div>
 </div>
 
@@ -107,20 +107,20 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="card-title mb-0">Recent demands</h5>
-          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/demands']">View all</a>
+          <h5 class="card-title mb-0">{{ 'dashboard.recent.demands' | translate }}</h5>
+          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/demands']">{{ 'dashboard.recent.viewAll' | translate }}</a>
         </div>
 
         <div class="table-responsive">
           <table class="table table-striped align-middle mb-0">
             <thead>
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Client</th>
-                <th scope="col">Route</th>
-                <th scope="col">Est. price</th>
-                <th scope="col">Status</th>
-                <th scope="col">Date</th>
+                <th scope="col">{{ 'common.id' | translate }}</th>
+                <th scope="col">{{ 'dashboard.table.client' | translate }}</th>
+                <th scope="col">{{ 'dashboard.table.route' | translate }}</th>
+                <th scope="col">{{ 'dashboard.table.estPrice' | translate }}</th>
+                <th scope="col">{{ 'common.status' | translate }}</th>
+                <th scope="col">{{ 'common.date' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -143,19 +143,19 @@
               </tr>
               <tr *ngIf="loading && demands.length === 0">
                 <td colspan="6" class="text-center text-muted py-4">
-                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading demands&hellip;
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'dashboard.recent.loadingDemands' | translate }}
                 </td>
               </tr>
               <tr *ngIf="!loading && demands.length === 0">
-                <td colspan="6" class="text-center text-muted py-4">No recent demands.</td>
+                <td colspan="6" class="text-center text-muted py-4">{{ 'dashboard.recent.emptyDemands' | translate }}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="text-muted small mt-2" *ngIf="demandTotal > 0">
-          Showing {{ demands.length }} of {{ demandTotal }} demands
-          <span *ngIf="demands.length < demandTotal">&middot; newest {{ demands.length }}</span>
+          {{ 'dashboard.recent.demandsRange' | translate: { count: demands.length, total: demandTotal } }}
+          <span *ngIf="demands.length < demandTotal">{{ 'dashboard.recent.newest' | translate: { count: demands.length } }}</span>
         </div>
       </div>
     </div>
@@ -165,19 +165,19 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="card-title mb-0">Recent offers</h5>
-          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/offers']">View all</a>
+          <h5 class="card-title mb-0">{{ 'dashboard.recent.offers' | translate }}</h5>
+          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/offers']">{{ 'dashboard.recent.viewAll' | translate }}</a>
         </div>
 
         <div class="table-responsive">
           <table class="table table-striped align-middle mb-0">
             <thead>
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Taxi / client</th>
-                <th scope="col">Total price</th>
-                <th scope="col">Status</th>
-                <th scope="col">Date</th>
+                <th scope="col">{{ 'common.id' | translate }}</th>
+                <th scope="col">{{ 'dashboard.table.taxiClient' | translate }}</th>
+                <th scope="col">{{ 'dashboard.table.totalPrice' | translate }}</th>
+                <th scope="col">{{ 'common.status' | translate }}</th>
+                <th scope="col">{{ 'common.date' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -199,19 +199,19 @@
               </tr>
               <tr *ngIf="loading && offres.length === 0">
                 <td colspan="5" class="text-center text-muted py-4">
-                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading offers&hellip;
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'dashboard.recent.loadingOffers' | translate }}
                 </td>
               </tr>
               <tr *ngIf="!loading && offres.length === 0">
-                <td colspan="5" class="text-center text-muted py-4">No recent offers.</td>
+                <td colspan="5" class="text-center text-muted py-4">{{ 'dashboard.recent.emptyOffers' | translate }}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="text-muted small mt-2" *ngIf="offreTotal > 0">
-          Showing {{ offres.length }} of {{ offreTotal }} offers
-          <span *ngIf="offres.length < offreTotal">&middot; newest {{ offres.length }}</span>
+          {{ 'dashboard.recent.offersRange' | translate: { count: offres.length, total: offreTotal } }}
+          <span *ngIf="offres.length < offreTotal">{{ 'dashboard.recent.newest' | translate: { count: offres.length } }}</span>
         </div>
       </div>
     </div>

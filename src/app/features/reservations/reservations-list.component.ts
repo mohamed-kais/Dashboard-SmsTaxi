@@ -9,6 +9,7 @@ import {
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -105,7 +106,8 @@ export class ReservationsListComponent implements OnInit, OnDestroy {
     private readonly modalService: NgbModal,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly formBuilder: UntypedFormBuilder
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +121,7 @@ export class ReservationsListComponent implements OnInit, OnDestroy {
         next: (page) => this.applyPage(page),
         error: () => {
           this.loading = false;
-          this.error = 'Failed to load reservations.';
+          this.error = this.translate.instant('reservations.list.loadFailed');
         },
       });
   }
@@ -288,7 +290,7 @@ export class ReservationsListComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.assigning = false;
-          this.error = 'Failed to assign taxi.';
+          this.error = this.translate.instant('reservations.list.assignFailed');
         },
       });
   }
@@ -331,7 +333,7 @@ export class ReservationsListComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.unassigning = false;
-          this.error = 'Failed to unassign taxi.';
+          this.error = this.translate.instant('reservations.list.unassignFailed');
         },
       });
   }

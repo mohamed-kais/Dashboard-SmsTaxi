@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { SharedModule } from '../../shared/shared.module';
 import { UIModule } from '../../shared/ui/ui.module';
@@ -33,6 +34,7 @@ import { ClientFormComponent } from './client-form/client-form.component';
     NgbPaginationModule,
     SharedModule,
     UIModule,
+    TranslateModule,
     ClientsRoutingModule,
   ],
 })

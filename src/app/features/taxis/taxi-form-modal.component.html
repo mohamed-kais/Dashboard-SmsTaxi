@@ -1,6 +1,6 @@
 <div class="modal-header">
-  <h5 class="modal-title">{{ isEdit ? 'Edit Taxi' : 'Add Taxi' }}</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Close click')"></button>
+  <h5 class="modal-title">{{ (isEdit ? 'taxis.form.titleEdit' : 'taxis.form.titleAdd') | translate }}</h5>
+  <button type="button" class="btn-close" [attr.aria-label]="'common.close' | translate" (click)="activeModal.dismiss('Close click')"></button>
 </div>
 
 <div class="modal-body">
@@ -11,35 +11,35 @@
 
     <div class="row g-3">
       <div class="col-md-6">
-        <label class="form-label">Phone <span class="text-danger">*</span></label>
+        <label class="form-label">{{ 'common.phone' | translate }} <span class="text-danger">*</span></label>
         <input
           type="text"
           class="form-control"
           formControlName="telephone"
-          placeholder="0612345678"
+          placeholder="{{ 'taxis.form.phonePlaceholder' | translate }}"
           [ngClass]="{ 'is-invalid': submitted && f['telephone'].errors }"
         />
         <div class="invalid-feedback" *ngIf="submitted && f['telephone'].errors">
-          <span *ngIf="f['telephone'].hasError('required')">Phone number is required.</span>
+          <span *ngIf="f['telephone'].hasError('required')">{{ 'taxis.form.phoneRequired' | translate }}</span>
           <span *ngIf="f['telephone'].hasError('pattern')">
-            Phone may only contain digits, +, -, spaces or parentheses.
+            {{ 'taxis.form.phonePattern' | translate }}
           </span>
         </div>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Name</label>
+        <label class="form-label">{{ 'common.name' | translate }}</label>
         <input
           type="text"
           class="form-control"
           formControlName="nom"
           [ngClass]="{ 'is-invalid': submitted && f['nom'].errors }"
         />
-        <div class="invalid-feedback" *ngIf="submitted && f['nom'].errors">Max 100 characters.</div>
+        <div class="invalid-feedback" *ngIf="submitted && f['nom'].errors">{{ 'taxis.form.max100' | translate }}</div>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Email</label>
+        <label class="form-label">{{ 'common.email' | translate }}</label>
         <input
           type="email"
           class="form-control"
@@ -47,12 +47,12 @@
           [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
         />
         <div class="invalid-feedback" *ngIf="submitted && f['email'].errors">
-          Enter a valid email address.
+          {{ 'taxis.form.emailInvalid' | translate }}
         </div>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Type</label>
+        <label class="form-label">{{ 'common.type' | translate }}</label>
         <select class="form-select" formControlName="type">
           <option [ngValue]="null">—</option>
           <option *ngFor="let channel of channelTypes" [ngValue]="channel">{{ channel }}</option>
@@ -60,7 +60,7 @@
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Status</label>
+        <label class="form-label">{{ 'common.status' | translate }}</label>
         <select class="form-select" formControlName="taxiStatus">
           <option [ngValue]="null">—</option>
           <option *ngFor="let status of taxiStatuses" [ngValue]="status">{{ status }}</option>
@@ -68,18 +68,18 @@
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Taxi number</label>
+        <label class="form-label">{{ 'taxis.form.taxiNumber' | translate }}</label>
         <input
           type="text"
           class="form-control"
           formControlName="numeroTaxi"
           [ngClass]="{ 'is-invalid': submitted && f['numeroTaxi'].errors }"
         />
-        <div class="invalid-feedback" *ngIf="submitted && f['numeroTaxi'].errors">Max 20 characters.</div>
+        <div class="invalid-feedback" *ngIf="submitted && f['numeroTaxi'].errors">{{ 'taxis.form.max20' | translate }}</div>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Matricule</label>
+        <label class="form-label">{{ 'taxis.form.matricule' | translate }}</label>
         <input
           type="text"
           class="form-control"
@@ -87,23 +87,23 @@
           [ngClass]="{ 'is-invalid': submitted && f['numeroMatricule'].errors }"
         />
         <div class="invalid-feedback" *ngIf="submitted && f['numeroMatricule'].errors">
-          Max 50 characters.
+          {{ 'taxis.form.max50' | translate }}
         </div>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">CIN</label>
+        <label class="form-label">{{ 'taxis.form.cin' | translate }}</label>
         <input
           type="text"
           class="form-control"
           formControlName="numeroCin"
           [ngClass]="{ 'is-invalid': submitted && f['numeroCin'].errors }"
         />
-        <div class="invalid-feedback" *ngIf="submitted && f['numeroCin'].errors">Max 20 characters.</div>
+        <div class="invalid-feedback" *ngIf="submitted && f['numeroCin'].errors">{{ 'taxis.form.max20' | translate }}</div>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Constructor</label>
+        <label class="form-label">{{ 'taxis.form.constructor' | translate }}</label>
         <input
           type="text"
           class="form-control"
@@ -111,12 +111,12 @@
           [ngClass]="{ 'is-invalid': submitted && f['constructeur'].errors }"
         />
         <div class="invalid-feedback" *ngIf="submitted && f['constructeur'].errors">
-          Max 50 characters.
+          {{ 'taxis.form.max50' | translate }}
         </div>
       </div>
 
       <div class="col-12">
-        <label class="form-label">Destination</label>
+        <label class="form-label">{{ 'taxis.form.destination' | translate }}</label>
         <input
           type="text"
           class="form-control"
@@ -124,12 +124,12 @@
           [ngClass]="{ 'is-invalid': submitted && f['destination'].errors }"
         />
         <div class="invalid-feedback" *ngIf="submitted && f['destination'].errors">
-          Max 500 characters.
+          {{ 'taxis.form.max500' | translate }}
         </div>
       </div>
 
       <div class="col-12">
-        <label class="form-label">Location</label>
+        <label class="form-label">{{ 'taxis.form.location' | translate }}</label>
         <input
           type="text"
           class="form-control"
@@ -137,12 +137,12 @@
           [ngClass]="{ 'is-invalid': submitted && f['location'].errors }"
         />
         <div class="invalid-feedback" *ngIf="submitted && f['location'].errors">
-          Max 500 characters.
+          {{ 'taxis.form.max500' | translate }}
         </div>
       </div>
 
       <div class="col-12">
-        <label class="form-label">Content</label>
+        <label class="form-label">{{ 'taxis.form.content' | translate }}</label>
         <textarea
           rows="3"
           class="form-control"
@@ -150,7 +150,7 @@
           [ngClass]="{ 'is-invalid': submitted && f['contenu'].errors }"
         ></textarea>
         <div class="invalid-feedback" *ngIf="submitted && f['contenu'].errors">
-          Max 1000 characters.
+          {{ 'taxis.form.max1000' | translate }}
         </div>
       </div>
     </div>
@@ -158,9 +158,9 @@
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-link" (click)="activeModal.dismiss('Cancel click')">Cancel</button>
+  <button type="button" class="btn btn-link" (click)="activeModal.dismiss('Cancel click')">{{ 'common.cancel' | translate }}</button>
   <button type="button" class="btn btn-primary" [disabled]="saving" (click)="submit()">
     <span *ngIf="saving" class="spinner-border spinner-border-sm me-1" role="status"></span>
-    Save
+    {{ 'common.save' | translate }}
   </button>
 </div>

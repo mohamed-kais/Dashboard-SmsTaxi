@@ -38,6 +38,8 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
     { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
     { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
     { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
+    { text: 'Arabic', flag: 'assets/images/flags/tunisia.jpg', lang: 'ar' },
+    { text: 'French', flag: 'assets/images/flags/french.jpg', lang: 'fr' },
   ];
 
   // tslint:disable-next-line: max-line-length

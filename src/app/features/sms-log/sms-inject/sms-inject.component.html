@@ -4,12 +4,11 @@
   <div class="col-lg-8">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Inject an SMS into the log</h5>
+        <h5 class="card-title mb-0">{{ 'sms.inject.heading' | translate }}</h5>
       </div>
       <div class="card-body">
         <p class="text-muted">
-          Sends the message through the documented injection endpoint used for testing and
-          external SMS gateway integration.
+          {{ 'sms.inject.intro' | translate }}
         </p>
 
         <div class="alert alert-success" role="alert" *ngIf="successMessage">{{ successMessage }}</div>
@@ -17,38 +16,38 @@
 
         <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
           <div class="mb-3">
-            <label class="form-label" for="si-telephone">Phone number <span class="text-danger">*</span></label>
+            <label class="form-label" for="si-telephone">{{ 'sms.inject.phoneLabel' | translate }} <span class="text-danger">*</span></label>
             <input type="text" id="si-telephone" class="form-control" formControlName="telephone"
-              placeholder="e.g. 0612345678" maxlength="30"
+              placeholder="{{ 'sms.inject.phonePlaceholder' | translate }}" maxlength="30"
               [class.is-invalid]="submitted && f.telephone.errors" />
             <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.required">
-              Phone number is required.
+              {{ 'sms.inject.phoneRequired' | translate }}
             </div>
             <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.pattern">
-              Phone number may only contain digits, +, -, spaces and parentheses.
+              {{ 'sms.inject.phonePattern' | translate }}
             </div>
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="si-contenu">Message content <span class="text-danger">*</span></label>
+            <label class="form-label" for="si-contenu">{{ 'sms.inject.contentLabel' | translate }} <span class="text-danger">*</span></label>
             <textarea id="si-contenu" class="form-control" formControlName="contenu" rows="4"
-              [attr.maxlength]="maxContent" placeholder="SMS text (max 1000 characters)"
+              [attr.maxlength]="maxContent" placeholder="{{ 'sms.inject.contentPlaceholder' | translate }}"
               [class.is-invalid]="submitted && f.contenu.errors"></textarea>
             <div class="invalid-feedback" *ngIf="submitted && f.contenu.errors?.required">
-              Message content is required.
+              {{ 'sms.inject.contentRequired' | translate }}
             </div>
             <div class="invalid-feedback" *ngIf="submitted && f.contenu.errors?.maxlength">
-              Message content must be at most {{ maxContent }} characters.
+              {{ 'sms.inject.contentMaxLength' | translate:{ maxContent: maxContent } }}
             </div>
           </div>
 
           <div class="d-flex gap-2">
             <button type="submit" class="btn btn-primary" [disabled]="submitting">
               <span class="spinner-border spinner-border-sm me-1" *ngIf="submitting"></span>
-              {{ submitting ? 'Injecting…' : 'Inject SMS' }}
+              {{ submitting ? ('sms.inject.injecting' | translate) : ('sms.inject.submit' | translate) }}
             </button>
             <button type="button" class="btn btn-light" (click)="form.reset({ telephone: '', contenu: '' }); submitted = false"
-              [disabled]="submitting">Clear</button>
+              [disabled]="submitting">{{ 'common.clear' | translate }}</button>
           </div>
         </form>
       </div>
@@ -58,23 +57,23 @@
   <div class="col-lg-4">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">Endpoint reference</h5>
+        <h5 class="card-title mb-0">{{ 'sms.inject.endpointHeading' | translate }}</h5>
       </div>
       <div class="card-body">
         <dl class="row mb-0">
-          <dt class="col-sm-4">Method</dt>
+          <dt class="col-sm-4">{{ 'sms.inject.method' | translate }}</dt>
           <dd class="col-sm-8"><code>POST</code></dd>
-          <dt class="col-sm-4">Path</dt>
+          <dt class="col-sm-4">{{ 'sms.inject.path' | translate }}</dt>
           <dd class="col-sm-8"><code>/api/inject-sms</code></dd>
-          <dt class="col-sm-4">Body</dt>
+          <dt class="col-sm-4">{{ 'sms.inject.body' | translate }}</dt>
           <dd class="col-sm-8"><code>SmsInDto</code></dd>
-          <dt class="col-sm-4">Response</dt>
+          <dt class="col-sm-4">{{ 'sms.inject.response' | translate }}</dt>
           <dd class="col-sm-8"><code>MessageResponse</code></dd>
         </dl>
         <p class="text-muted small mt-3 mb-0">
-          Phone number and content are required; content is limited to 1000 characters.
-          Optional fields (<code>dateReception</code>, <code>traitement</code>, <code>id</code>)
-          are left to backend defaults.
+          {{ 'sms.inject.endpointNote' | translate }}
+          (<code>dateReception</code>, <code>traitement</code>, <code>id</code>)
+          {{ 'sms.inject.endpointNoteTail' | translate }}
         </p>
       </div>
     </div>

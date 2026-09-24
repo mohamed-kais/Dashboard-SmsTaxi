@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   AirportPricingConfigRequest,
@@ -55,7 +56,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private translate: TranslateService
   ) {}
 
   get mf(): FormGroup['controls'] {
@@ -95,7 +97,7 @@ export class SettingsComponent implements OnInit {
         });
       },
       error: (err) => {
-        this.matchingError = apiErrorMessage(err) || 'Failed to load the matching configuration.';
+        this.matchingError = apiErrorMessage(err) || this.translate.instant('settings.matching.loadError');
       },
     });
   }
@@ -117,11 +119,11 @@ export class SettingsComponent implements OnInit {
       next: () => {
         this.matchingSaving = false;
         this.matchingSubmitted = false;
-        this.matchingSuccess = 'Matching radius configuration saved.';
+        this.matchingSuccess = this.translate.instant('settings.matching.saved');
       },
       error: (err) => {
         this.matchingSaving = false;
-        this.matchingError = apiErrorMessage(err) || 'Failed to save the matching configuration.';
+        this.matchingError = apiErrorMessage(err) || this.translate.instant('settings.matching.saveError');
       },
     });
   }
@@ -142,7 +144,7 @@ export class SettingsComponent implements OnInit {
         this.airportCount = Array.isArray(config?.airports) ? config.airports!.length : null;
       },
       error: (err) => {
-        this.airportError = apiErrorMessage(err) || 'Failed to load the airport pricing configuration.';
+        this.airportError = apiErrorMessage(err) || this.translate.instant('settings.airport.loadError');
       },
     });
   }
@@ -165,11 +167,11 @@ export class SettingsComponent implements OnInit {
       next: () => {
         this.airportSaving = false;
         this.airportSubmitted = false;
-        this.airportSuccess = 'Airport pricing configuration saved.';
+        this.airportSuccess = this.translate.instant('settings.airport.saved');
       },
       error: (err) => {
         this.airportSaving = false;
-        this.airportError = apiErrorMessage(err) || 'Failed to save the airport pricing configuration.';
+        this.airportError = apiErrorMessage(err) || this.translate.instant('settings.airport.saveError');
       },
     });
   }

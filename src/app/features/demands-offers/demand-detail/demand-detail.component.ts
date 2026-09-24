@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Demande, DemandeDto } from '../../../core/models/demande.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -57,7 +58,8 @@ export class DemandDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private demandeService: DemandeService
+    private demandeService: DemandeService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +76,7 @@ export class DemandDetailComponent implements OnInit, OnDestroy {
   }
 
   get title(): string {
-    return `Demand #${this.id}`;
+    return this.translate.instant('demand.detail.title', { id: this.id });
   }
 
   /** Client phone when the backend embeds it — drives the offers deep-link. */
@@ -85,53 +87,68 @@ export class DemandDetailComponent implements OnInit, OnDestroy {
   changeState(etat: StatusEnum): void {
     this.demandeService.updateEtat(this.id, etat).subscribe({
       next: () => {
-        Swal.fire('Updated', `Demand #${this.id} is now ${etat}.`, 'success');
+        Swal.fire(
+          this.translate.instant('demand.detail.updated'),
+          this.translate.instant('demand.detail.updatedText', { id: this.id, etat }),
+          'success'
+        );
         this.load();
       },
-      error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+      error: (err) =>
+        Swal.fire(this.translate.instant('demand.detail.error'), extractErrorMessage(err), 'error'),
     });
   }
 
   confirmCancel(): void {
     Swal.fire({
-      title: 'Cancel demand?',
-      text: `Demand #${this.id} will be cancelled.`,
+      title: this.translate.instant('demand.detail.cancelDemandTitle'),
+      text: this.translate.instant('demand.detail.cancelDemandText', { id: this.id }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Cancel demand',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('demand.detail.cancelDemand'),
+      cancelButtonText: this.translate.instant('demand.detail.keep'),
     }).then((result) => {
       if (!result.isConfirmed) {
         return;
       }
       this.demandeService.cancelDemande(this.id).subscribe({
         next: () => {
-          Swal.fire('Cancelled', `Demand #${this.id} was cancelled.`, 'success');
+          Swal.fire(
+            this.translate.instant('demand.detail.cancelled'),
+            this.translate.instant('demand.detail.cancelledText', { id: this.id }),
+            'success'
+          );
           this.load();
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('demand.detail.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
 
   confirmDelete(): void {
     Swal.fire({
-      title: 'Delete demand?',
-      text: `Demand #${this.id} will be permanently deleted.`,
+      title: this.translate.instant('demand.detail.deleteDemandTitle'),
+      text: this.translate.instant('demand.detail.deleteDemandText', { id: this.id }),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Keep',
+      confirmButtonText: this.translate.instant('common.delete'),
+      cancelButtonText: this.translate.instant('demand.detail.keep'),
     }).then((result) => {
       if (!result.isConfirmed) {
         return;
       }
       this.demandeService.deleteDemande(this.id).subscribe({
         next: () => {
-          Swal.fire('Deleted', `Demand #${this.id} was deleted.`, 'success');
+          Swal.fire(
+            this.translate.instant('demand.detail.deleted'),
+            this.translate.instant('demand.detail.deletedText', { id: this.id }),
+            'success'
+          );
           this.router.navigate(['/demands']);
         },
-        error: (err) => Swal.fire('Error', extractErrorMessage(err), 'error'),
+        error: (err) =>
+          Swal.fire(this.translate.instant('demand.detail.error'), extractErrorMessage(err), 'error'),
       });
     });
   }
@@ -139,7 +156,7 @@ export class DemandDetailComponent implements OnInit, OnDestroy {
   /** Status badge via the shared scheme (plan §7). */
   badge(etat?: StatusEnum): StatusBadge {
     if (!etat) {
-      return { label: 'UNKNOWN', class: 'badge-soft-secondary' };
+      return { label: this.translate.instant('dashboard.unknown'), class: 'badge-soft-secondary' };
     }
     return statusBadge(etat, DEMANDE_STATUS);
   }

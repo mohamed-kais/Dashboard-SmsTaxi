@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ChannelType } from '../../../core/models/common.model';
 import { ClientCreateDto, ClientDto } from '../../../core/models/client.model';
@@ -25,7 +26,7 @@ import { CLIENT_PHONE_PATTERN, CLIENT_TYPE_OPTIONS, apiErrorMessage } from '../c
 })
 export class ClientFormComponent implements OnInit {
   @Input() client: ClientDto | null = null;
-  @Input() title = 'Add client';
+  @Input() title = '';
 
   form!: FormGroup;
   submitted = false;
@@ -36,6 +37,7 @@ export class ClientFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientService,
+    private translate: TranslateService,
     public activeModal: NgbActiveModal
   ) {}
 
@@ -92,7 +94,7 @@ export class ClientFormComponent implements OnInit {
       },
       error: (err) => {
         this.saving = false;
-        this.errorMessage = apiErrorMessage(err) || 'Failed to save client.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('clients.form.saveFailed');
       },
     });
   }

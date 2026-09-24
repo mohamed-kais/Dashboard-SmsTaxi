@@ -11,6 +11,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ChatService } from '../../../../core/services/chat.service';
 import { ChatStateService } from '../../../../core/services/chat-state.service';
@@ -53,7 +54,8 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterV
   constructor(
     private chatService: ChatService,
     private chatWebSocketService: ChatWebSocketService,
-    private chatState: ChatStateService
+    private chatState: ChatStateService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -131,7 +133,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterV
       error: (err) => {
         console.error('Erreur chargement des messages', err);
         this.loading = false;
-        this.errorMessage = 'Impossible de charger les messages de cette conversation.';
+        this.errorMessage = this.translate.instant('whatsapp.chat.loadFail');
       },
     });
     this.conversationSubscriptions.push(sub);
@@ -183,7 +185,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterV
   }
 
   get groupedMessages(): MessageGroup[] {
-    return groupMessagesByDate(this.messages);
+    return groupMessagesByDate(this.messages, this.translate);
   }
 
   trackByMessageId(_index: number, message: ChatMessage): string {
@@ -215,7 +217,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterV
   }
 
   onSendError(): void {
-    this.errorMessage = "Échec de l'envoi du message. Vérifiez la fenêtre des 24h ou réessayez.";
+    this.errorMessage = this.translate.instant('whatsapp.chat.sendFail');
   }
 
   onBack(): void {

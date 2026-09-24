@@ -7,6 +7,7 @@ import {
   NgbNavModule,
   NgbPaginationModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 
 import { TaxisRoutingModule } from './taxis-routing.module';
@@ -36,6 +37,7 @@ import { TaxiFormModalComponent } from './taxi-form-modal.component';
     NgbModalModule,
     NgbNavModule,
     NgbPaginationModule,
+    TranslateModule,
     TaxisRoutingModule,
   ],
 })

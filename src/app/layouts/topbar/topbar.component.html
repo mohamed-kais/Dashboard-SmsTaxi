@@ -178,7 +178,9 @@
           <form class="p-3">
             <div class="m-0">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                <input type="text" class="form-control"
+                  placeholder="{{ 'layout.topbar.searchPlaceholder' | translate }}"
+                  [attr.aria-label]="'layout.topbar.searchPlaceholder' | translate">
                 <div class="input-group-append">
                   <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                 </div>
@@ -257,11 +259,11 @@
           </div>
           <ngx-simplebar style="position: relative; height: 230px;">
             <div *ngIf="loadingNotifications" class="px-3 py-4 text-center text-muted font-size-12">
-              Loading...
+              {{ 'layout.topbar.loading' | translate }}
             </div>
             <div *ngIf="!loadingNotifications && recentNotifications.length === 0"
               class="px-3 py-4 text-center text-muted font-size-12">
-              No notifications yet
+              {{ 'layout.topbar.noNotifications' | translate }}
             </div>
             <a *ngFor="let n of recentNotifications" href="javascript: void(0);"
               class="text-reset notification-item" [class.notification-unread]="isNotificationUnread(n)"
@@ -297,7 +299,7 @@
       <div class="dropdown d-inline-block" ngbDropdown>
         <button type="button" class="btn header-item" ngbDropdownToggle id="page-header-user-dropdown">
           <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
-          <span class="d-none d-xl-inline-block ms-1">Administrateur</span>
+          <span class="d-none d-xl-inline-block ms-1">{{ 'layout.topbar.roleLabel' | translate }}</span>
           <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>

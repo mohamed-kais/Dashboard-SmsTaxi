@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -29,6 +30,7 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
   id = 0;
   taxi?: TaxiDto;
   ratingSummary?: TaxiRatingSummaryDto;
+  pageTitle = '';
 
   loading = false;
   loadError = '';
@@ -54,7 +56,8 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly taxiService: TaxiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly translate: TranslateService
   ) {
     this.gpsForm = this.fb.group({
       latitude: [null, [Validators.required, Validators.min(-90), Validators.max(90)]],
@@ -67,11 +70,15 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.paramMap.subscribe((params) => {
       const id = Number(params.get('id'));
       if (!Number.isInteger(id) || id <= 0) {
-        this.loadError = 'Invalid taxi ID.';
+        this.loadError = this.translate.instant('taxi.detail.invalidId');
         return;
       }
       this.id = id;
-      this.breadcrumbItems = [{ label: 'Taxi' }, { label: `Taxi #${id}`, active: true }];
+      this.pageTitle = this.translate.instant('taxi.detail.pageTitle', { id });
+      this.breadcrumbItems = [
+        { label: 'Taxi' },
+        { label: this.translate.instant('taxi.detail.pageTitle', { id }), active: true },
+      ];
       this.historyPage = 1;
       this.loadTaxi();
       this.loadRating();
@@ -99,7 +106,11 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
   }
 
   yesNo(value?: boolean): string {
-    return value === true ? 'Yes' : value === false ? 'No' : '—';
+    return value === true
+      ? this.translate.instant('common.yes')
+      : value === false
+      ? this.translate.instant('common.no')
+      : '—';
   }
 
   gpsLat(): number | undefined {
@@ -146,7 +157,7 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
           }
         },
         error: (err) => {
-          this.loadError = err?.error?.message || err?.message || 'Failed to load taxi.';
+          this.loadError = err?.error?.message || err?.message || this.translate.instant('taxi.detail.loadFailed');
         },
       });
   }
@@ -187,7 +198,7 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.historyError =
-            err?.error?.message || err?.message || 'Failed to load ride history.';
+            err?.error?.message || err?.message || this.translate.instant('taxi.detail.historyLoadFailed');
         },
       });
   }
@@ -204,7 +215,7 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
     this.gpsError = '';
     this.gpsSaved = false;
     if (!this.taxi?.id) {
-      this.gpsError = 'Taxi is not loaded.';
+      this.gpsError = this.translate.instant('taxi.detail.notLoaded');
       return;
     }
     if (this.gpsForm.invalid) {
@@ -231,7 +242,7 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
           this.loadTaxi(); // refresh displayed coordinates from the server
         },
         error: (err) => {
-          this.gpsError = err?.error?.message || err?.message || 'Failed to update GPS.';
+          this.gpsError = err?.error?.message || err?.message || this.translate.instant('taxi.detail.gpsUpdateFailed');
         },
       });
   }
@@ -245,11 +256,11 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
   setTaxiStatus(taxiStatus: TaxiStatus): void {
     this.actionError = '';
     if (!this.taxi?.id) {
-      this.actionError = 'Taxi is not loaded.';
+      this.actionError = this.translate.instant('taxi.detail.notLoaded');
       return;
     }
     if (!this.taxi.telephone) {
-      this.actionError = 'Taxi has no phone number; update-taxi requires one.';
+      this.actionError = this.translate.instant('taxi.detail.noPhone');
       return;
     }
     const dto: TaxiCreateDto = {
@@ -280,7 +291,7 @@ export class TaxiDetailComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.actionError =
-            err?.error?.message || err?.message || `Failed to set status to ${taxiStatus}.`;
+            err?.error?.message || err?.message || this.translate.instant('taxi.detail.setStatusFailed', { status: taxiStatus });
         },
       });
   }

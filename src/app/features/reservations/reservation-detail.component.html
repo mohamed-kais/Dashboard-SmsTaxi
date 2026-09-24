@@ -4,7 +4,7 @@
   <div class="col-12">
     <div class="mb-3">
       <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
-        <i class="bx bx-arrow-back me-1"></i>Back to reservations
+        <i class="bx bx-arrow-back me-1"></i>{{ 'reservation.detail.back' | translate }}
       </button>
     </div>
 
@@ -13,14 +13,14 @@
     <!-- Loading -->
     <div *ngIf="loading" class="card">
       <div class="card-body text-center py-5">
-        <span class="spinner-border spinner-border-sm me-2"></span>Loading reservation...
+        <span class="spinner-border spinner-border-sm me-2"></span>{{ 'reservation.detail.loading' | translate }}
       </div>
     </div>
 
     <!-- Not found -->
     <div *ngIf="!loading && notFound" class="card">
       <div class="card-body text-center py-5">
-        <h5 class="text-muted">Reservation not found.</h5>
+        <h5 class="text-muted">{{ 'reservation.detail.notFound' | translate }}</h5>
       </div>
     </div>
 
@@ -31,106 +31,106 @@
           <div class="card">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-start mb-3">
-                <h5 class="card-title mb-0">Reservation #{{ reservation.id }}</h5>
+                <h5 class="card-title mb-0">{{ 'reservation.detail.heading' | translate:{ id: reservation.id } }}</h5>
                 <span class="badge {{ statusBadgeClass(reservation.status) }}">{{ reservation.status }}</span>
               </div>
 
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Client ID</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.clientId' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.clientId ?? '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Telephone</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.telephone' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.telephone || '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Pickup</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.pickup' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.pickup || '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Destination</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.destination' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.destination || '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Pickup coordinates</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.pickupCoordinates' | translate }}</div>
                 <div class="col-sm-8">
                   {{ reservation.pickupLatitude ?? '—' }}, {{ reservation.pickupLongitude ?? '—' }}
                 </div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Destination coordinates</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.destinationCoordinates' | translate }}</div>
                 <div class="col-sm-8">
                   {{ reservation.destinationLatitude ?? '—' }}, {{ reservation.destinationLongitude ?? '—' }}
                 </div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Reservation time</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.reservationTime' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.reservationDateTime | date: 'medium' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Source</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.source' | translate }}</div>
                 <div class="col-sm-8">
                   <span class="badge border text-muted">{{ sourceLabel(reservation.source) }}</span>
                 </div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Language</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.language' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.language || '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Commentaire</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.commentaire' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.commentaire || '—' }}</div>
               </div>
               <hr />
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Estimated price</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.estimatedPrice' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.estimatedPrice ?? '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Final price</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.finalPrice' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.finalPrice ?? '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Estimated distance</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.estimatedDistance' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.estimatedDistance || '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Estimated duration</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.estimatedDuration' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.estimatedDuration || '—' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Reminder sent</div>
-                <div class="col-sm-8">{{ reservation.reminderSent ? 'Yes' : 'No' }}</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.reminderSent' | translate }}</div>
+                <div class="col-sm-8">{{ reservation.reminderSent ? ('common.yes' | translate) : ('common.no' | translate) }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Converted to demande</div>
-                <div class="col-sm-8">{{ reservation.convertedToDemande ? 'Yes' : 'No' }}</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.convertedToDemande' | translate }}</div>
+                <div class="col-sm-8">{{ reservation.convertedToDemande ? ('common.yes' | translate) : ('common.no' | translate) }}</div>
               </div>
               <hr />
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Created</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.created' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.createdAt | date: 'medium' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Updated</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.updated' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.updatedAt | date: 'medium' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Cancelled at</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.cancelledAt' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.cancelledAt | date: 'medium' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Completed at</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.completedAt' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.completedAt | date: 'medium' }}</div>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-4 text-muted">Cancelled by</div>
+                <div class="col-sm-4 text-muted">{{ 'reservation.detail.cancelledBy' | translate }}</div>
                 <div class="col-sm-8">{{ reservation.cancelledBy || '—' }}</div>
               </div>
 
               <div class="mt-3">
                 <button type="button" class="btn btn-outline-secondary btn-sm" (click)="openUpdateModal(updateModal)">
-                  <i class="bx bx-edit me-1"></i>Update
+                  <i class="bx bx-edit me-1"></i>{{ 'common.update' | translate }}
                 </button>
               </div>
             </div>
@@ -141,69 +141,69 @@
         <div class="col-lg-5">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-3">Assigned taxi</h5>
+              <h5 class="card-title mb-3">{{ 'reservation.detail.assignedTaxi' | translate }}</h5>
 
               <ng-container *ngIf="reservation.assignment; else noAssignment">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                   <h6 class="mb-0">
-                    {{ reservation.assignment.taxiNom || ('Taxi #' + reservation.assignment.taxiId) }}
+                    {{ reservation.assignment.taxiNom || ('reservation.detail.taxiRef' | translate:{ taxiId: reservation.assignment.taxiId }) }}
                   </h6>
                   <span class="badge {{ assignmentBadgeClass(reservation.assignment.status) }}">
                     {{ reservation.assignment.status }}
                   </span>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Assignment ID</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.assignmentId' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.id ?? '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Taxi ID</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.taxiId' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.taxiId ?? '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Numero</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.numero' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.taxiNumero || '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Matricule</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.matricule' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.taxiMatricule || '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Telephone</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.telephone' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.taxiTelephone || '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Assignment type</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.assignmentType' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.assignmentType || '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Assigned by</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.assignedBy' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.assignedBy || '—' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Assigned at</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.assignedAt' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.assignedAt | date: 'medium' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Accepted at</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.acceptedAt' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.acceptedAt | date: 'medium' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Cancelled at</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.cancelledAt' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.cancelledAt | date: 'medium' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Completed at</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.completedAt' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.completedAt | date: 'medium' }}</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-sm-5 text-muted">Comment</div>
+                  <div class="col-sm-5 text-muted">{{ 'reservation.detail.comment' | translate }}</div>
                   <div class="col-sm-7">{{ reservation.assignment.comment || '—' }}</div>
                 </div>
               </ng-container>
 
               <ng-template #noAssignment>
-                <p class="text-muted mb-3">No taxi assigned to this reservation yet.</p>
+                <p class="text-muted mb-3">{{ 'reservation.detail.noAssignment' | translate }}</p>
               </ng-template>
 
               <div class="mt-3">
@@ -213,7 +213,7 @@
                   class="btn btn-primary btn-sm"
                   (click)="openAssignModal(assignModal)"
                 >
-                  <i class="bx bx-car me-1"></i>Assign taxi
+                  <i class="bx bx-car me-1"></i>{{ 'reservation.detail.assignTaxiAction' | translate }}
                 </button>
                 <button
                   *ngIf="hasActiveAssignment()"
@@ -221,7 +221,7 @@
                   class="btn btn-outline-danger btn-sm"
                   (click)="openUnassignModal(unassignModal)"
                 >
-                  <i class="bx bx-x-circle me-1"></i>Unassign taxi
+                  <i class="bx bx-x-circle me-1"></i>{{ 'reservation.detail.unassignTaxiAction' | translate }}
                 </button>
               </div>
             </div>
@@ -235,49 +235,49 @@
 <!-- Assign taxi modal -->
 <ng-template #assignModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Assign taxi</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <h5 class="modal-title">{{ 'reservation.detail.assignModalTitle' | translate }}</h5>
+    <button type="button" class="btn-close" [attr.aria-label]="'reservation.detail.close' | translate" (click)="modal.dismiss()"></button>
   </div>
   <form [formGroup]="assignForm" (ngSubmit)="submitAssign(modal)">
     <div class="modal-body">
       <p class="text-muted">
-        Reservation #{{ reservation?.id }} — assigns via
+        {{ 'reservation.detail.assignModalIntro' | translate:{ id: reservation?.id } }}
         <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
       </p>
       <div class="mb-3">
-        <label class="form-label" for="detail-assign-taxi-id">Taxi ID <span class="text-danger">*</span></label>
+        <label class="form-label" for="detail-assign-taxi-id">{{ 'reservation.detail.taxiId' | translate }} <span class="text-danger">*</span></label>
         <input
           id="detail-assign-taxi-id"
           type="number"
           class="form-control"
           formControlName="taxiId"
-          placeholder="e.g. 42"
+          placeholder="{{ 'reservation.detail.taxiIdPlaceholder' | translate }}"
         />
         <div *ngIf="assignSubmitted && af.taxiId.errors" class="text-danger small mt-1">
-          A valid taxi ID is required.
+          {{ 'reservation.detail.taxiIdRequired' | translate }}
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="detail-assign-type">Assignment type</label>
+        <label class="form-label" for="detail-assign-type">{{ 'reservation.detail.assignmentType' | translate }}</label>
         <select id="detail-assign-type" class="form-select" formControlName="assignmentType">
-          <option value="MANUAL">MANUAL</option>
-          <option value="AUTO">AUTO</option>
+          <option value="MANUAL">{{ 'reservation.detail.assignTypeManual' | translate }}</option>
+          <option value="AUTO">{{ 'reservation.detail.assignTypeAuto' | translate }}</option>
         </select>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="detail-assign-by">Assigned by</label>
+        <label class="form-label" for="detail-assign-by">{{ 'reservation.detail.assignedBy' | translate }}</label>
         <input id="detail-assign-by" type="text" class="form-control" formControlName="assignedBy" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="detail-assign-comment">Comment</label>
+        <label class="form-label" for="detail-assign-comment">{{ 'reservation.detail.comment' | translate }}</label>
         <textarea id="detail-assign-comment" class="form-control" rows="2" formControlName="comment"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-primary" [disabled]="assigning">
         <span *ngIf="assigning" class="spinner-border spinner-border-sm me-1"></span>
-        Assign taxi
+        {{ 'reservation.detail.assignModalConfirm' | translate }}
       </button>
     </div>
   </form>
@@ -286,29 +286,31 @@
 <!-- Unassign taxi modal -->
 <ng-template #unassignModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Unassign taxi</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <h5 class="modal-title">{{ 'reservation.detail.unassignModalTitle' | translate }}</h5>
+    <button type="button" class="btn-close" [attr.aria-label]="'reservation.detail.close' | translate" (click)="modal.dismiss()"></button>
   </div>
   <form [formGroup]="unassignForm" (ngSubmit)="confirmUnassign(modal)">
     <div class="modal-body">
       <p>
-        Unassign the taxi from reservation <strong>#{{ reservation?.id }}</strong>? This calls
+        {{ 'reservation.detail.unassignModalIntro' | translate }}
+        <strong>#{{ reservation?.id }}</strong>
+        {{ 'reservation.detail.unassignModalCalls' | translate }}
         <code>DELETE /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
       </p>
       <div class="mb-3">
-        <label class="form-label" for="detail-unassign-by">Cancelled by (optional)</label>
+        <label class="form-label" for="detail-unassign-by">{{ 'reservation.detail.cancelledByOptional' | translate }}</label>
         <input id="detail-unassign-by" type="text" class="form-control" formControlName="cancelledBy" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="detail-unassign-reason">Reason (optional)</label>
+        <label class="form-label" for="detail-unassign-reason">{{ 'reservation.detail.reasonOptional' | translate }}</label>
         <textarea id="detail-unassign-reason" class="form-control" rows="2" formControlName="reason"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-danger" [disabled]="unassigning">
         <span *ngIf="unassigning" class="spinner-border spinner-border-sm me-1"></span>
-        Confirm unassign
+        {{ 'reservation.detail.unassignConfirm' | translate }}
       </button>
     </div>
   </form>
@@ -317,44 +319,47 @@
 <!-- Update reservation modal -->
 <ng-template #updateModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Update reservation #{{ reservation?.id }}</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <h5 class="modal-title">{{ 'reservation.detail.updateModalTitle' | translate:{ id: reservation?.id } }}</h5>
+    <button type="button" class="btn-close" [attr.aria-label]="'reservation.detail.close' | translate" (click)="modal.dismiss()"></button>
   </div>
   <form [formGroup]="updateForm" (ngSubmit)="submitUpdate(modal)">
     <div class="modal-body">
       <p class="text-muted">
-        Sends <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}</code> with <code>UpdateReservationRequest</code>.
+        {{ 'reservation.detail.updateModalIntro' | translate }}
+        <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}</code>
+        {{ 'reservation.detail.updateModalWith' | translate }}
+        <code>UpdateReservationRequest</code>.
       </p>
       <div class="mb-3">
-        <label class="form-label" for="update-telephone">Telephone</label>
+        <label class="form-label" for="update-telephone">{{ 'reservation.detail.telephone' | translate }}</label>
         <input id="update-telephone" type="text" class="form-control" formControlName="telephone" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="update-pickup">Pickup</label>
+        <label class="form-label" for="update-pickup">{{ 'reservation.detail.pickup' | translate }}</label>
         <input id="update-pickup" type="text" class="form-control" formControlName="pickup" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="update-destination">Destination</label>
+        <label class="form-label" for="update-destination">{{ 'reservation.detail.destination' | translate }}</label>
         <input id="update-destination" type="text" class="form-control" formControlName="destination" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="update-datetime">Reservation date time</label>
+        <label class="form-label" for="update-datetime">{{ 'reservation.detail.reservationDateTime' | translate }}</label>
         <input id="update-datetime" type="datetime-local" class="form-control" formControlName="reservationDateTime" />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="update-commentaire">Commentaire</label>
+        <label class="form-label" for="update-commentaire">{{ 'reservation.detail.commentaire' | translate }}</label>
         <textarea id="update-commentaire" class="form-control" rows="2" formControlName="commentaire"></textarea>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="update-price">Final price</label>
+        <label class="form-label" for="update-price">{{ 'reservation.detail.finalPrice' | translate }}</label>
         <input id="update-price" type="number" step="0.01" min="0" class="form-control" formControlName="finalPrice" />
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-primary" [disabled]="updating">
         <span *ngIf="updating" class="spinner-border spinner-border-sm me-1"></span>
-        Save changes
+        {{ 'common.saveChanges' | translate }}
       </button>
     </div>
   </form>

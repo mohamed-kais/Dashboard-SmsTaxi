@@ -1,0 +1,1179 @@
+{
+  "HEADER": {
+    "SEARCH": "Rechercher...",
+    "MEGA_MENU": "Méga menu",
+    "NOTIFICATIONS": {
+      "TITLE": "Notifications",
+      "VIEW_ALL": "Tout afficher",
+      "LOAD_MORE": "Voir plus..",
+      "FIRST": {
+        "TITLE": "Votre commande a été passée",
+        "TEXT": "Si plusieurs langues fusionnent, la grammaire",
+        "TIME": "il y a 3 min"
+      },
+      "SECOND": {
+        "TITLE": "James Lemire",
+        "TEXT": "Cela semblera de l'anglais simplifié.",
+        "TIME": "il y a 1 heure"
+      },
+      "THIRD": {
+        "TITLE": "Votre article a été expédié",
+        "TEXT": "Si plusieurs langues fusionnent, la grammaire",
+        "TIME": "il y a 3 min"
+      },
+      "FOUR": {
+        "TITLE": "Salena Layfield",
+        "TEXT": "Tel un ami sceptique de Cambridge, le mien occidental.",
+        "TIME": "il y a 1 heure"
+      }
+    },
+    "SETTINGS": "Paramètres",
+    "UI": {
+      "TITLE": "Composants d'interface",
+      "LIGHTBOX": "LightBox",
+      "RANGE_SLIDER": "Curseur de plage",
+      "SWEET_ALERT": "Sweet Alert",
+      "RATING": "Évaluation",
+      "FORMS": "Formulaires",
+      "TABLES": "Tableaux",
+      "CHARTS": "Graphiques"
+    },
+    "APPLICATIONS": {
+      "TITLE": "Applications",
+      "ECOMMERCE": "E-commerce",
+      "CALENDAR": "Calendrier",
+      "EMAIL": "E-mail",
+      "PROJECTS": "Projets",
+      "TASKS": "Tâches",
+      "CONTACTS": "Contacts"
+    },
+    "EXTRA_PAGES": {
+      "TITLE": "Pages supplémentaires",
+      "LIGHT_SIDEBAR": "Barre latérale claire",
+      "COMPACT_SIDEBAR": "Barre latérale compacte",
+      "HORIZONTAL_LAYOUT": "Disposition horizontale",
+      "MAINTENANCE": "Maintenance",
+      "COMING SOON": "Bientôt disponible",
+      "TIMELINE": "Chronologie",
+      "FAQ": "FAQ"
+    },
+    "LOGIN": {
+      "PROFILE": "Profil",
+      "MY_WALLET": "Mon portefeuille",
+      "SETTINGS": "Paramètres",
+      "LOCK_SCREEN": "Écran de verrouillage",
+      "LOGOUT": "Déconnexion"
+    }
+  },
+  "MENUITEMS": {
+    "MENU": {
+      "TEXT": "Menu"
+    },
+    "DASHBOARDS": {
+      "TEXT": "Tableaux de bord",
+      "BADGE": "04",
+      "LIST": {
+        "DEFAULT": "Par défaut",
+        "SAAS": "SaaS",
+        "CRYPTO": "Crypto",
+        "BLOG": "Blog",
+        "JOBS": "Emplois"
+      }
+    },
+    "LAYOUTS": {
+      "TEXT": "Mises en page",
+      "LIST": {
+        "HORIZONTAL": "Horizontale",
+        "LIGHTSIDEBAR": "Barre latérale claire",
+        "COMPACTSIDEBAR": "Barre latérale compacte",
+        "ICONSIDEBAR": "Barre latérale à icônes",
+        "BOXED": "Mise en page encadrée",
+        "COLOREDSIDEBAR": "Barre latérale colorée",
+        "VERTICAL": "Verticale",
+        "LIGHTTOPBAR": "Barre supérieure claire",
+        "COLOREDHEADER": "En-tête coloré",
+        "SCROLLABLE": "Défilable"
+      }
+    },
+    "APPS": {
+      "TEXT": "Applications"
+    },
+    "CALENDAR": {
+      "TEXT": "Calendrier"
+    },
+    "CHAT": {
+      "TEXT": "Chat",
+      "BADGE": "Nouveau"
+    },
+    "FILEMANAGER": {
+      "TEXT": "Gestionnaire de fichiers",
+      "BADGE": "Nouveau"
+    },
+    "ECOMMERCE": {
+      "TEXT": "E-commerce",
+      "LIST": {
+        "PRODUCTS": "Produits",
+        "PRODUCTDETAIL": "Détail du produit",
+        "ORDERS": "Commandes",
+        "CUSTOMERS": "Clients",
+        "CART": "Panier",
+        "CHECKOUT": "Paiement",
+        "SHOPS": "Boutiques",
+        "ADDPRODUCT": "Ajouter un produit"
+      }
+    },
+    "CRYPTO": {
+      "TEXT": "Crypto",
+      "LIST": {
+        "WALLET": "Portefeuille",
+        "BUY/SELL": "Achat/Vente",
+        "EXCHANGE": "Échange",
+        "LENDING": "Prêts",
+        "ORDERS": "Commandes",
+        "KYCAPPLICATION": "Demande KYC",
+        "ICOLANDING": "Accueil ICO"
+      }
+    },
+    "EMAIL": {
+      "TEXT": "E-mail",
+      "LIST": {
+        "INBOX": "Boîte de réception",
+        "READEMAIL": "Lire l'e-mail",
+        "TEMPLATE": {
+          "BADGE": "Nouveau",
+          "TEXT": "Modèle",
+          "LIST": {
+            "BASIC": "Action basique",
+            "ALERT": "E-mail d'alerte",
+            "BILLING": "E-mail de facturation"
+          }
+        }
+      }
+    },
+    "INVOICES": {
+      "TEXT": "Factures",
+      "LIST": {
+        "INVOICELIST": "Liste des factures",
+        "INVOICEDETAIL": "Détail de la facture"
+      }
+    },
+    "PROJECTS": {
+      "TEXT": "Projets",
+      "LIST": {
+        "GRID": "Grille des projets",
+        "PROJECTLIST": "Liste des projets",
+        "OVERVIEW": "Vue d'ensemble du projet",
+        "CREATE": "Créer un projet"
+      }
+    },
+    "TASKS": {
+      "TEXT": "Tâches",
+      "LIST": {
+        "TASKLIST": "Liste des tâches",
+        "KANBAN": "Tableau Kanban",
+        "CREATETASK": "Créer une tâche"
+      }
+    },
+    "CONTACTS": {
+      "TEXT": "Contacts",
+      "LIST": {
+        "USERGRID": "Grille d'utilisateurs",
+        "USERLIST": "Liste des utilisateurs",
+        "PROFILE": "Profil"
+      }
+    },
+    "BLOG": {
+      "TEXT": "Blog",
+      "BADGE": "Nouveau",
+      "LIST": {
+        "BLOGLIST": "Liste du blog",
+        "BLOGGRID": "Grille du blog",
+        "DETAIL": "Détails du blog"
+      }
+    },
+    "JOBS": {
+      "TEXT": "Emplois",
+      "BADGE": "Nouveau",
+      "LIST": {
+        "JOBLIST": "Liste des emplois",
+        "JOBGRID": "Grille des emplois",
+        "APPLYJOB": "Postuler à un emploi",
+        "JOBDETAILS": "Détails de l'emploi",
+        "JOBCATEGORIES": "Catégories d'emplois",
+        "CANDIDATE": {
+          "TEXT": "Candidat",
+          "LIST": {
+            "LIST": "Liste",
+            "OVERVIEW": "Vue d'ensemble"
+          }
+        }
+      }
+    },
+    "PAGES": {
+      "TEXT": "Pages"
+    },
+    "AUTHENTICATION": {
+      "TEXT": "Authentification",
+      "BADGE": "Nouveau",
+      "LIST": {
+        "LOGIN": "Connexion",
+        "LOGIN2": "Connexion 2",
+        "REGISTER": "Inscription",
+        "REGISTER2": "Inscription 2",
+        "RECOVERPWD": "Récupération du mot de passe",
+        "RECOVERPWD2": "Récupération du mot de passe 2",
+        "LOCKSCREEN": "Écran de verrouillage",
+        "LOCKSCREEN2": "Écran de verrouillage 2",
+        "CONFIRMMAIL": "Confirmation de l'e-mail",
+        "CONFIRMMAIL2": "Confirmation de l'e-mail 2",
+        "EMAILVERIFICATION": "Vérification de l'e-mail",
+        "EMAILVERIFICATION2": "Vérification de l'e-mail 2",
+        "TWOSTEPVERIFICATION": "Vérification en deux étapes",
+        "TWOSTEPVERIFICATION2": "Vérification en deux étapes 2"
+      }
+    },
+    "UTILITY": {
+      "TEXT": "Utilitaire",
+      "LIST": {
+        "STARTER": "Page vierge",
+        "MAINTENANCE": "Maintenance",
+        "TIMELINE": "Chronologie",
+        "FAQS": "FAQ",
+        "PRICING": "Tarifs",
+        "ERROR404": "Erreur 404",
+        "ERROR500": "Erreur 500"
+      }
+    },
+    "COMPONENTS": {
+      "TEXT": "Composants"
+    },
+    "UIELEMENTS": {
+      "TEXT": "Éléments d'interface",
+      "LIST": {
+        "ALERTS": "Alertes",
+        "BUTTONS": "Boutons",
+        "CARDS": "Cartes",
+        "CAROUSEL": "Carrousel",
+        "DROPDOWNS": "Menus déroulants",
+        "GRID": "Grille",
+        "IMAGES": "Images",
+        "LIGHTBOX": "Lightbox",
+        "MODALS": "Fenêtres modales",
+        "RANGESLIDER": "Curseur de plage",
+        "PROGRESSBAR": "Barres de progression",
+        "PLACEHOLDER": "Espace réservé",
+        "SWEETALERT": "Alertes Sweet",
+        "TABS": "Onglets et accordéons",
+        "TYPOGRAPHY": "Typographie",
+        "TOASTS": "Messages éphémères",
+        "VIDEO": "Vidéo",
+        "GENERAL": "Général",
+        "COLORS": "Couleurs",
+        "RATING": "Évaluation",
+        "NOTIFICATION": "Notification",
+        "UTILITIES": "Utilitaires",
+        "CROPPER": "Recadrage d'image"
+      }
+    },
+    "FORMS": {
+      "TEXT": "Formulaires",
+      "BADGE": "09",
+      "LIST": {
+        "ELEMENTS": "Éléments de formulaire",
+        "VALIDATION": "Validation de formulaire",
+        "ADVANCED": "Formulaire avancé",
+        "EDITOR": "Éditeur de formulaire",
+        "FILEUPLOAD": "Téléversement de fichier",
+        "REPEATER": "Répéteur de formulaire",
+        "WIZARD": "Assistant de formulaire",
+        "MASK": "Masque de formulaire",
+        "LAYOUTS": "Mises en page de formulaire"
+      }
+    },
+    "TABLES": {
+      "TEXT": "Tableaux",
+      "LIST": {
+        "BASIC": "Tableaux de base",
+        "DataTables": "Tableaux de données",
+        "EditTableTables": "Tableau modifiable"
+      }
+    },
+    "CHARTS": {
+      "TEXT": "Graphiques",
+      "LIST": {
+        "APEX": "Graphique Apex",
+        "CHARTJS": "Graphique Chartjs",
+        "CHARTIST": "Graphique Chartist",
+        "ECHART": "Graphique E"
+      }
+    },
+    "ICONS": {
+      "TEXT": "Icônes",
+      "LIST": {
+        "BOXICONS": "Boxicons",
+        "MATERIALDESIGN": "Material Design",
+        "DRIPICONS": "Dripicons",
+        "FONTAWESOME": "Font Awesome"
+      }
+    },
+    "MAPS": {
+      "TEXT": "Cartes",
+      "LIST": {
+        "GOOGLEMAP": "Google Maps",
+        "LEAFLETMAP": "Leaflet Maps"
+      }
+    },
+    "MULTILEVEL": {
+      "TEXT": "Multi-niveau",
+      "LIST": {
+        "LEVEL1": {
+          "1": "Niveau 1.1",
+          "2": "Niveau 1.2",
+          "LEVEL2": {
+            "1": "Niveau 2.1",
+            "2": "Niveau 2.2"
+          }
+        }
+      }
+    }
+  },
+  "Overview": "Aperçu",
+  "Dashboard": "Tableau de bord",
+  "Fleet": "Flotte",
+  "Ratings": "Évaluations",
+  "Operations": "Opérations",
+  "Reservations": "Réservations",
+  "SMS Log": "Journal SMS",
+  "layout": {
+    "topbar": {
+      "justNow": "À l'instant",
+      "minAgo": " min",
+      "minsAgo": " min",
+      "hourAgo": " heure",
+      "hoursAgo": " heures",
+      "searchPlaceholder": "Rechercher ...",
+      "loading": "Chargement...",
+      "noNotifications": "Pas encore de notifications",
+      "roleLabel": "Administrateur"
+    },
+    "footer": {
+      "rights": "All Rights Reserved © SMS TAXI {{year}} un service conforme à la législation tunisienne",
+      "developedBy": "Développé par MKF"
+    },
+    "rightSidebar": {
+      "settings": "Paramètres",
+      "layout": "Disposition",
+      "vertical": "vertical",
+      "horizontal": "horizontal",
+      "width": "Largeur",
+      "fluid": "Fluide",
+      "boxed": "Encadré",
+      "scrollable": "Défilable",
+      "sidebarColor": "Couleur de la barre latérale",
+      "light": "Clair",
+      "dark": "Sombre",
+      "compact": "Compact",
+      "icon": "Icône",
+      "colored": "Coloré",
+      "themeMode": "Mode du thème",
+      "topbarColor": "Couleur de la barre supérieure"
+    }
+  },
+  "taxis": {
+    "list": {
+      "searchPlaceholder": "Rechercher par téléphone ou par nom…",
+      "allStatuses": "Tous les statuts",
+      "addTaxi": "Ajouter un taxi",
+      "ratingHeader": "Note",
+      "empty": "Aucun taxi trouvé.",
+      "loading": "Chargement des taxis…",
+      "showing": "Affichage de {{ start }} à {{ end }} sur {{ total }} taxis",
+      "deleteConfirm": "Supprimer le taxi {{label}} ? Cette action est irréversible.",
+      "deleteFailed": "Échec de la suppression du taxi.",
+      "setStatusFailed": "Impossible de définir le statut sur {{status}}.",
+      "loadFailed": "Échec du chargement des taxis."
+    },
+    "form": {
+      "titleAdd": "Ajouter un taxi",
+      "titleEdit": "Modifier le taxi",
+      "phonePlaceholder": "0612345678",
+      "phoneRequired": "Le numéro de téléphone est obligatoire.",
+      "phonePattern": "Le téléphone ne peut contenir que des chiffres, +, -, espaces ou parenthèses.",
+      "max100": "100 caractères max.",
+      "emailInvalid": "Saisissez une adresse e-mail valide.",
+      "taxiNumber": "Numéro de taxi",
+      "max20": "20 caractères max.",
+      "matricule": "Matricule",
+      "max50": "50 caractères max.",
+      "cin": "CIN",
+      "constructor": "Constructeur",
+      "destination": "Destination",
+      "max500": "500 caractères max.",
+      "location": "Localisation",
+      "content": "Contenu",
+      "max1000": "1000 caractères max.",
+      "saveFailed": "Échec de l'enregistrement du taxi."
+    }
+  },
+  "common": {
+    "hash": "#",
+    "phone": "Téléphone",
+    "name": "Nom",
+    "type": "Type",
+    "status": "Statut",
+    "actions": "Actions",
+    "view": "Voir",
+    "edit": "Modifier",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "yes": "Oui",
+    "no": "Non",
+    "id": "ID",
+    "delete": "Supprimer",
+    "saveChanges": "Enregistrer les modifications",
+    "reset": "Réinitialiser",
+    "date": "Date",
+    "total": "total",
+    "unread": "non lu",
+    "email": "E-mail",
+    "assign": "Affecter",
+    "clear": "Effacer",
+    "refresh": "Actualiser",
+    "search": "Recherche",
+    "unassign": "Retirer l'affectation",
+    "update": "Mettre à jour",
+    "close": "Fermer"
+  },
+  "taxi": {
+    "detail": {
+      "pageTitle": "Taxi #{{id}}",
+      "loading": "Chargement du taxi…",
+      "tabProfile": "Profil",
+      "profileTitle": "Profil du taxi",
+      "rating": "Note",
+      "taxiNumber": "Numéro de taxi",
+      "matricule": "Matricule",
+      "cin": "CIN",
+      "constructor": "Constructeur",
+      "destination": "Destination",
+      "location": "Localisation",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "gpsLat": "GPS lat",
+      "gpsLng": "GPS lng",
+      "etat": "État",
+      "registered": "Date d'inscription",
+      "treatment": "Traitement",
+      "masquerNumber": "Masquer le numéro",
+      "smsWinek": "SMS winek",
+      "smsWinekDate": "Date SMS winek",
+      "rideOffers": "Offres de trajet",
+      "content": "Contenu",
+      "ratingSummary": "Résumé des évaluations",
+      "avgHistory": "Moy. (historique)",
+      "count": "Nombre",
+      "noRatingSummary": "Aucun résumé d'évaluations disponible.",
+      "gpsLocation": "Localisation GPS",
+      "sourceGpsFeed": "Source : flux GPS",
+      "sourceRegistration": "Source : inscription",
+      "gpsSaved": "Localisation GPS mise à jour.",
+      "latitudeRange": "Latitude (−90…90)",
+      "latitudeInvalid": "La latitude doit être comprise entre −90 et 90.",
+      "longitudeRange": "Longitude (−180…180)",
+      "longitudeInvalid": "La longitude doit être comprise entre −180 et 180.",
+      "bearing": "Cap",
+      "updateGps": "Mettre à jour le GPS",
+      "tabHistory": "Historique des trajets",
+      "historyTitle": "Historique des trajets — {{ phone }}",
+      "route": "Itinéraire",
+      "price": "Prix",
+      "realPrice": "Prix réel",
+      "noRides": "Aucun trajet trouvé.",
+      "loadingHistory": "Chargement de l'historique des trajets…",
+      "pageOf": "Page {{ page }} sur {{ pages }}",
+      "invalidId": "ID de taxi invalide.",
+      "loadFailed": "Échec du chargement du taxi.",
+      "historyLoadFailed": "Échec du chargement de l'historique des trajets.",
+      "notLoaded": "Le taxi n'est pas chargé.",
+      "noPhone": "Le taxi n'a pas de numéro de téléphone ; update-taxi en nécessite un.",
+      "gpsUpdateFailed": "Échec de la mise à jour du GPS.",
+      "setStatusFailed": "Impossible de définir le statut sur {{status}}."
+    }
+  },
+  "clients": {
+    "list": {
+      "allClients": "Tous les clients",
+      "clientCount": "{{ total }} client(s)",
+      "searchPlaceholder": "Rechercher téléphone, e-mail, nom…",
+      "addClient": "Ajouter un client",
+      "telephoneHeader": "Téléphone",
+      "registeredHeader": "Date d'inscription",
+      "loading": "Chargement des clients…",
+      "empty": "Aucun client trouvé.",
+      "showing": "Affichage de {{ start }} à {{ end }} sur {{ total }} entrées",
+      "deleteTitle": "Supprimer le client",
+      "deleteBodyPrefix": "Supprimer le client",
+      "deleteBodySuffix": " ? Cette action est irréversible.",
+      "loadFailed": "Échec du chargement des clients.",
+      "deleteFailed": "Échec de la suppression du client."
+    },
+    "form": {
+      "titleAdd": "Ajouter un client",
+      "titleEdit": "Modifier le client",
+      "telephone": "Téléphone",
+      "phonePlaceholder": "ex. 0612345678",
+      "phoneRequired": "Le téléphone est obligatoire.",
+      "phonePattern": "Le téléphone ne peut contenir que des chiffres, +, -, espaces et parenthèses.",
+      "namePlaceholder": "Nom d'affichage du client",
+      "nameMax": "Le nom ne doit pas dépasser 100 caractères.",
+      "emailPlaceholder": "name@example.com",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+      "emailMax": "L'e-mail ne doit pas dépasser 254 caractères.",
+      "masquerNumero": "Masquer le numéro (cacher le numéro)",
+      "contenu": "Contenu",
+      "contenuPlaceholder": "Note complémentaire (1000 caractères max)",
+      "contenuMax": "Le contenu ne doit pas dépasser 1000 caractères.",
+      "saving": "Enregistrement…",
+      "saveFailed": "Échec de l'enregistrement du client."
+    }
+  },
+  "client": {
+    "detail": {
+      "loading": "Chargement du client…",
+      "backToClients": "Retour aux clients",
+      "profileTitle": "Profil du client",
+      "telephone": "Téléphone",
+      "registered": "Date d'inscription",
+      "masquerNumber": "Masquer le numéro",
+      "location": "Localisation",
+      "destination": "Destination",
+      "contenu": "Contenu",
+      "traitement": "Traitement",
+      "locationCoords": "Localisation (lat, lng)",
+      "destinationCoords": "Destination (lat, lng)",
+      "tabOverview": "Aperçu",
+      "tabHistory": "Historique des trajets",
+      "taxiHeader": "Taxi",
+      "pickup": "Départ",
+      "price": "Prix",
+      "loadingHistory": "Chargement de l'historique…",
+      "noHistory": "Aucun historique de trajets pour ce client.",
+      "showing": "Affichage de {{ shown }} sur {{ total }} entrées",
+      "deleteTitle": "Supprimer le client",
+      "deleteBodyPrefix": "Supprimer le client",
+      "deleteBodySuffix": " ? Le client et ses données seront supprimés. Cette action est irréversible.",
+      "pageTitle": "Client #{{id}}",
+      "breadcrumbHash": "#{{id}}",
+      "invalidId": "ID de client invalide.",
+      "loadFailed": "Échec du chargement du client #{{id}}.",
+      "deleteFailed": "Échec de la suppression du client.",
+      "historyLoadFailed": "Échec du chargement de l'historique des trajets."
+    }
+  },
+  "ratings": {
+    "list": {
+      "howRatingsWork": "Comment fonctionnent les évaluations",
+      "explanation": "L'API n'a pas d'endpoint « list all drivers with ratings » — les évaluations ne sont lisibles que par chauffeur. Recherchez un chauffeur ci-dessous (par téléphone du taxi ou ID taxi/chauffeur) pour résoudre son identifiant de chauffeur, puis ouvrez son historique d'évaluations sur la page de détail.",
+      "perDriverPathPrefix": "Le détail par chauffeur se trouve à",
+      "lookupTitle": "Recherche de chauffeur",
+      "lookupHint": "Saisissez un numéro de téléphone de taxi ou un ID taxi/chauffeur numérique. L'ID du chauffeur est résolu via les endpoints de résumé d'évaluation documentés.",
+      "lookupLabel": "Téléphone du taxi ou ID taxi/chauffeur",
+      "lookupPlaceholder": "ex. 21692569444 ou 42",
+      "lookupButton": "Rechercher le chauffeur",
+      "lookupInvalid": "Saisissez un numéro de téléphone ou un ID numérique valide.",
+      "resolvedDriver": "Chauffeur identifié :",
+      "openHistory": "Ouvrir l'historique des évaluations",
+      "usesEndpoints": "Utilise",
+      "averageRating": "Note moyenne",
+      "aggregateRating": "Note agrégée",
+      "ratingCount": "Nombre d'évaluations",
+      "aboutNumbers": "À propos de ces chiffres",
+      "aboutAverage": "la moyenne issue du tableau de l'historique des évaluations",
+      "fieldOfSummary": "champ du résumé",
+      "aboutAggregate": "l'agrégé stocké sur le taxi",
+      "aboutCount": "le nombre d'entrées de l'historique des évaluations.",
+      "perDriverHistory": "L'historique des évaluations par chauffeur est affiché sur la page de détail",
+      "lookupFailed": "La recherche du chauffeur a échoué. Vérifiez le numéro de téléphone ou l'ID taxi/chauffeur."
+    },
+    "driver": {
+      "backToRatings": "Retour aux évaluations",
+      "lowAverageTitle": "Note moyenne faible",
+      "lowAvgPrefix": "Le chauffeur",
+      "lowAvgMiddle": "a une note moyenne de",
+      "lowAvgSuffix": "(en dessous de 3,0). Pensez à examiner les trajets récents.",
+      "reportButton": "Signaler une note faible",
+      "reportThanks": "Merci — le signalement a été enregistré localement. Le signalement côté backend n'est pas encore disponible (voir ROADMAP).",
+      "averageRating": "Note moyenne",
+      "totalRatings": "Total des évaluations",
+      "lowRatingsStat": "Évaluations faibles (< 3)",
+      "driverIdStat": "ID du chauffeur",
+      "historyTitle": "Historique des évaluations",
+      "driverLabel": "Chauffeur #{{ id }}",
+      "loading": "Chargement des évaluations…",
+      "ratingHeader": "Note",
+      "offerHeader": "Offre",
+      "driverHeader": "Chauffeur",
+      "commentHeader": "Commentaire",
+      "empty": "Aucune évaluation trouvée pour ce chauffeur.",
+      "noDriverId": "Aucun ID de chauffeur fourni."
+    }
+  },
+  "demands": {
+    "list": {
+      "allStatuses": "Tous les statuts",
+      "clientPhone": "Téléphone du client",
+      "fromDate": "Date de début",
+      "datePlaceholder": "yyyy-mm-dd",
+      "toDate": "Date de fin",
+      "minPrice": "Prix min",
+      "min": "Min",
+      "maxPrice": "Prix max",
+      "max": "Max",
+      "client": "Client",
+      "route": "Itinéraire",
+      "estimatedPrice": "Prix estimé",
+      "broadcast": "Diffuser",
+      "loading": "Chargement des demandes…",
+      "empty": "Aucune demande trouvée.",
+      "range": "Affichage de {{start}} à {{end}} sur {{total}} demandes",
+      "updating": "· mise à jour…",
+      "cancelDemandTitle": "Annuler la demande ?",
+      "cancelDemandText": "La demande n° {{id}} sera annulée.",
+      "cancelDemand": "Annuler la demande",
+      "keep": "Garder",
+      "cancelled": "Annulé",
+      "cancelledText": "La demande n° {{id}} a été annulée.",
+      "error": "Erreur",
+      "deleteDemandTitle": "Supprimer la demande ?",
+      "deleteDemandText": "La demande n° {{id}} sera définitivement supprimée.",
+      "deleted": "Supprimé",
+      "deletedText": "La demande n° {{id}} a été supprimée."
+    }
+  },
+  "offers": {
+    "list": {
+      "allStatuses": "Tous les statuts",
+      "clientPhone": "Téléphone du client",
+      "taxiPhone": "Téléphone du taxi",
+      "fromDate": "Date de début",
+      "datePlaceholder": "yyyy-mm-dd",
+      "toDate": "Date de fin",
+      "minPrice": "Prix min",
+      "min": "Min",
+      "maxPrice": "Prix max",
+      "max": "Max",
+      "client": "Client",
+      "taxi": "Taxi",
+      "route": "Itinéraire",
+      "totalPrice": "Prix total",
+      "rating": "Note",
+      "loading": "Chargement des offres…",
+      "empty": "Aucune offre trouvée.",
+      "range": "Affichage de {{start}} à {{end}} sur {{total}} offres",
+      "updating": "· mise à jour…",
+      "cancelOfferTitle": "Annuler l'offre ?",
+      "cancelOfferText": "L'offre n° {{id}} sera annulée.",
+      "cancelOffer": "Annuler l'offre",
+      "keep": "Garder",
+      "cancelled": "Annulé",
+      "cancelledText": "L'offre n° {{id}} a été annulée.",
+      "error": "Erreur",
+      "deleteOfferTitle": "Supprimer l'offre ?",
+      "deleteOfferText": "L'offre n° {{id}} sera définitivement supprimée.",
+      "deleted": "Supprimé",
+      "deletedText": "L'offre n° {{id}} a été supprimée."
+    }
+  },
+  "demand": {
+    "detail": {
+      "loading": "Chargement de la demande…",
+      "details": "Détails de la demande",
+      "deposited": "Déposée",
+      "hideNumber": "Masquer le numéro (masquerNumero)",
+      "smsHideNumberProcessed": "SMS de masquage du numéro traité",
+      "clientPhone": "Téléphone du client",
+      "clientName": "Nom du client",
+      "clientEmail": "E-mail du client",
+      "assignment": "Affectation",
+      "assignmentNote": "L'affectation d'un taxi à une demande est visible via ses offres (la liste des offres administratives affiche le taxi correspondant). Il n'existe pas de point de réaffectation dans l'API — utilisez la vue des offres pour l'inspecter.",
+      "viewOffers": "Voir les offres",
+      "forClientPhone": " pour {{phone}}",
+      "since": "depuis {{date}}",
+      "statusNote": "L'API n'expose que le statut actuel et la date de dépôt — aucun historique par état n'est disponible, aucune chronologie n'est donc affichée.",
+      "changeState": "Changer d'état",
+      "cancelDemand": "Annuler la demande",
+      "deleteDemand": "Supprimer la demande",
+      "title": "Demande n° {{id}}",
+      "updated": "Mis à jour",
+      "updatedText": "La demande n° {{id}} est maintenant {{etat}}.",
+      "error": "Erreur",
+      "cancelDemandTitle": "Annuler la demande ?",
+      "cancelDemandText": "La demande n° {{id}} sera annulée.",
+      "keep": "Garder",
+      "cancelled": "Annulé",
+      "cancelledText": "La demande n° {{id}} a été annulée.",
+      "deleteDemandTitle": "Supprimer la demande ?",
+      "deleteDemandText": "La demande n° {{id}} sera définitivement supprimée.",
+      "deleted": "Supprimé",
+      "deletedText": "La demande n° {{id}} a été supprimée."
+    }
+  },
+  "offer": {
+    "detail": {
+      "loading": "Chargement de l'offre…",
+      "details": "Détails de l'offre",
+      "deposited": "Déposée",
+      "channelType": "Canal (type)",
+      "clientPhone": "Téléphone du client",
+      "clientName": "Nom du client",
+      "taxiPhone": "Téléphone du taxi",
+      "taxiName": "Nom du taxi",
+      "pickup": "Point de départ",
+      "destination": "Destination",
+      "duration": "Durée",
+      "distance": "Distance",
+      "latLong": "Latitude / Longitude",
+      "autoCancelled": "Annulée automatiquement (annulee_auto)",
+      "info": "Info",
+      "priceRating": "Prix et note",
+      "totalPrice": "Prix total",
+      "realPrice": "Prix réel",
+      "variance": "Variance",
+      "rating": "Note",
+      "comments": "Commentaires",
+      "routeText": "Texte de l'itinéraire",
+      "routeTextUnavailable": "Le téléphone du client est requis en segment de chemin pour la mise à jour du texte de l'itinéraire, mais il est absent de la réponse de l'offre — la mise à jour n'est pas disponible pour cette offre.",
+      "pickupLabel": "Libellé du point de départ",
+      "destinationLabel": "Libellé de destination",
+      "saving": "Enregistrement…",
+      "since": "depuis {{date}}",
+      "statusNote": "L'API n'expose que le statut actuel et la date de dépôt — aucun historique par état n'est disponible, aucune chronologie n'est donc affichée.",
+      "changeState": "Changer d'état",
+      "cancelOffer": "Annuler l'offre",
+      "deleteOffer": "Supprimer l'offre",
+      "title": "Offre n° {{id}}",
+      "updated": "Mis à jour",
+      "updatedText": "L'offre n° {{id}} est maintenant {{etat}}.",
+      "error": "Erreur",
+      "cancelOfferTitle": "Annuler l'offre ?",
+      "cancelOfferText": "L'offre n° {{id}} sera annulée.",
+      "keep": "Garder",
+      "cancelled": "Annulé",
+      "cancelledText": "L'offre n° {{id}} a été annulée.",
+      "deleteOfferTitle": "Supprimer l'offre ?",
+      "deleteOfferText": "L'offre n° {{id}} sera définitivement supprimée.",
+      "deleted": "Supprimé",
+      "deletedText": "L'offre n° {{id}} a été supprimée.",
+      "saved": "Enregistré",
+      "routeTextUpdated": "Le texte de l'itinéraire a été mis à jour."
+    }
+  },
+  "dashboard": {
+    "refresh": "Actualiser",
+    "statsError": "Certaines statistiques n'ont pas pu être chargées : {{labels}}.",
+    "statsErrorHint": "Les cartes concernées affichent —.",
+    "cards": {
+      "smsReceived": "SMS reçus",
+      "demandsWaiting": "Demandes en attente",
+      "demandsInProgress": "Demandes en cours",
+      "offersWaiting": "Offres en attente",
+      "offersInProgress": "Offres en cours"
+    },
+    "badges": {
+      "waiting": "En attente",
+      "inProgress": "En cours"
+    },
+    "recent": {
+      "demands": "Dernières demandes",
+      "viewAll": "Voir tout",
+      "offers": "Dernières offres",
+      "loadingDemands": "Chargement des demandes…",
+      "emptyDemands": "Aucune demande récente.",
+      "demandsRange": "Affichage de {{count}} demandes sur {{total}}",
+      "newest": "· {{count}} plus récentes",
+      "loadingOffers": "Chargement des offres…",
+      "emptyOffers": "Aucune offre récente.",
+      "offersRange": "Affichage de {{count}} offres sur {{total}}",
+      "demandsError": "Impossible de charger les dernières demandes.",
+      "offersError": "Impossible de charger les dernières offres."
+    },
+    "table": {
+      "client": "Client",
+      "route": "Trajet",
+      "estPrice": "Prix estimé",
+      "taxiClient": "Taxi / client",
+      "totalPrice": "Prix total"
+    },
+    "unknown": "INCONNU"
+  },
+  "Taxis": "Taxis",
+  "Clients": "Clients",
+  "Demands": "Demandes",
+  "Offers": "Offres",
+  "reservations": {
+    "list": {
+      "allStatuses": "Tous les statuts",
+      "searchPlaceholder": "Téléphone, départ, destination, taxi...",
+      "searchHint": "La recherche libre s'applique à la page de résultats actuelle (le point d'entrée de liste n'a pas de paramètre de recherche).",
+      "client": "Client",
+      "route": "Itinéraire",
+      "source": "Source",
+      "taxiDriver": "Taxi / Chauffeur",
+      "assignment": "Affectation",
+      "loading": "Chargement des réservations...",
+      "empty": "Aucune réservation",
+      "clientRef": "Client #{{ clientId }}",
+      "taxiRef": "Taxi #{{ taxiId }}",
+      "notAssigned": "Non affectée",
+      "showing": "Affichage de {{ shown }} sur {{ collectionSize }} réservations",
+      "assignModalTitle": "Affecter un taxi",
+      "assignModalIntro": "Réservation #{{ id }} — l'affectation d'un taxi crée une nouvelle affectation via",
+      "taxiId": "ID taxi",
+      "taxiIdPlaceholder": "ex. 42",
+      "taxiIdRequired": "Un ID taxi valide est requis.",
+      "assignmentType": "Type d'affectation",
+      "assignedBy": "Affectée par",
+      "comment": "Commentaire",
+      "assignModalConfirm": "Affecter un taxi",
+      "unassignModalTitle": "Retirer l'affectation",
+      "unassignModalIntro": "Retirer le taxi de la réservation",
+      "unassignModalCalls": "? Cela appelle",
+      "cancelledByOptional": "Annulée par (facultatif)",
+      "reasonOptional": "Motif (facultatif)",
+      "unassignConfirm": "Confirmer le retrait de l'affectation",
+      "close": "Fermer",
+      "loadFailed": "Échec du chargement des réservations.",
+      "assignFailed": "Échec de l'affectation du taxi.",
+      "unassignFailed": "Échec du retrait de l'affectation du taxi.",
+      "assignTypeManual": "Manuel",
+      "assignTypeAuto": "Automatique"
+    }
+  },
+  "reservation": {
+    "detail": {
+      "back": "Retour aux réservations",
+      "loading": "Chargement de la réservation...",
+      "notFound": "Réservation introuvable.",
+      "heading": "Réservation #{{ id }}",
+      "clientId": "ID client",
+      "telephone": "Téléphone",
+      "pickup": "Point de départ",
+      "destination": "Destination",
+      "pickupCoordinates": "Coordonnées du point de départ",
+      "destinationCoordinates": "Coordonnées de la destination",
+      "reservationTime": "Heure de la réservation",
+      "language": "Langue",
+      "commentaire": "Commentaire",
+      "estimatedPrice": "Prix estimé",
+      "finalPrice": "Prix final",
+      "estimatedDistance": "Distance estimée",
+      "estimatedDuration": "Durée estimée",
+      "reminderSent": "Rappel envoyé",
+      "convertedToDemande": "Convertie en demande",
+      "created": "Créée",
+      "updated": "Mise à jour",
+      "cancelledAt": "Annulée le",
+      "completedAt": "Terminée le",
+      "cancelledBy": "Annulée par",
+      "assignedTaxi": "Taxi affecté",
+      "taxiRef": "Taxi #{{ taxiId }}",
+      "assignmentId": "ID d'affectation",
+      "taxiId": "ID taxi",
+      "numero": "Numéro",
+      "matricule": "Matricule",
+      "assignmentType": "Type d'affectation",
+      "assignedBy": "Affectée par",
+      "assignedAt": "Affectée le",
+      "acceptedAt": "Acceptée le",
+      "comment": "Commentaire",
+      "noAssignment": "Aucun taxi affecté à cette réservation pour le moment.",
+      "assignTaxiAction": "Affecter un taxi",
+      "unassignTaxiAction": "Retirer l'affectation",
+      "assignModalTitle": "Affecter un taxi",
+      "assignModalIntro": "Réservation #{{ id }} — l'affectation se fait via",
+      "taxiIdPlaceholder": "ex. 42",
+      "taxiIdRequired": "Un ID taxi valide est requis.",
+      "assignModalConfirm": "Affecter un taxi",
+      "unassignModalTitle": "Retirer l'affectation",
+      "unassignModalIntro": "Retirer le taxi de la réservation",
+      "unassignModalCalls": "? Cela appelle",
+      "cancelledByOptional": "Annulée par (facultatif)",
+      "reasonOptional": "Motif (facultatif)",
+      "unassignConfirm": "Confirmer le retrait de l'affectation",
+      "updateModalTitle": "Modifier la réservation #{{ id }}",
+      "updateModalIntro": "Envoie",
+      "updateModalWith": "avec",
+      "reservationDateTime": "Date et heure de la réservation",
+      "close": "Fermer",
+      "loadFailed": "Échec du chargement de la réservation.",
+      "assignFailed": "Échec de l'affectation du taxi.",
+      "unassignFailed": "Échec du retrait de l'affectation du taxi.",
+      "updateFailed": "Échec de la mise à jour de la réservation.",
+      "source": "Source",
+      "assignTypeManual": "Manuel",
+      "assignTypeAuto": "Automatique"
+    }
+  },
+  "sms": {
+    "list": {
+      "incoming": "SMS entrant",
+      "total": "{{ totalCount }} au total",
+      "searchPlaceholder": "Rechercher numéro, contenu…",
+      "tabAll": "Tous",
+      "tabUntreated": "Uniquement non traités",
+      "content": "Contenu",
+      "received": "Reçu",
+      "loading": "Chargement des SMS…",
+      "empty": "Aucun SMS trouvé.",
+      "showingRange": "Affichage de {{ start }} à {{ end }} sur {{ total }} résultat(s)",
+      "viewModalTitle": "SMS #{{ id }}",
+      "close": "Fermer",
+      "deleteModalTitle": "Supprimer le SMS",
+      "deleteConfirmIntro": "Supprimer le SMS",
+      "deleteConfirmFrom": "de",
+      "deleteConfirmSuffix": "? Cette action est irréversible.",
+      "loadFailed": "Échec du chargement des SMS.",
+      "deleteFailed": "Échec de la suppression du SMS.",
+      "processed": "Traité",
+      "untreated": "Non traité"
+    },
+    "inject": {
+      "heading": "Injecter un SMS dans le journal",
+      "intro": "Envoie le message via le point d'entrée d'injection documenté, utilisé pour les tests et l'intégration de passerelles SMS externes.",
+      "phoneLabel": "Numéro de téléphone",
+      "phonePlaceholder": "ex. 0612345678",
+      "phoneRequired": "Le numéro de téléphone est requis.",
+      "phonePattern": "Le numéro de téléphone ne peut contenir que des chiffres, +, -, espaces et parenthèses.",
+      "contentLabel": "Contenu du message",
+      "contentPlaceholder": "Texte du SMS (1000 caractères max)",
+      "contentRequired": "Le contenu du message est requis.",
+      "contentMaxLength": "Le contenu du message doit comporter au maximum {{ maxContent }} caractères.",
+      "injecting": "Injection en cours…",
+      "submit": "Injecter le SMS",
+      "endpointHeading": "Référence du point d'entrée",
+      "method": "Méthode",
+      "path": "Chemin",
+      "body": "Corps",
+      "response": "Réponse",
+      "endpointNote": "Le numéro de téléphone et le contenu sont requis ; le contenu est limité à 1000 caractères. Les champs facultatifs",
+      "endpointNoteTail": "sont laissés aux valeurs par défaut du backend.",
+      "saved": "SMS enregistré.",
+      "injectFailed": "Échec de l'injection du SMS."
+    }
+  },
+  "sos": {
+    "panel": {
+      "liveAlertingNotAvailable": "L'alerte en direct n'est pas encore disponible.",
+      "liveAlertingNote": "La spécification du backend ne documente actuellement que le point de déclenchement manuel",
+      "liveAlertingTail": "il n'existe ni liste d'alertes SOS, ni flux en direct, ni point d'accusé de réception. Cette lacune est suivie dans la ROADMAP du projet.",
+      "sendTitle": "Déclencher une notification SOS",
+      "sendDescriptionIntro": "Envoie une alerte SMS SOS pour le taxi dont l'identifiant est indiqué. Le backend répond par un message de résultat simple (par exemple",
+      "sendDescriptionMiddle": "ou",
+      "sendDescriptionOutro": ").",
+      "taxiIdLabel": "Identifiant du taxi",
+      "taxiIdPlaceholder": "ex. 42",
+      "taxiIdRequired": "L'identifiant du taxi est requis.",
+      "taxiIdPositive": "L'identifiant du taxi doit être un nombre positif.",
+      "sending": "Envoi en cours…",
+      "sendButton": "Envoyer la notification SOS",
+      "protocolTitle": "Protocole d'alerte (référence)",
+      "protocolIntro": "Procédure de contact standard lors du déclenchement d'un SOS — à titre de référence pour l'opérateur uniquement ; le tableau de bord ne peut pas encore suivre l'état des alertes.",
+      "step1": "Le conducteur appuie sur le bouton SOS depuis l'application du taxi.",
+      "step2": "Le backend envoie une alerte SMS pour l'identifiant du taxi",
+      "step3": "La centrale reçoit l'appel et appelle le conducteur pour confirmer la situation.",
+      "step4": "Si le conducteur est injoignable, escalader vers les services d'urgence.",
+      "step5": "Consigner l'issue de l'incident dans le registre des opérations.",
+      "historyTitle": "Historique des alertes",
+      "notAvailable": "Non disponible",
+      "historyNote": "Texte provisoire — aucune donnée d'alerte ne peut être listée tant que le backend ne documente pas un point d'entrée de liste SOS (voir ROADMAP). La ligne ci-dessous est un exemple désactivé montrant où les alertes en direct apparaîtront.",
+      "taxiHeader": "Taxi",
+      "triggeredHeader": "Déclenchée",
+      "sampleRow": "Ligne d'exemple (désactivée)",
+      "sampleBadge": "Exemple",
+      "sent": "Notification SOS envoyée.",
+      "sendFailed": "Échec de l'envoi de la notification SOS.",
+      "smsSentSuccess": "\"SMS envoyé avec succès\"",
+      "taxiNotFound": "\"Taxi introuvable\""
+    }
+  },
+  "notification": {
+    "list": {
+      "logTitle": "Journal des notifications",
+      "sendButton": "Envoyer la notification",
+      "markAllReadTitle": "Marquer toutes les notifications de cette page comme lues",
+      "markAllRead": "Tout marquer comme lu",
+      "filterTitle": "Titre",
+      "filterTitlePlaceholder": "Filtrer par titre…",
+      "filterMessage": "Message",
+      "filterMessagePlaceholder": "Filtrer par message…",
+      "columnTitle": "Titre",
+      "columnMessage": "Message",
+      "columnChannel": "Canal",
+      "columnTarget": "Cible",
+      "columnCreated": "Créée",
+      "loading": "Chargement des notifications…",
+      "clickToMarkRead": "Cliquez pour marquer comme lu",
+      "empty": "Aucune notification trouvée.",
+      "range": "Affichage de {{start}} à {{end}} sur {{total}} résultat(s)",
+      "loadError": "Échec du chargement des notifications.",
+      "markedAsReadTitle": "Marqué comme lu",
+      "markedAsReadDetail": "{{count}} notification{{plural}} de cette page marquée(s) comme lue(s)."
+    }
+  },
+  "Notifications": "Notifications",
+  "Alerts": "Alertes",
+  "sendNotif": {
+    "stepContenu": "Contenu",
+    "stepDestinataires": "Destinataires",
+    "step1": {
+      "title": "Contenu de la notification",
+      "titleLabel": "Titre",
+      "titleRequired": "Le titre est requis.",
+      "channelLabel": "Canal",
+      "messageLabel": "Message",
+      "messageRequired": "Le message est requis.",
+      "next": "Suivant"
+    },
+    "titlePlaceholder": "Titre de la notification",
+    "messagePlaceholder": "Votre message…",
+    "previewTitle": "Aperçu en temps réel",
+    "live": "En direct",
+    "smsTaxi": "SMS Taxi",
+    "messageFallback": "Votre message apparaîtra ici…",
+    "previewHint": "L'aperçu se met à jour automatiquement au fur et à mesure de la saisie.",
+    "step2": {
+      "title": "Destinataires",
+      "noTaxis": "Aucun taxi trouvé.",
+      "noClients": "Aucun client trouvé.",
+      "loadTaxisError": "Échec du chargement des taxis.",
+      "loadClientsError": "Échec du chargement des clients."
+    },
+    "tabTaxis": "Taxis",
+    "tabClients": "Clients",
+    "tabDashboard": "Tableau de bord",
+    "searchPlaceholder": "Rechercher par nom ou numéro…",
+    "clearSearchLabel": "Effacer la recherche",
+    "deselectAll": "Désélectionner tout",
+    "selectAll": "Sélectionner tout",
+    "tableId": "#ID",
+    "tableFullName": "Nom et prénom",
+    "tablePhone": "Téléphone",
+    "tableRegistrationNumber": "N. matricule",
+    "tablePlateNumber": "N. plaque",
+    "tableStatus": "Statut",
+    "selectTaxi": "Sélectionner le taxi {{id}}",
+    "loading": "Chargement en cours…",
+    "tableState": "État",
+    "selectClient": "Sélectionner le client {{id}}",
+    "adminInfo": "La notification sera envoyée à tous les administrateurs.",
+    "rowsPerPage": "Lignes par page",
+    "pagination": "Page {{page}} sur {{pages}} · {{total}} résultat(s)",
+    "backButton": "Retour",
+    "sending": "Envoi en cours…",
+    "sendButton": "Envoyer",
+    "noRecipientSelected": "Veuillez sélectionner au moins un destinataire.",
+    "sendSuccess": "Notification envoyée avec succès",
+    "sendError": "Échec de l'envoi de la notification.",
+    "adminAllSelected": "Tous les administrateurs",
+    "taxisAllSelected": "Tous les taxis sélectionnés",
+    "taxisNoneSelected": "Aucun taxi sélectionné",
+    "taxisCountSelected": "{{count}} taxi(s) sélectionné(s)",
+    "clientsAllSelected": "Tous les clients sélectionnés",
+    "clientsNoneSelected": "Aucun client sélectionné",
+    "clientsCountSelected": "{{count}} client(s) sélectionné(s)",
+    "channelApp": "Diffusion APP"
+  },
+  "Envoyer une notification": "Envoyer une notification",
+  "WhatsApp": "WhatsApp",
+  "whatsapp": {
+    "list": {
+      "title": "Discussions",
+      "searchPlaceholder": "Rechercher une conversation ou un numéro",
+      "empty": "Aucune conversation trouvée"
+    },
+    "chat": {
+      "backToDiscussions": "Retour aux discussions",
+      "offline": "Hors ligne",
+      "loading": "Chargement des messages...",
+      "empty": "Aucun message pour le moment. Démarrez la conversation !",
+      "loadFail": "Impossible de charger les messages de cette conversation.",
+      "sendFail": "Échec de l'envoi du message. Vérifiez la fenêtre des 24h ou réessayez."
+    },
+    "bubble": {
+      "photo": "Photo",
+      "document": "Document",
+      "download": "Télécharger",
+      "sticker": "Autocollant",
+      "contact": "Contact",
+      "mediaLoading": "Chargement du média..."
+    },
+    "input": {
+      "typeMessage": "Tapez un message",
+      "send": "Envoyer"
+    },
+    "empty": {
+      "selectPrompt": "Sélectionnez une conversation pour afficher les messages."
+    },
+    "date": {
+      "today": "Aujourd'hui",
+      "yesterday": "Hier"
+    }
+  },
+  "settings": {
+    "matching": {
+      "tab": "Rayon de mise en relation",
+      "title": "Rayon de mise en relation",
+      "description": "Rayon de mise en relation / diffusion en mètres. Le serveur plafonne le rayon maximal à 5 000 m et borne le rayon de base à (0, max].",
+      "baseRadiusLabel": "Rayon de base (m)",
+      "baseRadiusPlaceholder": "p. ex. 500",
+      "baseRadiusRequired": "Le rayon de base est requis.",
+      "baseRadiusMin": "Le rayon de base doit être supérieur ou égal à 0.",
+      "maxRadiusLabel": "Rayon maximal (m)",
+      "maxRadiusPlaceholder": "p. ex. 2000",
+      "maxRadiusRequired": "Le rayon maximal est requis.",
+      "maxRadiusMin": "Le rayon maximal doit être supérieur ou égal à 0.",
+      "loadError": "Impossible de charger la configuration de mise en relation.",
+      "saveError": "Impossible d'enregistrer la configuration de mise en relation.",
+      "saved": "Configuration du rayon de mise en relation enregistrée."
+    },
+    "saving": "Enregistrement…",
+    "airport": {
+      "tab": "Tarification aéroport",
+      "title": "Tarification aéroport",
+      "description": "Supplément appliqué à proximité des aéroports et rayon de détection utilisé pour déterminer la « proximité d'un aéroport ». Seuls les champs fournis sont mis à jour côté serveur.",
+      "configuredLabel": "Aéroports configurés :",
+      "readOnlyNote": " — lecture seule ; l'endpoint de mise à jour n'accepte que les champs supplément et rayon (les coordonnées des aéroports sont gérées côté serveur).",
+      "surchargeValueLabel": "Valeur du supplément",
+      "surchargeValuePlaceholder": "p. ex. 10",
+      "surchargeValueRequired": "La valeur du supplément est requise.",
+      "surchargeValueMin": "La valeur du supplément doit être supérieure ou égale à 0.",
+      "surchargeTypeLabel": "Type de supplément",
+      "selectTypePlaceholder": "Sélectionnez un type…",
+      "percentage": "Pourcentage (%)",
+      "fixedAmount": "Montant fixe",
+      "surchargeTypeRequired": "Le type de supplément est requis.",
+      "airportRadiusLabel": "Rayon de l'aéroport (m)",
+      "airportRadiusPlaceholder": "p. ex. 1500",
+      "airportRadiusRequired": "Le rayon de l'aéroport est requis.",
+      "airportRadiusMin": "Le rayon de l'aéroport doit être supérieur ou égal à 0.",
+      "loadError": "Impossible de charger la configuration tarifaire des aéroports.",
+      "saveError": "Impossible d'enregistrer la configuration tarifaire des aéroports.",
+      "saved": "Configuration tarifaire des aéroports enregistrée."
+    }
+  },
+  "Settings": "Paramètres",
+  "System": "Système",
+  "#": "#",
+  "Detail": "Détail",
+  "Driver": "Chauffeur",
+  "Driver ratings": "Évaluations des chauffeurs",
+  "Reservation detail": "Détail de la réservation",
+  "SMS Taxi": "SMS Taxi",
+  "Taxi": "Taxi",
+  "SOS": "SOS",
+  "SOS Alerts": "Alertes SOS",
+  "Inject SMS": "Injecter un SMS",
+  "Client": "Client"
+}

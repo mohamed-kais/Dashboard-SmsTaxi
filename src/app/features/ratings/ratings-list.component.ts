@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -42,7 +43,8 @@ export class RatingsListComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly ratingService: RatingService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +104,7 @@ export class RatingsListComponent implements OnInit, OnDestroy {
         this.lookupError =
           typeof err === 'string'
             ? err
-            : 'Driver lookup failed. Check the phone number or taxi/driver ID.';
+            : this.translate.instant('ratings.list.lookupFailed');
       },
     });
   }

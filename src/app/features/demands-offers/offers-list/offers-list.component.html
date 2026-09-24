@@ -5,38 +5,38 @@
     <!-- filter toolbar -->
     <div class="row g-2 align-items-end offers-filters mb-3">
       <div class="col-md-2">
-        <label class="form-label">Status</label>
+        <label class="form-label">{{ 'common.status' | translate }}</label>
         <select class="form-select" [(ngModel)]="filter.etat" (ngModelChange)="applyFilters()">
-          <option value="">All statuses</option>
+          <option value="">{{ 'offers.list.allStatuses' | translate }}</option>
           <option *ngFor="let e of etatOptions" [value]="e">{{ e }}</option>
         </select>
       </div>
       <div class="col-md-2">
-        <label class="form-label">Client phone</label>
+        <label class="form-label">{{ 'offers.list.clientPhone' | translate }}</label>
         <input
           type="text"
           class="form-control"
-          placeholder="Client phone"
+          [placeholder]="'offers.list.clientPhone' | translate"
           [(ngModel)]="filter.clientPhone"
           (ngModelChange)="applyFilters()"
         />
       </div>
       <div class="col-md-2">
-        <label class="form-label">Taxi phone</label>
+        <label class="form-label">{{ 'offers.list.taxiPhone' | translate }}</label>
         <input
           type="text"
           class="form-control"
-          placeholder="Taxi phone"
+          [placeholder]="'offers.list.taxiPhone' | translate"
           [(ngModel)]="filter.taxiPhone"
           (ngModelChange)="applyFilters()"
         />
       </div>
       <div class="col-md-2">
-        <label class="form-label">From date</label>
+        <label class="form-label">{{ 'offers.list.fromDate' | translate }}</label>
         <div class="input-group">
           <input
             class="form-control"
-            placeholder="yyyy-mm-dd"
+            [placeholder]="'offers.list.datePlaceholder' | translate"
             [(ngModel)]="filter.dateFrom"
             (ngModelChange)="applyFilters()"
             ngbDatepicker
@@ -48,11 +48,11 @@
         </div>
       </div>
       <div class="col-md-2">
-        <label class="form-label">To date</label>
+        <label class="form-label">{{ 'offers.list.toDate' | translate }}</label>
         <div class="input-group">
           <input
             class="form-control"
-            placeholder="yyyy-mm-dd"
+            [placeholder]="'offers.list.datePlaceholder' | translate"
             [(ngModel)]="filter.dateTo"
             (ngModelChange)="applyFilters()"
             ngbDatepicker
@@ -64,27 +64,27 @@
         </div>
       </div>
       <div class="col-md-1">
-        <label class="form-label">Min price</label>
+        <label class="form-label">{{ 'offers.list.minPrice' | translate }}</label>
         <input
           type="number"
           class="form-control"
-          placeholder="Min"
+          [placeholder]="'offers.list.min' | translate"
           [(ngModel)]="filter.minPrice"
           (ngModelChange)="applyFilters()"
         />
       </div>
       <div class="col-md-1">
-        <label class="form-label">Max price</label>
+        <label class="form-label">{{ 'offers.list.maxPrice' | translate }}</label>
         <input
           type="number"
           class="form-control"
-          placeholder="Max"
+          [placeholder]="'offers.list.max' | translate"
           [(ngModel)]="filter.maxPrice"
           (ngModelChange)="applyFilters()"
         />
       </div>
       <div class="col-md-1">
-        <button type="button" class="btn btn-secondary w-100" (click)="resetFilters()">Reset</button>
+        <button type="button" class="btn btn-secondary w-100" (click)="resetFilters()">{{ 'common.reset' | translate }}</button>
       </div>
     </div>
 
@@ -94,15 +94,15 @@
       <table class="table table-striped align-middle mb-0">
         <thead>
           <tr>
-            <th scope="col" sortable="id" (sortchange)="onSort($event)">ID</th>
-            <th scope="col" sortable="date_depot" (sortchange)="onSort($event)">Date</th>
-            <th scope="col">Client</th>
-            <th scope="col">Taxi</th>
-            <th scope="col">Route</th>
-            <th scope="col">Total price</th>
-            <th scope="col">Rating</th>
-            <th scope="col" sortable="etat" (sortchange)="onSort($event)">Status</th>
-            <th scope="col" class="text-end">Actions</th>
+            <th scope="col" sortable="id" (sortchange)="onSort($event)">{{ 'common.id' | translate }}</th>
+            <th scope="col" sortable="date_depot" (sortchange)="onSort($event)">{{ 'common.date' | translate }}</th>
+            <th scope="col">{{ 'offers.list.client' | translate }}</th>
+            <th scope="col">{{ 'offers.list.taxi' | translate }}</th>
+            <th scope="col">{{ 'offers.list.route' | translate }}</th>
+            <th scope="col">{{ 'offers.list.totalPrice' | translate }}</th>
+            <th scope="col">{{ 'offers.list.rating' | translate }}</th>
+            <th scope="col" sortable="etat" (sortchange)="onSort($event)">{{ 'common.status' | translate }}</th>
+            <th scope="col" class="text-end">{{ 'common.actions' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -134,7 +134,7 @@
               <button
                 type="button"
                 class="btn btn-sm btn-primary me-1"
-                title="View"
+                [title]="'common.view' | translate"
                 [routerLink]="['/offers', row.id]"
               >
                 <i class="bx bx-show"></i>
@@ -142,7 +142,7 @@
               <button
                 type="button"
                 class="btn btn-sm btn-warning me-1"
-                title="Cancel"
+                [title]="'common.cancel' | translate"
                 (click)="confirmCancel(row)"
               >
                 <i class="bx bx-x"></i>
@@ -150,7 +150,7 @@
               <button
                 type="button"
                 class="btn btn-sm btn-danger"
-                title="Delete"
+                [title]="'common.delete' | translate"
                 (click)="confirmDelete(row)"
               >
                 <i class="bx bx-trash"></i>
@@ -159,11 +159,11 @@
           </tr>
           <tr *ngIf="loading && state.rows.length === 0">
             <td colspan="9" class="text-center text-muted py-4">
-              <span class="spinner-border spinner-border-sm me-1" role="status"></span> Loading offers&hellip;
+              <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'offers.list.loading' | translate }}
             </td>
           </tr>
           <tr *ngIf="!loading && !error && state.rows.length === 0">
-            <td colspan="9" class="text-center text-muted py-4">No offers found.</td>
+            <td colspan="9" class="text-center text-muted py-4">{{ 'offers.list.empty' | translate }}</td>
           </tr>
         </tbody>
       </table>
@@ -171,8 +171,8 @@
 
     <div class="d-flex align-items-center justify-content-between mt-3" *ngIf="state.totalRecords > 0">
       <div class="text-muted small">
-        Showing {{ state.startIndex }}&ndash;{{ state.endIndex }} of {{ state.totalRecords }} offers
-        <span *ngIf="loading">&middot; updating&hellip;</span>
+        {{ 'offers.list.range' | translate: { start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}
+        <span *ngIf="loading">{{ 'offers.list.updating' | translate }}</span>
       </div>
       <ngb-pagination
         *ngIf="state.totalRecords > state.pageSize"

@@ -1,6 +1,6 @@
 <div class="wa-chat" *ngIf="conversation">
   <div class="wa-chat__header">
-    <button type="button" class="btn btn-sm btn-soft-secondary wa-chat__back" (click)="onBack()" title="Retour aux discussions">
+    <button type="button" class="btn btn-sm btn-soft-secondary wa-chat__back" (click)="onBack()" [title]="'whatsapp.chat.backToDiscussions' | translate">
       <i class="bx bx-arrow-back"></i>
     </button>
     <div class="wa-avatar wa-avatar--header" [style.background]="headerAvatarColor">
@@ -10,13 +10,13 @@
       <span class="wa-chat__header-name">{{ headerName }}</span>
       <span class="wa-chat__header-phone">{{ conversation.waId }}</span>
     </div>
-    <span class="badge badge-soft-danger ms-auto" *ngIf="!connected">Hors ligne</span>
+    <span class="badge badge-soft-danger ms-auto" *ngIf="!connected">{{ 'whatsapp.chat.offline' | translate }}</span>
   </div>
 
   <div class="wa-chat__body" #scrollContainer>
     <div class="wa-chat__loading" *ngIf="loading">
       <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-      Chargement des messages...
+      {{ 'whatsapp.chat.loading' | translate }}
     </div>
 
     <ng-container *ngFor="let group of groupedMessages; trackBy: trackByGroup">
@@ -30,7 +30,7 @@
     </ng-container>
 
     <div class="wa-chat__empty" *ngIf="!loading && messages.length === 0">
-      Aucun message pour le moment. Démarrez la conversation !
+      {{ 'whatsapp.chat.empty' | translate }}
     </div>
   </div>
 

@@ -4,7 +4,7 @@
   <div class="col-12">
     <div class="mb-3">
       <a routerLink=".." class="btn btn-outline-secondary btn-sm">
-        <i class="bx bx-arrow-back me-1"></i>Back to ratings
+        <i class="bx bx-arrow-back me-1"></i>{{ 'ratings.driver.backToRatings' | translate }}
       </a>
     </div>
 
@@ -14,19 +14,21 @@
     <div *ngIf="isLowAverage" class="alert alert-danger">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h6 class="alert-heading font-size-14 mb-1">Low average rating</h6>
+          <h6 class="alert-heading font-size-14 mb-1">{{ 'ratings.driver.lowAverageTitle' | translate }}</h6>
           <p class="mb-0">
-            Driver <strong>#{{ driverId }}</strong> has an average rating of
-            <strong>{{ average.toFixed(2) }}</strong> (below 3.0). Consider reviewing
-            recent rides.
+            {{ 'ratings.driver.lowAvgPrefix' | translate }}
+            <strong>#{{ driverId }}</strong>
+            {{ 'ratings.driver.lowAvgMiddle' | translate }}
+            <strong>{{ average.toFixed(2) }}</strong>
+            {{ 'ratings.driver.lowAvgSuffix' | translate }}
           </p>
         </div>
         <button type="button" class="btn btn-outline-light btn-sm" (click)="flagDriver()">
-          <i class="bx bx-flag me-1"></i>Report low rating
+          <i class="bx bx-flag me-1"></i>{{ 'ratings.driver.reportButton' | translate }}
         </button>
       </div>
       <div *ngIf="reported" class="small mt-2 mb-0">
-        Thanks — the report was logged locally. Backend flagging is not available yet (see ROADMAP).
+        {{ 'ratings.driver.reportThanks' | translate }}
       </div>
     </div>
 
@@ -34,28 +36,28 @@
       <!-- Average rating card -->
       <div class="col-lg-3 col-md-6">
         <app-stat
-          title="Average rating"
+          [title]="'ratings.driver.averageRating' | translate"
           [value]="hasAverage ? average.toFixed(2) : '—'"
           icon="bx bx-star"
         ></app-stat>
       </div>
       <div class="col-lg-3 col-md-6">
         <app-stat
-          title="Total ratings"
+          [title]="'ratings.driver.totalRatings' | translate"
           [value]="ratings.length + ''"
           icon="bx bx-list-ul"
         ></app-stat>
       </div>
       <div class="col-lg-3 col-md-6">
         <app-stat
-          title="Low ratings (< 3)"
+          [title]="'ratings.driver.lowRatingsStat' | translate"
           [value]="lowRatingCount + ''"
           icon="bx bx-error"
         ></app-stat>
       </div>
       <div class="col-lg-3 col-md-6">
         <app-stat
-          title="Driver ID"
+          [title]="'ratings.driver.driverIdStat' | translate"
           [value]="driverId || '—'"
           icon="bx bx-user"
         ></app-stat>
@@ -66,29 +68,29 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="card-title mb-0">Rating history</h5>
-          <small class="text-muted">Driver #{{ driverId }}</small>
+          <h5 class="card-title mb-0">{{ 'ratings.driver.historyTitle' | translate }}</h5>
+          <small class="text-muted">{{ 'ratings.driver.driverLabel' | translate:{ id: driverId } }}</small>
         </div>
 
         <div *ngIf="loading" class="text-center py-4">
-          <span class="spinner-border spinner-border-sm me-2"></span>Loading ratings...
+          <span class="spinner-border spinner-border-sm me-2"></span>{{ 'ratings.driver.loading' | translate }}
         </div>
 
         <div *ngIf="!loading" class="table-responsive">
           <table class="table table-centered table-nowrap mb-0">
             <thead class="thead-light">
               <tr>
-                <th>Rating</th>
-                <th>Offer</th>
-                <th>Driver</th>
-                <th>Comment</th>
-                <th>Date</th>
+                <th>{{ 'ratings.driver.ratingHeader' | translate }}</th>
+                <th>{{ 'ratings.driver.offerHeader' | translate }}</th>
+                <th>{{ 'ratings.driver.driverHeader' | translate }}</th>
+                <th>{{ 'ratings.driver.commentHeader' | translate }}</th>
+                <th>{{ 'common.date' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngIf="ratings.length === 0">
                 <td colspan="5" class="text-center text-muted py-4">
-                  No ratings found for this driver.
+                  {{ 'ratings.driver.empty' | translate }}
                 </td>
               </tr>
               <tr *ngFor="let item of ratings">

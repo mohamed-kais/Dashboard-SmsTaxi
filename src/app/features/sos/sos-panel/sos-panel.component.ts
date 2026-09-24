@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { SosService } from '../../../core/services/sos.service';
 import { apiErrorMessage } from '../sos.constants';
@@ -36,7 +37,8 @@ export class SosPanelComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private sosService: SosService
+    private sosService: SosService,
+    private translate: TranslateService
   ) {}
 
   get f(): FormGroup['controls'] {
@@ -63,11 +65,11 @@ export class SosPanelComponent implements OnInit {
     this.sosService.notifySos(id).subscribe({
       next: (res) => {
         this.sending = false;
-        this.successMessage = res || 'SOS notification sent.';
+        this.successMessage = res || this.translate.instant('sos.panel.sent');
       },
       error: (err) => {
         this.sending = false;
-        this.errorMessage = apiErrorMessage(err) || 'Failed to send the SOS notification.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('sos.panel.sendFailed');
       },
     });
   }

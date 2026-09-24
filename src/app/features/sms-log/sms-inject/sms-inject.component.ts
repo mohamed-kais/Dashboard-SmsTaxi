@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { SmsInDto } from '../../../core/models/sms.model';
 import { SmsService } from '../../../core/services/sms.service';
@@ -48,7 +49,8 @@ export class SmsInjectComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private smsService: SmsService
+    private smsService: SmsService,
+    private translate: TranslateService
   ) {}
 
   get f(): FormGroup['controls'] {
@@ -79,13 +81,13 @@ export class SmsInjectComponent implements OnInit {
     this.smsService.injectSms(dto).subscribe({
       next: (res) => {
         this.submitting = false;
-        this.successMessage = res?.message || 'SMS saved.';
+        this.successMessage = res?.message || this.translate.instant('sms.inject.saved');
         this.form.reset({ telephone: '', contenu: '' });
         this.submitted = false;
       },
       error: (err) => {
         this.submitting = false;
-        this.errorMessage = apiErrorMessage(err) || 'Failed to inject SMS.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('sms.inject.injectFailed');
       },
     });
   }

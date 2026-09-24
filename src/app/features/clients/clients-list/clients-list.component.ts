@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
@@ -61,7 +62,8 @@ export class ClientsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private clientService: ClientService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private translate: TranslateService
   ) {
     this._subscription = this._search$
       .pipe(
@@ -94,7 +96,7 @@ export class ClientsListComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.loading$.next(false);
-        this.errorMessage = apiErrorMessage(err) || 'Failed to load clients.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('clients.list.loadFailed');
       },
     });
   }
@@ -234,7 +236,7 @@ export class ClientsListComponent implements OnInit, OnDestroy {
       centered: true,
       backdrop: 'static',
     });
-    modalRef.componentInstance.title = 'Add client';
+    modalRef.componentInstance.title = this.translate.instant('clients.form.titleAdd');
     modalRef.result.then(
       () => this.loadClients(),
       () => undefined
@@ -247,7 +249,7 @@ export class ClientsListComponent implements OnInit, OnDestroy {
       backdrop: 'static',
     });
     modalRef.componentInstance.client = client;
-    modalRef.componentInstance.title = 'Edit client';
+    modalRef.componentInstance.title = this.translate.instant('clients.form.titleEdit');
     modalRef.result.then(
       () => this.loadClients(),
       () => undefined
@@ -277,7 +279,7 @@ export class ClientsListComponent implements OnInit, OnDestroy {
     this.clientService.deleteClient(id).subscribe({
       next: () => this.loadClients(),
       error: (err) => {
-        this.errorMessage = apiErrorMessage(err) || 'Failed to delete client.';
+        this.errorMessage = apiErrorMessage(err) || this.translate.instant('clients.list.deleteFailed');
       },
     });
   }

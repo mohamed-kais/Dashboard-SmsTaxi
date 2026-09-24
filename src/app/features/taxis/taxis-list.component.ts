@@ -1,6 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, debounceTime, finalize, map, switchMap } from 'rxjs/operators';
 
@@ -79,7 +80,8 @@ export class TaxisListComponent implements OnInit {
 
   constructor(
     private readonly taxiService: TaxiService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -137,7 +139,7 @@ export class TaxisListComponent implements OnInit {
       return;
     }
     const label = taxi.telephone || `#${taxi.id}`;
-    if (!window.confirm(`Delete taxi ${label}? This cannot be undone.`)) {
+    if (!window.confirm(this.translate.instant('taxis.list.deleteConfirm', { label }))) {
       return;
     }
     this.actionError = '';
@@ -150,7 +152,7 @@ export class TaxisListComponent implements OnInit {
         this.refresh();
       },
       error: (err) => {
-        this.actionError = err?.error?.message || err?.message || 'Failed to delete taxi.';
+        this.actionError = err?.error?.message || err?.message || this.translate.instant('taxis.list.deleteFailed');
       },
     });
   }
@@ -170,7 +172,7 @@ export class TaxisListComponent implements OnInit {
       next: () => this.refresh(),
       error: (err) => {
         this.actionError =
-          err?.error?.message || err?.message || `Failed to set status to ${taxiStatus}.`;
+          err?.error?.message || err?.message || this.translate.instant('taxis.list.setStatusFailed', { status: taxiStatus });
       },
     });
   }
@@ -214,7 +216,7 @@ export class TaxisListComponent implements OnInit {
     return this.buildQuery(term).pipe(
       map((resp) => this.applyPage(resp)),
       catchError((err) => {
-        this.loadError = err?.error?.message || err?.message || 'Failed to load taxis.';
+        this.loadError = err?.error?.message || err?.message || this.translate.instant('taxis.list.loadFailed');
         this._pageContent = [];
         this.applyRows();
         return of(undefined);
