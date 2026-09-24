@@ -19,6 +19,7 @@ export class ConversationListComponent implements OnInit, OnDestroy {
   searchTerm = '';
   private readonly searchTermSubject = new BehaviorSubject<string>('');
   filteredConversations$!: Observable<Conversation[]>;
+  readonly conversationsError$ = this.chatState.conversationsError$;
 
   private subscriptions: Subscription[] = [];
 

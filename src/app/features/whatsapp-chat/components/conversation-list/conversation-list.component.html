@@ -42,7 +42,13 @@
       </div>
     </div>
 
-    <div class="wa-sidebar__empty" *ngIf="(filteredConversations$ | async)?.length === 0">
+    <div class="wa-sidebar__empty" *ngIf="conversationsError$ | async as error">
+      {{ error }}
+    </div>
+
+    <div
+      class="wa-sidebar__empty"
+      *ngIf="!(conversationsError$ | async) && (filteredConversations$ | async)?.length === 0">
       Aucune conversation trouvée
     </div>
   </div>

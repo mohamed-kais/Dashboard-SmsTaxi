@@ -42,8 +42,9 @@ const PHONE_LIKE = /^[0-9+\-\s()]+$/;
  * Data source: `GET /api/get-all-taxis` (server-side paging + sorting); when a
  * search term is present it switches to `GET /api/get-all-taxis-criteria`
  * (server-side phone/name filter). `taxiStatus` has no server-side filter on the
- * paginated endpoints, so the status dropdown filters the loaded page client-side
- * (see ROADMAP note in applyRows()).
+ * paginated endpoints, so while a status filter is active the whole dataset is
+ * fetched in one request (FETCH_ALL_SIZE) and filtered + paginated client-side —
+ * the "large-page workaround" (see applyRows()).
  */
 @Component({
   selector: 'app-taxis-list',
@@ -64,6 +65,12 @@ export class TaxisListComponent implements OnInit {
   actionError = '';
   readonly breadcrumbItems = [{ label: 'Fleet' }, { label: 'Taxis', active: true }];
 
+  /**
+   * Fetch-all ceiling used while a client-side status filter is active.
+   * 41 taxis today; 1000 stays under Spring's default `maxPageSize`.
+   */
+  private static readonly FETCH_ALL_SIZE = 1000;
+
   /** Page content as returned by the API (before client-side status filtering). */
   private _pageContent: GetAllTaxisDtoResponse[] = [];
   private readonly _search$ = new Subject<void>();
@@ -83,7 +90,10 @@ export class TaxisListComponent implements OnInit {
     });
     this.statusFilterControl.valueChanges.subscribe((value) => {
       this.statusFilter = value;
-      this.applyRows();
+      // The status filter runs client-side over the full dataset, so reset to
+      // page 1 and refetch to re-derive rows, totals and paging.
+      this.state.page = 1;
+      this._search$.next();
     });
     this._search$
       .pipe(debounceTime(200), switchMap(() => this.fetchPage()))
@@ -216,8 +226,13 @@ export class TaxisListComponent implements OnInit {
   }
 
   private buildQuery(term: string): Observable<PageGetAllTaxisDtoResponse> {
-    const page = this.state.page - 1; // API paging is 0-based; TableState is 1-based
-    const size = this.state.pageSize;
+    // No server-side `taxiStatus` filter exists on either paginated endpoint, so
+    // while one is active the whole dataset is fetched at once (page 0, all rows)
+    // and filtered + paginated locally in applyRows().
+    const page = this.statusFilter ? 0 : this.state.page - 1; // API paging is 0-based
+    const size = this.statusFilter
+      ? TaxisListComponent.FETCH_ALL_SIZE
+      : this.state.pageSize;
     if (term) {
       const criteria: TaxiCriteriaQuery = { page, size };
       if (PHONE_LIKE.test(term) && /\d/.test(term)) {
@@ -244,22 +259,38 @@ export class TaxisListComponent implements OnInit {
 
   private applyPage(resp: PageGetAllTaxisDtoResponse): void {
     this._pageContent = resp.content ?? [];
-    this.state.totalRecords = resp.totalElements ?? this._pageContent.length;
-    this.applyRows();
+    if (this.statusFilter) {
+      // Full dataset fetched (FETCH_ALL_SIZE): totals/paging are derived locally.
+      this.applyRows();
+    } else {
+      this.state.totalRecords = resp.totalElements ?? this._pageContent.length;
+      this.applyRows();
+    }
   }
 
   /**
    * Re-render after client-side status filtering.
-   * ROADMAP: `GET /api/get-all-taxis` / `get-all-taxis-criteria` expose no
-   * server-side `taxiStatus` filter, so the status dropdown only filters the
-   * currently loaded page — cross-page status filtering needs a backend filter
-   * param (or a large-page workaround).
+   *
+   * While a status filter is active the whole dataset was fetched at once
+   * (FETCH_ALL_SIZE), so filtering and paging happen here; otherwise the server
+   * page is shown as-is. ROADMAP: `GET /api/get-all-taxis` /
+   * `get-all-taxis-criteria` expose no `taxiStatus` filter — this fetch-all +
+   * local filter is the documented "large-page workaround".
    */
   private applyRows(): void {
-    const rows = this.statusFilter
+    const filtered = this.statusFilter
       ? this._pageContent.filter((row) => row.taxiStatus === this.statusFilter)
-      : this._pageContent.slice();
-    this.state.filteredRows = rows;
+      : this._pageContent;
+    const rows = this.statusFilter
+      ? filtered.slice(
+          (this.state.page - 1) * this.state.pageSize,
+          this.state.page * this.state.pageSize
+        )
+      : filtered.slice();
+    if (this.statusFilter) {
+      this.state.totalRecords = filtered.length;
+    }
+    this.state.filteredRows = filtered;
     this.state.rows = rows;
     const base = (this.state.page - 1) * this.state.pageSize;
     this.state.startIndex = rows.length ? base + 1 : 0;

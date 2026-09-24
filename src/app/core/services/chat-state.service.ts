@@ -17,6 +17,10 @@ export class ChatStateService {
   private readonly conversationsSubject = new BehaviorSubject<Conversation[]>([]);
   readonly conversations$: Observable<Conversation[]> = this.conversationsSubject.asObservable();
 
+  /** Last conversations-load error (null = no error). Keeps "load failed" distinguishable from "no conversations". */
+  private readonly conversationsErrorSubject = new BehaviorSubject<string | null>(null);
+  readonly conversationsError$: Observable<string | null> = this.conversationsErrorSubject.asObservable();
+
   private activeConversationId: string | null = null;
   private globalUpdatesSubscription?: Subscription;
 
@@ -42,8 +46,14 @@ export class ChatStateService {
 
   loadConversations(): void {
     this.chatService.getConversations().subscribe({
-      next: list => this.conversationsSubject.next(this.sortByLastMessage(list)),
-      error: err => console.error('Erreur chargement des conversations WhatsApp', err)
+      next: list => {
+        this.conversationsErrorSubject.next(null);
+        this.conversationsSubject.next(this.sortByLastMessage(list));
+      },
+      error: err => {
+        console.error('Erreur chargement des conversations WhatsApp', err);
+        this.conversationsErrorSubject.next('Impossible de charger les conversations.');
+      }
     });
   }
 
