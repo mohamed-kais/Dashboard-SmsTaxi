@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { AuthGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './layouts/layout.component';
 import { Page404Component } from './extrapages/page404/page404.component';
 
@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     children: [
       // '/' lands on the dashboard — MUST be the first entry (pathMatch full).
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -30,6 +30,6 @@ export const routes: Routes = [
       { path: '', loadChildren: () => import('./features/demands-offers/demands-offers.routes').then(m => m.routes) },
     ],
   },
-  { path: 'pages', loadChildren: () => import('./extrapages/extrapages.routes').then(m => m.routes), canActivate: [AuthGuard] },
+  { path: 'pages', loadChildren: () => import('./extrapages/extrapages.routes').then(m => m.routes), canActivate: [authGuard] },
   { path: '**', component: Page404Component },
 ];
