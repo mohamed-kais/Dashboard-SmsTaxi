@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 
@@ -51,7 +51,7 @@ if (environment.defaultauth === 'firebase') {
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         // ngx-translate v18: root provider + HTTP loader with failOnError (P0-1: 404 on a
         // translation file must fail loudly rather than serve partial translations).
         provideTranslateService({
