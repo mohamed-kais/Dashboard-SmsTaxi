@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { UIModule } from './ui/ui.module';
 
@@ -18,14 +18,14 @@ import { WidgetModule } from './widget/widget.module';
   declarations: [],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     UIModule,
     WidgetModule
   ],
   exports: [
     UIModule,
     WidgetModule,
-    TranslateModule
+    TranslatePipe
   ],
 })
 

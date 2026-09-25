@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import { WidgetModule } from '../../shared/widget/widget.module';
@@ -26,7 +26,7 @@ import { ReservationDetailComponent } from './reservation-detail.component';
     ReactiveFormsModule,
     NgbModalModule,
     NgbPaginationModule,
-    TranslateModule,
+    TranslatePipe,
     UIModule,
     WidgetModule,
     ReservationsRoutingModule,

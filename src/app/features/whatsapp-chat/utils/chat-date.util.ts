@@ -22,7 +22,7 @@ export function dateLabel(iso: string, translate?: TranslateService): string {
   if (isSameDay(date, yesterday)) {
     return translate ? translate.instant('whatsapp.date.yesterday') : 'Yesterday';
   }
-  const locale = translate ? translate.currentLang : 'fr-FR';
+  const locale = translate ? (translate.currentLang() || 'fr-FR') : 'fr-FR';
   return date.toLocaleDateString(locale, {
     day: '2-digit',
     month: 'long',

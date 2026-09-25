@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import { WidgetModule } from '../../shared/widget/widget.module';
@@ -22,7 +22,7 @@ import { DriverRatingsComponent } from './driver-ratings.component';
     ReactiveFormsModule,
     UIModule,
     WidgetModule,
-    TranslateModule,
+    TranslatePipe,
     RatingsRoutingModule,
   ],
 })

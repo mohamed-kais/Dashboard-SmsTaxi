@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { UIModule } from '../../shared/ui/ui.module'; // app-page-title, app-loader
 import { WidgetModule } from '../../shared/widget/widget.module'; // app-stat
@@ -22,7 +22,7 @@ import { DashboardComponent } from './dashboard.component';
   declarations: [DashboardComponent],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
     UIModule,
     WidgetModule,
     DashboardRoutingModule,

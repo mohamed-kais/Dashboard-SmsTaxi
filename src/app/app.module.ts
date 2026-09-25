@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 
@@ -14,8 +14,8 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initFirebaseBackend } from './authUtils';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
@@ -29,22 +29,11 @@ if (environment.defaultauth === 'firebase') {
   FakeBackendInterceptor;
 }
 
-export function createTranslateLoader(http: HttpClient): any {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}
-
 @NgModule({ declarations: [
         AppComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: createTranslateLoader,
-                deps: [HttpClient]
-            }
-        }),
         LayoutsModule,
         SharedModule,
         AppRoutingModule,
@@ -63,5 +52,14 @@ export function createTranslateLoader(http: HttpClient): any {
         { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
+        // ngx-translate v18: root provider + HTTP loader with failOnError (P0-1: 404 on a
+        // translation file must fail loudly rather than serve partial translations).
+        provideTranslateService({
+            loader: provideTranslateHttpLoader({
+                prefix: 'assets/i18n/',
+                suffix: '.json',
+                failOnError: true,
+            }),
+        }),
     ] })
 export class AppModule { }

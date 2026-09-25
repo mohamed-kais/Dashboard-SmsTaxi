@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { UIModule } from '../../shared/ui/ui.module';
 
 import { WhatsappChatRoutingModule } from './whatsapp-chat-routing.module';
@@ -22,6 +22,6 @@ import { MessageInputComponent } from './components/message-input/message-input.
     MessageBubbleComponent,
     MessageInputComponent,
   ],
-  imports: [CommonModule, FormsModule, TranslateModule, UIModule, WhatsappChatRoutingModule],
+  imports: [CommonModule, FormsModule, TranslatePipe, UIModule, WhatsappChatRoutingModule],
 })
 export class WhatsappChatModule {}
