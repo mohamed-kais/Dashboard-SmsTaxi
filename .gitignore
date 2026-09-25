@@ -53,3 +53,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.slim/deepwork/
+ngx-translate-prep-manifest.json

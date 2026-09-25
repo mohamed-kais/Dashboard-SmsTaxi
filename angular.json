@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "rxjs", "core-js", "chart.js", "chartist"
+              "rxjs", "core-js"
             ],
             "outputPath": "dist/skote",
             "index": "src/index.html",
@@ -32,11 +32,7 @@
             "styles": [
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
-              "./node_modules/ngx-ui-switch/ui-switch.component.css",
-              "node_modules/angular-archwizard/styles/archwizard.css",
-              "node_modules/chartist/dist/chartist.css",
               "src/styles.scss",
-              "node_modules/@ctrl/ngx-emoji-mart/picker.css",
               "src/assets/scss/bootstrap.scss",
               "src/assets/scss/app.scss",
               "src/assets/scss/icons.scss"
