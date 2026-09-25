@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin, of } from 'rxjs';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
@@ -17,6 +17,7 @@ import { Rating } from '../../core/models/rating.model';
 @Component({
     selector: 'app-driver-ratings',
     templateUrl: './driver-ratings.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DriverRatingsComponent implements OnInit, OnDestroy {

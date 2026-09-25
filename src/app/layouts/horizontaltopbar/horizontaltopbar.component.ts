@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Inject, DOCUMENT } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
@@ -17,6 +17,7 @@ import { environment } from '../../../environments/environment';
     selector: 'app-horizontaltopbar',
     templateUrl: './horizontaltopbar.component.html',
     styleUrls: ['./horizontaltopbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

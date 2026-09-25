@@ -5,6 +5,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChildren,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -61,6 +62,7 @@ const DEFAULT_STATE: ReservationsListState = {
 @Component({
     selector: 'app-reservations-list',
     templateUrl: './reservations-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ReservationsListComponent implements OnInit, OnDestroy {

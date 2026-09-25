@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -85,6 +85,7 @@ function createPickerState<T>(pageSize = 10): PickerState<T> {
     selector: 'app-notification-send',
     templateUrl: './notification-send.component.html',
     styleUrls: ['./notification-send.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NotificationSendComponent implements OnInit, OnDestroy {

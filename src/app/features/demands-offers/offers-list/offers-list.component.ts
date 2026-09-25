@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
@@ -31,6 +31,7 @@ import { extractErrorMessage, ngbDateToParam } from '../feature.helpers';
     selector: 'app-offers-list',
     templateUrl: './offers-list.component.html',
     styleUrls: ['./offers-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class OffersListComponent implements OnInit, OnDestroy {

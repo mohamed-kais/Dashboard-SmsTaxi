@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -31,6 +31,7 @@ import { extractErrorMessage } from '../feature.helpers';
     selector: 'app-offer-detail',
     templateUrl: './offer-detail.component.html',
     styleUrls: ['./offer-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class OfferDetailComponent implements OnInit, OnDestroy {

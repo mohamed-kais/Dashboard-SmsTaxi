@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, Subscription, of } from 'rxjs';
@@ -29,6 +29,7 @@ import { ClientFormComponent } from '../client-form/client-form.component';
 @Component({
     selector: 'app-clients-list',
     templateUrl: './clients-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ClientsListComponent implements OnInit, OnDestroy {

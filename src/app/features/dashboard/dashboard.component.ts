@@ -17,7 +17,7 @@
  * endpoint and are intentionally omitted (→ ROADMAP). No charts either: there
  * is no per-day/historical activity endpoint (→ ROADMAP).
  */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { catchError, finalize, take, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
@@ -42,6 +42,7 @@ import { DashboardCountKey, DashboardCounts } from './dashboard.model';
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DashboardComponent implements OnInit, OnDestroy {

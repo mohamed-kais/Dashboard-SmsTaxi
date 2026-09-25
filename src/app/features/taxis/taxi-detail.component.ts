@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,6 +25,7 @@ import { BreadcrumbItem } from './taxis.model';
 @Component({
     selector: 'app-taxi-detail',
     templateUrl: './taxi-detail.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TaxiDetailComponent implements OnInit, OnDestroy {

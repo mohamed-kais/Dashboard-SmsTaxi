@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ChatStateService } from '../../../../core/services/chat-state.service';
 
 /**
@@ -14,6 +14,7 @@ import { ChatStateService } from '../../../../core/services/chat-state.service';
     selector: 'app-chat-layout',
     templateUrl: './chat-layout.component.html',
     styleUrls: ['./chat-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ChatLayoutComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ChatStateService } from '../../../../core/services/chat-state.service';
@@ -9,6 +9,7 @@ import { getAvatarColor, getInitials } from '../../utils/avatar.util';
     selector: 'app-conversation-list',
     templateUrl: './conversation-list.component.html',
     styleUrls: ['./conversation-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConversationListComponent implements OnInit, OnDestroy {

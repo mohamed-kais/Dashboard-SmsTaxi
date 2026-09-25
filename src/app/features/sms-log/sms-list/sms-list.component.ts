@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, Subscription, of } from 'rxjs';
@@ -40,6 +40,7 @@ type SmsView = 'all' | 'untreated';
 @Component({
     selector: 'app-sms-list',
     templateUrl: './sms-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SmsListComponent implements OnInit, OnDestroy {

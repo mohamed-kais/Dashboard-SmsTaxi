@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -22,6 +22,7 @@ import { apiErrorMessage } from '../sos.constants';
 @Component({
     selector: 'app-sos-panel',
     templateUrl: './sos-panel.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SosPanelComponent implements OnInit {

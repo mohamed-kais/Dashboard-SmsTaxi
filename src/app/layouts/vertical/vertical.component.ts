@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { EventService } from '../../core/services/event.service';
@@ -9,6 +9,7 @@ import { SIDEBAR_TYPE } from "../layouts.model";
     selector: 'app-vertical',
     templateUrl: './vertical.component.html',
     styleUrls: ['./vertical.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

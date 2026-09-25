@@ -10,6 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -31,6 +32,7 @@ import { getAvatarColor, getInitials } from '../../utils/avatar.util';
     selector: 'app-chat-window',
     templateUrl: './chat-window.component.html',
     styleUrls: ['./chat-window.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {

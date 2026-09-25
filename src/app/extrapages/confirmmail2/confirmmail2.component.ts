@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
     selector: 'app-confirmmail2',
     templateUrl: './confirmmail2.component.html',
     styleUrls: ['./confirmmail2.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class Confirmmail2Component implements OnInit {

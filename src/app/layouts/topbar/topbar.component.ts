@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Inject, DOCUMENT } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-topbar',
     templateUrl: './topbar.component.html',
     styleUrls: ['./topbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,6 +50,7 @@ const PHONE_LIKE = /^[0-9+\-\s()]+$/;
 @Component({
     selector: 'app-taxis-list',
     templateUrl: './taxis-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TaxisListComponent implements OnInit {

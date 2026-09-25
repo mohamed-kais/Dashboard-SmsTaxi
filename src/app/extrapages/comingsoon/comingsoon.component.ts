@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
     selector: 'app-comingsoon',
     templateUrl: './comingsoon.component.html',
     styleUrls: ['./comingsoon.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

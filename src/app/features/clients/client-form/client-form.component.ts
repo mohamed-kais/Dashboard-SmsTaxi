@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,7 @@ import { CLIENT_PHONE_PATTERN, CLIENT_TYPE_OPTIONS, apiErrorMessage } from '../c
 @Component({
     selector: 'app-client-form',
     templateUrl: './client-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ClientFormComponent implements OnInit {

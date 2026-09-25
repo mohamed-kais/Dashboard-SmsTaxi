@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
     selector: 'app-steptwoverification2',
     templateUrl: './steptwoverification2.component.html',
     styleUrls: ['./steptwoverification2.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class Steptwoverification2Component implements OnInit {

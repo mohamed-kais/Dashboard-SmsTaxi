@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ChatService } from '../../../../core/services/chat.service';
 import {
@@ -22,6 +22,7 @@ import {
     selector: 'app-message-input',
     templateUrl: './message-input.component.html',
     styleUrls: ['./message-input.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MessageInputComponent implements OnDestroy {

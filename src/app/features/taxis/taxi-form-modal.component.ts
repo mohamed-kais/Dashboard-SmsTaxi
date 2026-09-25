@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +21,7 @@ const PHONE_PATTERN = '^[0-9+\\-\\s()]+$';
 @Component({
     selector: 'app-taxi-form-modal',
     templateUrl: './taxi-form-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TaxiFormModalComponent implements OnInit {

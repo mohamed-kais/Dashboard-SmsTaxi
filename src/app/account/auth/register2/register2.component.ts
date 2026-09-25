@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { UserProfileService } from '../../../core/services/user.service';
     selector: 'app-register2',
     templateUrl: './register2.component.html',
     styleUrls: ['./register2.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class Register2Component implements OnInit {

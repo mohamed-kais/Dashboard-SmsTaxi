@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -38,6 +38,7 @@ import { apiErrorMessage } from '../notifications.constants';
     selector: 'app-notifications-list',
     templateUrl: './notifications-list.component.html',
     styleUrls: ['./notifications-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {

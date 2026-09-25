@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { TOPBAR } from "../layouts.model";
 import { EventService } from '../../core/services/event.service';
 
@@ -6,6 +6,7 @@ import { EventService } from '../../core/services/event.service';
     selector: 'app-horizontal',
     templateUrl: './horizontal.component.html',
     styleUrls: ['./horizontal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

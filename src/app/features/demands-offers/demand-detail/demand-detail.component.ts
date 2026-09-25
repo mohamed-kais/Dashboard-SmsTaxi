@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -39,6 +39,7 @@ export type DemandeDetailView = Demande & Partial<DemandeDto>;
     selector: 'app-demand-detail',
     templateUrl: './demand-detail.component.html',
     styleUrls: ['./demand-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DemandDetailComponent implements OnInit, OnDestroy {
