@@ -34,10 +34,6 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
 
   listLang = [
     { text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en' },
-    { text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es' },
-    { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
-    { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
-    { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
     { text: 'Arabic', flag: 'assets/images/flags/tunisia.jpg', lang: 'ar' },
     { text: 'French', flag: 'assets/images/flags/french.jpg', lang: 'fr' },
   ];
