@@ -242,7 +242,7 @@
   <form [formGroup]="assignForm" (ngSubmit)="submitAssign(modal)">
     <div class="modal-body">
       <p class="text-muted">
-        {{ 'reservation.detail.assignModalIntro' | translate:{ id: reservation?.id } }}
+        {{ 'reservation.detail.assignModalIntro' | translate:{ id: $safeNavigationMigration(reservation?.id) } }}
         <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
       </p>
       <div class="mb-3">
@@ -326,7 +326,7 @@
 <!-- Update reservation modal -->
 <ng-template #updateModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">{{ 'reservation.detail.updateModalTitle' | translate:{ id: reservation?.id } }}</h5>
+    <h5 class="modal-title">{{ 'reservation.detail.updateModalTitle' | translate:{ id: $safeNavigationMigration(reservation?.id) } }}</h5>
     <button type="button" class="btn-close" [attr.aria-label]="'reservation.detail.close' | translate" (click)="modal.dismiss()"></button>
   </div>
   <form [formGroup]="updateForm" (ngSubmit)="submitUpdate(modal)">

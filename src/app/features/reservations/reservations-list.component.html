@@ -188,7 +188,7 @@
   <form [formGroup]="assignForm" (ngSubmit)="submitAssign(modal)">
     <div class="modal-body">
       <p class="text-muted">
-        {{ 'reservations.list.assignModalIntro' | translate:{ id: selectedReservation?.id } }}
+        {{ 'reservations.list.assignModalIntro' | translate:{ id: $safeNavigationMigration(selectedReservation?.id) } }}
         <code>PUT /api/admin/reservations/{{ '{' }}id{{ '}' }}/assignment</code>.
       </p>
       <div class="mb-3">

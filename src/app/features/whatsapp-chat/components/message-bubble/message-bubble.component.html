@@ -45,7 +45,7 @@
           <span class="wa-media__icon"><i class="bx bxs-file"></i></span>
           <div class="wa-media__body">
             <span class="wa-media__name">{{ media?.fileName || ('whatsapp.bubble.document' | translate) }}</span>
-            <span class="wa-media__meta">{{ formatFileSize(media?.size) }} · {{ media?.mimeType }}</span>
+            <span class="wa-media__meta">{{ formatFileSize($safeNavigationMigration(media?.size)) }} · {{ media?.mimeType }}</span>
             @if (mediaUrl) {
               <a class="wa-media__link" [href]="mediaUrl" target="_blank" rel="noopener">{{ 'whatsapp.bubble.download' | translate }}</a>
             }

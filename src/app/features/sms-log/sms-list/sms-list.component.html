@@ -111,7 +111,7 @@
 <!-- View modal — full SMS content -->
 <ng-template #viewTemplate let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">{{ 'sms.list.viewModalTitle' | translate:{ id: viewing?.id } }}</h5>
+    <h5 class="modal-title">{{ 'sms.list.viewModalTitle' | translate:{ id: $safeNavigationMigration(viewing?.id) } }}</h5>
     <button type="button" class="btn-close" [attr.aria-label]="'sms.list.close' | translate" (click)="modal.dismiss('cancel')"></button>
   </div>
   <div class="modal-body">
