@@ -21,10 +21,11 @@ import { environment } from '../../../../../environments/environment';
 const MEDIA_TYPES = new Set(['IMAGE', 'VIDEO', 'AUDIO', 'DOCUMENT', 'STICKER']);
 
 @Component({
-  selector: 'app-message-bubble',
-  templateUrl: './message-bubble.component.html',
-  styleUrls: ['./message-bubble.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-message-bubble',
+    templateUrl: './message-bubble.component.html',
+    styleUrls: ['./message-bubble.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MessageBubbleComponent implements OnChanges, OnDestroy {
   @Input() message!: ChatMessage;

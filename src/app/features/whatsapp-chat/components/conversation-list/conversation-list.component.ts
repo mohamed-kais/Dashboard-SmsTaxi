@@ -6,9 +6,10 @@ import { Conversation, WhatsAppMessageType } from '../../../../core/models/chat.
 import { getAvatarColor, getInitials } from '../../utils/avatar.util';
 
 @Component({
-  selector: 'app-conversation-list',
-  templateUrl: './conversation-list.component.html',
-  styleUrls: ['./conversation-list.component.scss'],
+    selector: 'app-conversation-list',
+    templateUrl: './conversation-list.component.html',
+    styleUrls: ['./conversation-list.component.scss'],
+    standalone: false
 })
 export class ConversationListComponent implements OnInit, OnDestroy {
   /** Id de la conversation ouverte dans le panneau de droite (surbrillance). */

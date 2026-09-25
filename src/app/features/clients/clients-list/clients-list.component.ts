@@ -27,8 +27,9 @@ import { ClientFormComponent } from '../client-form/client-form.component';
  * paging on this endpoint), so filtering/sorting/paging runs client-side.
  */
 @Component({
-  selector: 'app-clients-list',
-  templateUrl: './clients-list.component.html',
+    selector: 'app-clients-list',
+    templateUrl: './clients-list.component.html',
+    standalone: false
 })
 export class ClientsListComponent implements OnInit, OnDestroy {
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;

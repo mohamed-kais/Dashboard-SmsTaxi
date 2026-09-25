@@ -19,8 +19,9 @@ import { ClientFormComponent } from '../client-form/client-form.component';
  * (`OffreHistoryPageDto`, 1-based `page`/`limit` paging).
  */
 @Component({
-  selector: 'app-client-detail',
-  templateUrl: './client-detail.component.html',
+    selector: 'app-client-detail',
+    templateUrl: './client-detail.component.html',
+    standalone: false
 })
 export class ClientDetailComponent implements OnInit {
   clientId: number | null = null;

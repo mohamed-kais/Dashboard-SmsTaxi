@@ -28,9 +28,10 @@ import { extractErrorMessage } from '../feature.helpers';
  * the page shows a status card instead of an invented timeline.
  */
 @Component({
-  selector: 'app-offer-detail',
-  templateUrl: './offer-detail.component.html',
-  styleUrls: ['./offer-detail.component.scss'],
+    selector: 'app-offer-detail',
+    templateUrl: './offer-detail.component.html',
+    styleUrls: ['./offer-detail.component.scss'],
+    standalone: false
 })
 export class OfferDetailComponent implements OnInit, OnDestroy {
   id = 0;

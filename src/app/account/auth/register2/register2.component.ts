@@ -9,9 +9,10 @@ import { first } from 'rxjs/operators';
 import { UserProfileService } from '../../../core/services/user.service';
 
 @Component({
-  selector: 'app-register2',
-  templateUrl: './register2.component.html',
-  styleUrls: ['./register2.component.scss']
+    selector: 'app-register2',
+    templateUrl: './register2.component.html',
+    styleUrls: ['./register2.component.scss'],
+    standalone: false
 })
 export class Register2Component implements OnInit {
 

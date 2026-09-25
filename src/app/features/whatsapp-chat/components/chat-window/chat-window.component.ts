@@ -28,9 +28,10 @@ import { getAvatarColor, getInitials } from '../../utils/avatar.util';
  * pas par la route — la route lazy du module se limite à path '' -> ChatLayoutComponent.
  */
 @Component({
-  selector: 'app-chat-window',
-  templateUrl: './chat-window.component.html',
-  styleUrls: ['./chat-window.component.scss'],
+    selector: 'app-chat-window',
+    templateUrl: './chat-window.component.html',
+    styleUrls: ['./chat-window.component.scss'],
+    standalone: false
 })
 export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {
   @ViewChild('scrollContainer') private scrollContainer?: ElementRef<HTMLDivElement>;

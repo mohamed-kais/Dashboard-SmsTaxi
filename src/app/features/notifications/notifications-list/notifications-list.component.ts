@@ -35,9 +35,10 @@ import { apiErrorMessage } from '../notifications.constants';
  * the current page.
  */
 @Component({
-  selector: 'app-notifications-list',
-  templateUrl: './notifications-list.component.html',
-  styleUrls: ['./notifications-list.component.scss'],
+    selector: 'app-notifications-list',
+    templateUrl: './notifications-list.component.html',
+    styleUrls: ['./notifications-list.component.scss'],
+    standalone: false
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly breadcrumb: { label: string; active: boolean }[] = [

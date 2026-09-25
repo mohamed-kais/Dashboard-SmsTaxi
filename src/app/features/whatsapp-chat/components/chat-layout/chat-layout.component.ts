@@ -11,9 +11,10 @@ import { ChatStateService } from '../../../../core/services/chat-state.service';
  * la route lazy du module se limite à path '' -> ChatLayoutComponent.
  */
 @Component({
-  selector: 'app-chat-layout',
-  templateUrl: './chat-layout.component.html',
-  styleUrls: ['./chat-layout.component.scss'],
+    selector: 'app-chat-layout',
+    templateUrl: './chat-layout.component.html',
+    styleUrls: ['./chat-layout.component.scss'],
+    standalone: false
 })
 export class ChatLayoutComponent implements OnInit, OnDestroy {
   /** Conversation actuellement ouverte dans le panneau de droite (null = placeholder). */

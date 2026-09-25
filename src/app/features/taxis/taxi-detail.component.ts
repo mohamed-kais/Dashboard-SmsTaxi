@@ -23,8 +23,9 @@ import { BreadcrumbItem } from './taxis.model';
  * rating summary, GPS display + update form, approve/reject, ride-history tab.
  */
 @Component({
-  selector: 'app-taxi-detail',
-  templateUrl: './taxi-detail.component.html',
+    selector: 'app-taxi-detail',
+    templateUrl: './taxi-detail.component.html',
+    standalone: false
 })
 export class TaxiDetailComponent implements OnInit, OnDestroy {
   id = 0;

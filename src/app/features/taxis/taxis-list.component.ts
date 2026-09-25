@@ -48,8 +48,9 @@ const PHONE_LIKE = /^[0-9+\-\s()]+$/;
  * the "large-page workaround" (see applyRows()).
  */
 @Component({
-  selector: 'app-taxis-list',
-  templateUrl: './taxis-list.component.html',
+    selector: 'app-taxis-list',
+    templateUrl: './taxis-list.component.html',
+    standalone: false
 })
 export class TaxisListComponent implements OnInit {
   readonly state: TableState<GetAllTaxisDtoResponse> = createTableState<GetAllTaxisDtoResponse>({

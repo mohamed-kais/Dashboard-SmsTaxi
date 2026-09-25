@@ -22,8 +22,9 @@ import {
 } from '../../core/constants/status-badges';
 
 @Component({
-  selector: 'app-reservation-detail',
-  templateUrl: './reservation-detail.component.html',
+    selector: 'app-reservation-detail',
+    templateUrl: './reservation-detail.component.html',
+    standalone: false
 })
 export class ReservationDetailComponent implements OnInit, OnDestroy {
   readonly title = 'Reservation detail';

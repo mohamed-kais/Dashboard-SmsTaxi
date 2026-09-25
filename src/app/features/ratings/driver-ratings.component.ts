@@ -15,8 +15,9 @@ import { Rating } from '../../core/models/rating.model';
  * not call the backend (see ROADMAP note).
  */
 @Component({
-  selector: 'app-driver-ratings',
-  templateUrl: './driver-ratings.component.html',
+    selector: 'app-driver-ratings',
+    templateUrl: './driver-ratings.component.html',
+    standalone: false
 })
 export class DriverRatingsComponent implements OnInit, OnDestroy {
   readonly title = 'Driver ratings';

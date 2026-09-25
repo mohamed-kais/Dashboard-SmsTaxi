@@ -82,9 +82,10 @@ function createPickerState<T>(pageSize = 10): PickerState<T> {
  * tab) sends `targetIds: ['ALL']`, otherwise the selected row ids as strings.
  */
 @Component({
-  selector: 'app-notification-send',
-  templateUrl: './notification-send.component.html',
-  styleUrls: ['./notification-send.component.scss'],
+    selector: 'app-notification-send',
+    templateUrl: './notification-send.component.html',
+    styleUrls: ['./notification-send.component.scss'],
+    standalone: false
 })
 export class NotificationSendComponent implements OnInit, OnDestroy {
   breadCrumbItems: { label: string; active: boolean }[] = [

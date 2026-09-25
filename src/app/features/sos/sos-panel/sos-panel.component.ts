@@ -20,8 +20,9 @@ import { apiErrorMessage } from '../sos.constants';
  *       alert list will render — no fake data, no acknowledge action.
  */
 @Component({
-  selector: 'app-sos-panel',
-  templateUrl: './sos-panel.component.html',
+    selector: 'app-sos-panel',
+    templateUrl: './sos-panel.component.html',
+    standalone: false
 })
 export class SosPanelComponent implements OnInit {
   breadCrumbItems: { label: string; active: boolean }[] = [

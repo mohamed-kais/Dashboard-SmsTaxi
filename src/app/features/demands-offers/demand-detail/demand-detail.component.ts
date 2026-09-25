@@ -36,9 +36,10 @@ export type DemandeDetailView = Demande & Partial<DemandeDto>;
  * assignment note links to the offers list filtered by client phone.
  */
 @Component({
-  selector: 'app-demand-detail',
-  templateUrl: './demand-detail.component.html',
-  styleUrls: ['./demand-detail.component.scss'],
+    selector: 'app-demand-detail',
+    templateUrl: './demand-detail.component.html',
+    styleUrls: ['./demand-detail.component.scss'],
+    standalone: false
 })
 export class DemandDetailComponent implements OnInit, OnDestroy {
   id = 0;

@@ -14,9 +14,10 @@ import { MenuItem } from './menu.model';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-horizontaltopbar',
-  templateUrl: './horizontaltopbar.component.html',
-  styleUrls: ['./horizontaltopbar.component.scss']
+    selector: 'app-horizontaltopbar',
+    templateUrl: './horizontaltopbar.component.html',
+    styleUrls: ['./horizontaltopbar.component.scss'],
+    standalone: false
 })
 
 /**

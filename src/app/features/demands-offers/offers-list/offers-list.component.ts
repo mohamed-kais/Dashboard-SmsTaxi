@@ -28,9 +28,10 @@ import { extractErrorMessage, ngbDateToParam } from '../feature.helpers';
  * demand detail) and `?etat=…`.
  */
 @Component({
-  selector: 'app-offers-list',
-  templateUrl: './offers-list.component.html',
-  styleUrls: ['./offers-list.component.scss'],
+    selector: 'app-offers-list',
+    templateUrl: './offers-list.component.html',
+    styleUrls: ['./offers-list.component.scss'],
+    standalone: false
 })
 export class OffersListComponent implements OnInit, OnDestroy {
   readonly etatOptions = OFFRE_ETAT;

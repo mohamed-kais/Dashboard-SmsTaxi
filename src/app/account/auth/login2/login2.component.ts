@@ -11,9 +11,10 @@ import { first } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-login2',
-  templateUrl: './login2.component.html',
-  styleUrls: ['./login2.component.scss']
+    selector: 'app-login2',
+    templateUrl: './login2.component.html',
+    styleUrls: ['./login2.component.scss'],
+    standalone: false
 })
 /**
  * Login-2 component

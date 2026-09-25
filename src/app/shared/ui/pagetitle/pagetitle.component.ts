@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-page-title',
-  templateUrl: './pagetitle.component.html',
-  styleUrls: ['./pagetitle.component.scss']
+    selector: 'app-page-title',
+    templateUrl: './pagetitle.component.html',
+    styleUrls: ['./pagetitle.component.scss'],
+    standalone: false
 })
 export class PagetitleComponent implements OnInit {
 

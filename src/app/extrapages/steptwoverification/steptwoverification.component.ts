@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-steptwoverification',
-  templateUrl: './steptwoverification.component.html',
-  styleUrls: ['./steptwoverification.component.scss']
+    selector: 'app-steptwoverification',
+    templateUrl: './steptwoverification.component.html',
+    styleUrls: ['./steptwoverification.component.scss'],
+    standalone: false
 })
 export class SteptwoverificationComponent implements OnInit {
 

@@ -28,8 +28,9 @@ import {
  * alert (plan §8 error handling).
  */
 @Component({
-  selector: 'app-sms-inject',
-  templateUrl: './sms-inject.component.html',
+    selector: 'app-sms-inject',
+    templateUrl: './sms-inject.component.html',
+    standalone: false
 })
 export class SmsInjectComponent implements OnInit {
   breadCrumbItems: { label: string; active: boolean }[] = [

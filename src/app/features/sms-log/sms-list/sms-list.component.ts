@@ -38,8 +38,9 @@ type SmsView = 'all' | 'untreated';
  * shown is `SmsIn.traitement` (boolean) — the one status field the model has.
  */
 @Component({
-  selector: 'app-sms-list',
-  templateUrl: './sms-list.component.html',
+    selector: 'app-sms-list',
+    templateUrl: './sms-list.component.html',
+    standalone: false
 })
 export class SmsListComponent implements OnInit, OnDestroy {
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;

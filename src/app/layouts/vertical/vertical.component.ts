@@ -6,9 +6,10 @@ import { EventService } from '../../core/services/event.service';
 import { SIDEBAR_TYPE } from "../layouts.model";
 
 @Component({
-  selector: 'app-vertical',
-  templateUrl: './vertical.component.html',
-  styleUrls: ['./vertical.component.scss']
+    selector: 'app-vertical',
+    templateUrl: './vertical.component.html',
+    styleUrls: ['./vertical.component.scss'],
+    standalone: false
 })
 
 /**

@@ -59,8 +59,9 @@ const DEFAULT_STATE: ReservationsListState = {
 };
 
 @Component({
-  selector: 'app-reservations-list',
-  templateUrl: './reservations-list.component.html',
+    selector: 'app-reservations-list',
+    templateUrl: './reservations-list.component.html',
+    standalone: false
 })
 export class ReservationsListComponent implements OnInit, OnDestroy {
   readonly title = 'Reservations';

@@ -19,8 +19,9 @@ const PHONE_PATTERN = '^[0-9+\\-\\s()]+$';
  * saved `TaxiDto`.
  */
 @Component({
-  selector: 'app-taxi-form-modal',
-  templateUrl: './taxi-form-modal.component.html',
+    selector: 'app-taxi-form-modal',
+    templateUrl: './taxi-form-modal.component.html',
+    standalone: false
 })
 export class TaxiFormModalComponent implements OnInit {
   /** Set when editing an existing taxi. */

@@ -17,8 +17,9 @@ import { TaxiRatingSummaryDto } from '../../core/models/rating.model';
  * ID) and then opens the per-driver detail route.
  */
 @Component({
-  selector: 'app-ratings-list',
-  templateUrl: './ratings-list.component.html',
+    selector: 'app-ratings-list',
+    templateUrl: './ratings-list.component.html',
+    standalone: false
 })
 export class RatingsListComponent implements OnInit, OnDestroy {
   readonly title = 'Ratings';

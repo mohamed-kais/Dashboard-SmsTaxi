@@ -28,9 +28,10 @@ import { extractErrorMessage, ngbDateToParam } from '../feature.helpers';
  * `page` in `buildParams()`.
  */
 @Component({
-  selector: 'app-demands-list',
-  templateUrl: './demands-list.component.html',
-  styleUrls: ['./demands-list.component.scss'],
+    selector: 'app-demands-list',
+    templateUrl: './demands-list.component.html',
+    styleUrls: ['./demands-list.component.scss'],
+    standalone: false
 })
 export class DemandsListComponent implements OnInit, OnDestroy {
   readonly etatOptions = DEMANDE_ETAT;

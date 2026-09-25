@@ -27,8 +27,9 @@ import { SURCHARGE_TYPES, apiErrorMessage } from '../settings.constants';
  * PATCH "pour compatibilité Dashboard").
  */
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    standalone: false
 })
 export class SettingsComponent implements OnInit {
   breadCrumbItems: { label: string; active: boolean }[] = [

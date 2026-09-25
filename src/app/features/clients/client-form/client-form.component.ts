@@ -21,8 +21,9 @@ import { CLIENT_PHONE_PATTERN, CLIENT_TYPE_OPTIONS, apiErrorMessage } from '../c
  * inline `ErrorResponseDto.message` alert and the dialog stays open.
  */
 @Component({
-  selector: 'app-client-form',
-  templateUrl: './client-form.component.html',
+    selector: 'app-client-form',
+    templateUrl: './client-form.component.html',
+    standalone: false
 })
 export class ClientFormComponent implements OnInit {
   @Input() client: ClientDto | null = null;

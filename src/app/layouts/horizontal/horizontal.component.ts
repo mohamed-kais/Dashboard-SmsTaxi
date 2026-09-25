@@ -3,9 +3,10 @@ import { TOPBAR } from "../layouts.model";
 import { EventService } from '../../core/services/event.service';
 
 @Component({
-  selector: 'app-horizontal',
-  templateUrl: './horizontal.component.html',
-  styleUrls: ['./horizontal.component.scss']
+    selector: 'app-horizontal',
+    templateUrl: './horizontal.component.html',
+    styleUrls: ['./horizontal.component.scss'],
+    standalone: false
 })
 
 /**

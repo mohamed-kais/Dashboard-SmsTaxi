@@ -19,9 +19,10 @@ import {
  * que chat-window l'intègre sans attendre l'écho WebSocket.
  */
 @Component({
-  selector: 'app-message-input',
-  templateUrl: './message-input.component.html',
-  styleUrls: ['./message-input.component.scss'],
+    selector: 'app-message-input',
+    templateUrl: './message-input.component.html',
+    styleUrls: ['./message-input.component.scss'],
+    standalone: false
 })
 export class MessageInputComponent implements OnDestroy {
   /** Conversation destinataire (null = saisie désactivée). */

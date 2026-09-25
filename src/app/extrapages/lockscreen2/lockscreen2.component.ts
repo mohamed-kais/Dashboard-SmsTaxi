@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
-  selector: 'app-lockscreen2',
-  templateUrl: './lockscreen2.component.html',
-  styleUrls: ['./lockscreen2.component.scss']
+    selector: 'app-lockscreen2',
+    templateUrl: './lockscreen2.component.html',
+    styleUrls: ['./lockscreen2.component.scss'],
+    standalone: false
 })
 export class Lockscreen2Component implements OnInit {
 

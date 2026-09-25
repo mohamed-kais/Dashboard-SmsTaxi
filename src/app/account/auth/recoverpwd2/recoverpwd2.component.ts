@@ -7,9 +7,10 @@ import { AuthenticationService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-recoverpwd2',
-  templateUrl: './recoverpwd2.component.html',
-  styleUrls: ['./recoverpwd2.component.scss']
+    selector: 'app-recoverpwd2',
+    templateUrl: './recoverpwd2.component.html',
+    styleUrls: ['./recoverpwd2.component.scss'],
+    standalone: false
 })
 export class Recoverpwd2Component implements OnInit {
 

@@ -3,9 +3,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-transaction',
-  templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.scss']
+    selector: 'app-transaction',
+    templateUrl: './transaction.component.html',
+    styleUrls: ['./transaction.component.scss'],
+    standalone: false
 })
 export class TransactionComponent implements OnInit {
 
