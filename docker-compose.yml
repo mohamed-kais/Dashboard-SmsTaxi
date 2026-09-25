@@ -1,0 +1,22 @@
+# SMS Taxi dashboard — production deployment.
+#
+# Serves the static Angular build behind nginx on host port 5005
+# (http://41.225.11.231:5005), reverse-proxying all API traffic server-side
+# (see nginx.conf — browser stays same-origin, so no CORS is required).
+#
+# Usage:             docker compose up -d --build
+# Healthcheck:       serves index.html on port 80 inside the container
+# Restart policy:    unless-stopped (survives host reboots / daemon restarts)
+services:
+  dashboard:
+    build: .
+    container_name: smstaxi-dashboard
+    ports:
+      - "5005:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
