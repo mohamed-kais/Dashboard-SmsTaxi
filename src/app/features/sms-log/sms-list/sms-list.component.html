@@ -17,16 +17,18 @@
         <ul class="nav nav-tabs card-header-tabs mt-2 mb-0">
           <li class="nav-item">
             <button type="button" class="nav-link" [class.active]="view === 'all'"
-              (click)="setView('all')">{{ 'sms.list.tabAll' | translate }}</button>
+            (click)="setView('all')">{{ 'sms.list.tabAll' | translate }}</button>
           </li>
           <li class="nav-item">
             <button type="button" class="nav-link" [class.active]="view === 'untreated'"
-              (click)="setView('untreated')">{{ 'sms.list.tabUntreated' | translate }}</button>
+            (click)="setView('untreated')">{{ 'sms.list.tabUntreated' | translate }}</button>
           </li>
         </ul>
       </div>
 
-      <div class="alert alert-danger m-3" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+      @if (errorMessage) {
+        <div class="alert alert-danger m-3" role="alert">{{ errorMessage }}</div>
+      }
 
       <div class="table-responsive">
         <table class="table table-centered table-nowrap mb-0">
@@ -42,39 +44,45 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="loading$ | async">
-              <td colspan="7" class="text-center py-4">
-                <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'sms.list.loading' | translate }}
-              </td>
-            </tr>
-            <ng-container *ngIf="!(loading$ | async)">
-              <tr *ngFor="let sms of (rows$ | async); let i = index">
-                <td>{{ state.startIndex + i }}</td>
-                <td>{{ sms.id }}</td>
-                <td>{{ sms.telephone || '—' }}</td>
-                <td style="max-width: 320px;">
-                  <span class="text-truncate d-inline-block" style="max-width: 300px;"
+            @if (loading$ | async) {
+              <tr>
+                <td colspan="7" class="text-center py-4">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'sms.list.loading' | translate }}
+                </td>
+              </tr>
+            }
+            @if (!(loading$ | async)) {
+              @for (sms of (rows$ | async); track sms; let i = $index) {
+                <tr>
+                  <td>{{ state.startIndex + i }}</td>
+                  <td>{{ sms.id }}</td>
+                  <td>{{ sms.telephone || '—' }}</td>
+                  <td style="max-width: 320px;">
+                    <span class="text-truncate d-inline-block" style="max-width: 300px;"
                     [title]="sms.contenu">{{ sms.contenu || '—' }}</span>
-                </td>
-                <td>{{ sms.date_reception ? (sms.date_reception | date: 'medium') : '—' }}</td>
-                <td>
-                  <span class="badge" [ngClass]="traitementBadge(sms).class">{{ traitementBadge(sms).label }}</span>
-                </td>
-                <td class="text-end text-nowrap">
-                  <button type="button" class="btn btn-sm btn-soft-info" [title]="'common.view' | translate"
-                    (click)="openView(sms, viewTemplate)">
-                    <i class="bx bx-show"></i> {{ 'common.view' | translate }}
-                  </button>
-                  <button type="button" class="btn btn-sm btn-soft-danger ms-1" [title]="'common.delete' | translate"
-                    (click)="askDelete(sms, confirmDeleteTemplate)">
-                    <i class="bx bx-trash"></i> {{ 'common.delete' | translate }}
-                  </button>
-                </td>
-              </tr>
-              <tr *ngIf="(totalRecords$ | async) === 0">
-                <td colspan="7" class="text-center text-muted py-4">{{ 'sms.list.empty' | translate }}</td>
-              </tr>
-            </ng-container>
+                  </td>
+                  <td>{{ sms.date_reception ? (sms.date_reception | date: 'medium') : '—' }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="traitementBadge(sms).class">{{ traitementBadge(sms).label }}</span>
+                  </td>
+                  <td class="text-end text-nowrap">
+                    <button type="button" class="btn btn-sm btn-soft-info" [title]="'common.view' | translate"
+                      (click)="openView(sms, viewTemplate)">
+                      <i class="bx bx-show"></i> {{ 'common.view' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-soft-danger ms-1" [title]="'common.delete' | translate"
+                      (click)="askDelete(sms, confirmDeleteTemplate)">
+                      <i class="bx bx-trash"></i> {{ 'common.delete' | translate }}
+                    </button>
+                  </td>
+                </tr>
+              }
+              @if ((totalRecords$ | async) === 0) {
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-4">{{ 'sms.list.empty' | translate }}</td>
+                </tr>
+              }
+            }
           </tbody>
         </table>
       </div>
@@ -85,7 +93,9 @@
             <span class="text-muted">{{ 'sms.list.showingRange' | translate:{ start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}</span>
             <select name="pageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
               [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
-              <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
+              @for (size of pageSizes; track size) {
+                <option [ngValue]="size">{{ size }}</option>
+              }
             </select>
           </div>
           <ngb-pagination [collectionSize]="(totalRecords$ | async) || 0" [page]="state.page"
@@ -134,8 +144,10 @@
   <div class="modal-body">
     <p>{{ 'sms.list.deleteConfirmIntro' | translate }}
       <strong>#{{ pendingDelete?.id }}</strong>
-      <span *ngIf="pendingDelete?.telephone">{{ 'sms.list.deleteConfirmFrom' | translate }} <strong>{{ pendingDelete?.telephone }}</strong></span>
-      {{ 'sms.list.deleteConfirmSuffix' | translate }}</p>
+      @if (pendingDelete?.telephone) {
+        <span>{{ 'sms.list.deleteConfirmFrom' | translate }} <strong>{{ pendingDelete?.telephone }}</strong></span>
+      }
+    {{ 'sms.list.deleteConfirmSuffix' | translate }}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')">{{ 'common.cancel' | translate }}</button>

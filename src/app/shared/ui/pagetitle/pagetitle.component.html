@@ -5,14 +5,18 @@
       <h4 class="mb-0 font-size-18">{{ title | translate }}</h4>
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
-          <ng-container *ngFor="let item of breadcrumbItems">
-            <li class="breadcrumb-item" *ngIf="!item.active"><a href="javascript: void(0);">{{ item.label | translate }}</a>
+          @for (item of breadcrumbItems; track item) {
+            @if (!item.active) {
+              <li class="breadcrumb-item"><a href="javascript: void(0);">{{ item.label | translate }}</a>
             </li>
-            <li class="breadcrumb-item active" *ngIf="item.active">{{ item.label | translate }}
+          }
+          @if (item.active) {
+            <li class="breadcrumb-item active">{{ item.label | translate }}
             </li>
-          </ng-container>
-        </ol>
-      </div>
+          }
+        }
+      </ol>
     </div>
   </div>
+</div>
 </div>

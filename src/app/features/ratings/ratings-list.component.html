@@ -36,22 +36,28 @@
                 class="form-control"
                 formControlName="lookup"
                 placeholder="{{ 'ratings.list.lookupPlaceholder' | translate }}"
-              />
+                />
               <button type="submit" class="btn btn-primary" [disabled]="loading">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                @if (loading) {
+                  <span class="spinner-border spinner-border-sm me-1"></span>
+                }
                 {{ 'ratings.list.lookupButton' | translate }}
               </button>
             </div>
-            <div *ngIf="submitted && f.lookup.errors" class="text-danger small mt-1">
-              {{ 'ratings.list.lookupInvalid' | translate }}
-            </div>
-            <div *ngIf="lookupError" class="text-danger small mt-1">
-              {{ lookupError }}
-            </div>
+            @if (submitted && f.lookup.errors) {
+              <div class="text-danger small mt-1">
+                {{ 'ratings.list.lookupInvalid' | translate }}
+              </div>
+            }
+            @if (lookupError) {
+              <div class="text-danger small mt-1">
+                {{ lookupError }}
+              </div>
+            }
           </div>
         </form>
 
-        <ng-container *ngIf="summary">
+        @if (summary) {
           <hr />
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="mb-0">{{ 'ratings.list.resolvedDriver' | translate }} <span class="text-primary">#{{ driverId }}</span></h6>
@@ -65,7 +71,7 @@
             <code>GET /api/taxis/&#123;taxiId&#125;/rating-summary</code> /
             <code>GET /api/taxis/by-phone/&#123;phone&#125;/rating-summary</code>.
           </p>
-        </ng-container>
+        }
       </div>
     </div>
   </div>

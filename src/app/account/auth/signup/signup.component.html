@@ -31,10 +31,14 @@
               <form class="needs-validation" name="signupForm" [formGroup]="signupForm" (ngSubmit)="onSubmit()"
                 novalidate>
 
-                <ngb-alert type="success" *ngIf="successmsg" [dismissible]="false">Registeration successfull.
-                </ngb-alert>
+                @if (successmsg) {
+                  <ngb-alert type="success" [dismissible]="false">Registeration successfull.
+                  </ngb-alert>
+                }
 
-                <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+                @if (error) {
+                  <ngb-alert type="danger" [dismissible]="false">{{ error }}</ngb-alert>
+                }
 
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
@@ -43,9 +47,13 @@
                     [ngClass]="{ 'is-invalid': submitted && f.username.errors }" id="username"
                     placeholder="Enter username" />
 
-                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Userame is required</div>
-                  </div>
+                  @if (submitted && f.username.errors) {
+                    <div class="invalid-feedback">
+                      @if (f.username.errors.required) {
+                        <div>Userame is required</div>
+                      }
+                    </div>
+                  }
                 </div>
 
                 <div class="mb-3">
@@ -54,10 +62,16 @@
                   <input type="email" formControlName="email" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="email" placeholder="Email" />
 
-                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors.required">Email is required</div>
-                    <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-                  </div>
+                  @if (submitted && f.email.errors) {
+                    <div class="invalid-feedback">
+                      @if (f.email.errors.required) {
+                        <div>Email is required</div>
+                      }
+                      @if (f.email.errors.email) {
+                        <div>Email must be a valid email address</div>
+                      }
+                    </div>
+                  }
                 </div>
 
                 <div class="mb-3">
@@ -66,9 +80,13 @@
                   <input type="password" formControlName="password" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="password" placeholder="Password" />
 
-                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                  </div>
+                  @if (submitted && f.password.errors) {
+                    <div class="invalid-feedback">
+                      @if (f.password.errors.required) {
+                        <div>Password is required</div>
+                      }
+                    </div>
+                  }
                 </div>
 
                 <div class="mt-4 d-grid">
@@ -97,8 +115,8 @@
                 </div>
                 <div class="mt-4 text-center">
                   <p class="mb-0">By registering you agree to the Skote <a href="javascript: void(0);"
-                      class="text-primary">Terms of
-                      Use</a></p>
+                    class="text-primary">Terms of
+                  Use</a></p>
                 </div>
               </form>
             </div>
@@ -108,12 +126,12 @@
 
         <div class="mt-5 text-center">
           <p>Already have an account ? <a routerLink="/account/login" class="fw-medium text-primary"> Login</a>
-          </p>
-          <p>All Rights Reserved © SMS TAXI {{year}} un service conforme à la législation tunisienne</p>
-        </div>
-      </div> <!-- end col -->
-    </div>
-    <!-- end row -->
+        </p>
+        <p>All Rights Reserved © SMS TAXI {{year}} un service conforme à la législation tunisienne</p>
+      </div>
+    </div> <!-- end col -->
   </div>
-  <!-- end container -->
+  <!-- end row -->
+</div>
+<!-- end container -->
 </div>

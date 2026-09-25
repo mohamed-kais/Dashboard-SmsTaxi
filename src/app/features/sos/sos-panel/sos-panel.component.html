@@ -24,8 +24,12 @@
           {{ 'sos.panel.sendDescriptionOutro' | translate }}
         </p>
 
-        <div class="alert alert-success" role="alert" *ngIf="successMessage">{{ successMessage }}</div>
-        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+        @if (successMessage) {
+          <div class="alert alert-success" role="alert">{{ successMessage }}</div>
+        }
+        @if (errorMessage) {
+          <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+        }
 
         <form [formGroup]="form" (ngSubmit)="triggerSos()" novalidate>
           <div class="mb-3">
@@ -33,16 +37,22 @@
             <input type="number" id="sos-taxi-id" class="form-control" formControlName="taxiId"
               min="1" step="1" placeholder="{{ 'sos.panel.taxiIdPlaceholder' | translate }}"
               [class.is-invalid]="submitted && f.taxiId.errors" />
-            <div class="invalid-feedback" *ngIf="submitted && f.taxiId.errors?.required">
-              {{ 'sos.panel.taxiIdRequired' | translate }}
-            </div>
-            <div class="invalid-feedback" *ngIf="submitted && f.taxiId.errors?.min">
-              {{ 'sos.panel.taxiIdPositive' | translate }}
-            </div>
+            @if (submitted && f.taxiId.errors?.required) {
+              <div class="invalid-feedback">
+                {{ 'sos.panel.taxiIdRequired' | translate }}
+              </div>
+            }
+            @if (submitted && f.taxiId.errors?.min) {
+              <div class="invalid-feedback">
+                {{ 'sos.panel.taxiIdPositive' | translate }}
+              </div>
+            }
           </div>
 
           <button type="submit" class="btn btn-danger" [disabled]="sending">
-            <span class="spinner-border spinner-border-sm me-1" *ngIf="sending"></span>
+            @if (sending) {
+              <span class="spinner-border spinner-border-sm me-1"></span>
+            }
             {{ sending ? ('sos.panel.sending' | translate) : ('sos.panel.sendButton' | translate) }}
           </button>
         </form>
@@ -88,7 +98,7 @@
         </p>
       </div>
       <!-- Spec gap (ROADMAP): no SOS list / acknowledge endpoints are documented.
-           The row below is a DISABLED, clearly-labelled sample — not real data. -->
+      The row below is a DISABLED, clearly-labelled sample — not real data. -->
       <div class="table-responsive">
         <table class="table table-centered table-nowrap mb-0">
           <thead class="table-light">

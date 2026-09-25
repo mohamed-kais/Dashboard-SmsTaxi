@@ -1,176 +1,195 @@
 <app-page-title [title]="pageTitle" [breadcrumbItems]="breadcrumbItems"></app-page-title>
 
 <!-- Loading -->
-<div class="text-center py-5" *ngIf="loading">
-  <div class="spinner-border text-primary" role="status"></div>
-  <p class="text-muted mt-2 mb-0">{{ 'client.detail.loading' | translate }}</p>
-</div>
+@if (loading) {
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="text-muted mt-2 mb-0">{{ 'client.detail.loading' | translate }}</p>
+  </div>
+}
 
 <!-- Error -->
-<div class="row" *ngIf="!loading && loadError">
-  <div class="col-12">
-    <div class="alert alert-danger" role="alert">{{ loadError }}</div>
-    <a routerLink="/clients" class="btn btn-light btn-sm">{{ 'client.detail.backToClients' | translate }}</a>
+@if (!loading && loadError) {
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-danger" role="alert">{{ loadError }}</div>
+      <a routerLink="/clients" class="btn btn-light btn-sm">{{ 'client.detail.backToClients' | translate }}</a>
+    </div>
   </div>
-</div>
+}
 
 <!-- Profile -->
-<div class="row" *ngIf="!loading && !loadError && client">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-          <h5 class="card-title mb-0">{{ 'client.detail.profileTitle' | translate }}</h5>
-          <div class="text-nowrap">
-            <button type="button" class="btn btn-primary btn-sm me-1" (click)="openEditModal()">
-              <i class="bx bx-edit me-1"></i>{{ 'common.edit' | translate }}
-            </button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="askDelete(deleteTemplate)">
-              <i class="bx bx-trash me-1"></i>{{ 'common.delete' | translate }}
-            </button>
+@if (!loading && !loadError && client) {
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <h5 class="card-title mb-0">{{ 'client.detail.profileTitle' | translate }}</h5>
+            <div class="text-nowrap">
+              <button type="button" class="btn btn-primary btn-sm me-1" (click)="openEditModal()">
+                <i class="bx bx-edit me-1"></i>{{ 'common.edit' | translate }}
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="askDelete(deleteTemplate)">
+                <i class="bx bx-trash me-1"></i>{{ 'common.delete' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <dl class="row mb-0">
+                <dt class="col-sm-4 text-muted">{{ 'common.id' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.id }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'client.detail.telephone' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.telephone || '—' }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'common.name' | translate }}</dt>
+                <dd class="col-sm-8">{{ clientName() }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'common.email' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.email || '—' }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'common.type' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.type || '—' }}</dd>
+              </dl>
+            </div>
+            <div class="col-md-6">
+              <dl class="row mb-0">
+                <dt class="col-sm-4 text-muted">{{ 'client.detail.registered' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.dateEnregistrement ? (client.dateEnregistrement | date: 'medium') : '—' }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'common.status' | translate }}</dt>
+                <dd class="col-sm-8">
+                  <span class="badge" [ngClass]="clientBadge().class">{{ clientBadge().label }}</span>
+                </dd>
+                <dt class="col-sm-4 text-muted">{{ 'client.detail.masquerNumber' | translate }}</dt>
+                <dd class="col-sm-8">{{ (client.masquerNumero ? 'common.yes' : 'common.no') | translate }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'client.detail.location' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.location || '—' }}</dd>
+                <dt class="col-sm-4 text-muted">{{ 'client.detail.destination' | translate }}</dt>
+                <dd class="col-sm-8">{{ client.destination || '—' }}</dd>
+              </dl>
+            </div>
           </div>
         </div>
       </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <dl class="row mb-0">
-              <dt class="col-sm-4 text-muted">{{ 'common.id' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.id }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'client.detail.telephone' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.telephone || '—' }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'common.name' | translate }}</dt>
-              <dd class="col-sm-8">{{ clientName() }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'common.email' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.email || '—' }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'common.type' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.type || '—' }}</dd>
-            </dl>
-          </div>
-          <div class="col-md-6">
-            <dl class="row mb-0">
-              <dt class="col-sm-4 text-muted">{{ 'client.detail.registered' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.dateEnregistrement ? (client.dateEnregistrement | date: 'medium') : '—' }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'common.status' | translate }}</dt>
-              <dd class="col-sm-8">
-                <span class="badge" [ngClass]="clientBadge().class">{{ clientBadge().label }}</span>
-              </dd>
-              <dt class="col-sm-4 text-muted">{{ 'client.detail.masquerNumber' | translate }}</dt>
-              <dd class="col-sm-8">{{ (client.masquerNumero ? 'common.yes' : 'common.no') | translate }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'client.detail.location' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.location || '—' }}</dd>
-              <dt class="col-sm-4 text-muted">{{ 'client.detail.destination' | translate }}</dt>
-              <dd class="col-sm-8">{{ client.destination || '—' }}</dd>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="card">
-      <div class="card-body">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="activeTab === 'overview'"
-              href="javascript: void(0);" (click)="activeTab = 'overview'">
-              <i class="bx bx-info-circle me-1"></i>{{ 'client.detail.tabOverview' | translate }}
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="activeTab === 'history'"
-              href="javascript: void(0);" (click)="activeTab = 'history'">
-              <i class="bx bx-time-five me-1"></i>{{ 'client.detail.tabHistory' | translate }}
-            </a>
-          </li>
-        </ul>
-
-        <div class="tab-content pt-3">
-          <!-- Overview -->
-          <div class="tab-pane active" *ngIf="activeTab === 'overview'">
-            <div class="row">
-              <div class="col-md-6">
-                <dl class="row mb-0">
-                  <dt class="col-sm-4 text-muted">{{ 'client.detail.contenu' | translate }}</dt>
-                  <dd class="col-sm-8">{{ client.contenu || '—' }}</dd>
-                  <dt class="col-sm-4 text-muted">{{ 'client.detail.traitement' | translate }}</dt>
-                  <dd class="col-sm-8">{{ (client.traitement ? 'common.yes' : 'common.no') | translate }}</dd>
-                </dl>
+      <!-- Tabs -->
+      <div class="card">
+        <div class="card-body">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" [class.active]="activeTab === 'overview'"
+                href="javascript: void(0);" (click)="activeTab = 'overview'">
+                <i class="bx bx-info-circle me-1"></i>{{ 'client.detail.tabOverview' | translate }}
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" [class.active]="activeTab === 'history'"
+                href="javascript: void(0);" (click)="activeTab = 'history'">
+                <i class="bx bx-time-five me-1"></i>{{ 'client.detail.tabHistory' | translate }}
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content pt-3">
+            <!-- Overview -->
+            @if (activeTab === 'overview') {
+              <div class="tab-pane active">
+                <div class="row">
+                  <div class="col-md-6">
+                    <dl class="row mb-0">
+                      <dt class="col-sm-4 text-muted">{{ 'client.detail.contenu' | translate }}</dt>
+                      <dd class="col-sm-8">{{ client.contenu || '—' }}</dd>
+                      <dt class="col-sm-4 text-muted">{{ 'client.detail.traitement' | translate }}</dt>
+                      <dd class="col-sm-8">{{ (client.traitement ? 'common.yes' : 'common.no') | translate }}</dd>
+                    </dl>
+                  </div>
+                  <div class="col-md-6">
+                    <dl class="row mb-0">
+                      <dt class="col-sm-4 text-muted">{{ 'client.detail.locationCoords' | translate }}</dt>
+                      <dd class="col-sm-8">{{ coordinatesLabel() }}</dd>
+                      <dt class="col-sm-4 text-muted">{{ 'client.detail.destinationCoords' | translate }}</dt>
+                      <dd class="col-sm-8">{{ destinationCoordinatesLabel() }}</dd>
+                    </dl>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-6">
-                <dl class="row mb-0">
-                  <dt class="col-sm-4 text-muted">{{ 'client.detail.locationCoords' | translate }}</dt>
-                  <dd class="col-sm-8">{{ coordinatesLabel() }}</dd>
-                  <dt class="col-sm-4 text-muted">{{ 'client.detail.destinationCoords' | translate }}</dt>
-                  <dd class="col-sm-8">{{ destinationCoordinatesLabel() }}</dd>
-                </dl>
+            }
+            <!-- Ride history -->
+            @if (activeTab === 'history') {
+              <div class="tab-pane active">
+                @if (historyError) {
+                  <div class="alert alert-danger" role="alert">{{ historyError }}</div>
+                }
+                @if (!historyError) {
+                  <div class="table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                      <thead class="table-light">
+                        <tr>
+                          <th>{{ 'common.id' | translate }}</th>
+                          <th>{{ 'common.date' | translate }}</th>
+                          <th>{{ 'common.status' | translate }}</th>
+                          <th>{{ 'client.detail.taxiHeader' | translate }}</th>
+                          <th>{{ 'client.detail.pickup' | translate }}</th>
+                          <th>{{ 'client.detail.destination' | translate }}</th>
+                          <th class="text-end">{{ 'client.detail.price' | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @if (historyLoading) {
+                          <tr>
+                            <td colspan="7" class="text-center py-4">
+                              <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'client.detail.loadingHistory' | translate }}
+                            </td>
+                          </tr>
+                        }
+                        @if (!historyLoading) {
+                          @for (offer of history; track offer) {
+                            <tr>
+                              <td>{{ offer.id }}</td>
+                              <td>{{ offer.date_depot ? (offer.date_depot | date: 'medium') : '—' }}</td>
+                              <td>
+                                <span class="badge" [ngClass]="offerBadge(offer.etat).class">{{ offerBadge(offer.etat).label }}</span>
+                              </td>
+                              <td>{{ offer.taxi?.telephone || '—' }}</td>
+                              <td>{{ offer.locationHistory || offer.client?.location || '—' }}</td>
+                              <td>{{ offer.destinationHistory || offer.client?.destination || '—' }}</td>
+                              <td class="text-end">{{ offerPrice(offer) }}</td>
+                            </tr>
+                          }
+                          @if (history.length === 0) {
+                            <tr>
+                              <td colspan="7" class="text-center text-muted py-4">{{ 'client.detail.noHistory' | translate }}</td>
+                            </tr>
+                          }
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                }
+                @if (!historyError && historyTotal > 0) {
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3"
+                    >
+                    <div>
+                      <span class="text-muted">{{ 'client.detail.showing' | translate:{ shown: history.length, total: historyTotal } }}</span>
+                      <select name="historyLimit" class="form-select form-select-sm d-inline-block w-auto ms-2"
+                        [ngModel]="historyLimit" (ngModelChange)="historyLimitChange($event)">
+                        @for (l of historyLimits; track l) {
+                          <option [ngValue]="l">{{ l }}</option>
+                        }
+                      </select>
+                    </div>
+                    <ngb-pagination [collectionSize]="historyTotal" [page]="historyPage" [pageSize]="historyLimit"
+                      [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+                      (pageChange)="historyPageChange($event)">
+                    </ngb-pagination>
+                  </div>
+                }
               </div>
-            </div>
-          </div>
-
-          <!-- Ride history -->
-          <div class="tab-pane active" *ngIf="activeTab === 'history'">
-            <div class="alert alert-danger" role="alert" *ngIf="historyError">{{ historyError }}</div>
-
-            <div class="table-responsive" *ngIf="!historyError">
-              <table class="table table-centered table-nowrap mb-0">
-                <thead class="table-light">
-                  <tr>
-                    <th>{{ 'common.id' | translate }}</th>
-                    <th>{{ 'common.date' | translate }}</th>
-                    <th>{{ 'common.status' | translate }}</th>
-                    <th>{{ 'client.detail.taxiHeader' | translate }}</th>
-                    <th>{{ 'client.detail.pickup' | translate }}</th>
-                    <th>{{ 'client.detail.destination' | translate }}</th>
-                    <th class="text-end">{{ 'client.detail.price' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="historyLoading">
-                    <td colspan="7" class="text-center py-4">
-                      <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'client.detail.loadingHistory' | translate }}
-                    </td>
-                  </tr>
-                  <ng-container *ngIf="!historyLoading">
-                    <tr *ngFor="let offer of history">
-                      <td>{{ offer.id }}</td>
-                      <td>{{ offer.date_depot ? (offer.date_depot | date: 'medium') : '—' }}</td>
-                      <td>
-                        <span class="badge" [ngClass]="offerBadge(offer.etat).class">{{ offerBadge(offer.etat).label }}</span>
-                      </td>
-                      <td>{{ offer.taxi?.telephone || '—' }}</td>
-                      <td>{{ offer.locationHistory || offer.client?.location || '—' }}</td>
-                      <td>{{ offer.destinationHistory || offer.client?.destination || '—' }}</td>
-                      <td class="text-end">{{ offerPrice(offer) }}</td>
-                    </tr>
-                    <tr *ngIf="history.length === 0">
-                      <td colspan="7" class="text-center text-muted py-4">{{ 'client.detail.noHistory' | translate }}</td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3"
-              *ngIf="!historyError && historyTotal > 0">
-              <div>
-                <span class="text-muted">{{ 'client.detail.showing' | translate:{ shown: history.length, total: historyTotal } }}</span>
-                <select name="historyLimit" class="form-select form-select-sm d-inline-block w-auto ms-2"
-                  [ngModel]="historyLimit" (ngModelChange)="historyLimitChange($event)">
-                  <option *ngFor="let l of historyLimits" [ngValue]="l">{{ l }}</option>
-                </select>
-              </div>
-              <ngb-pagination [collectionSize]="historyTotal" [page]="historyPage" [pageSize]="historyLimit"
-                [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
-                (pageChange)="historyPageChange($event)">
-              </ngb-pagination>
-            </div>
+            }
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+}
 
 <ng-template #deleteTemplate let-modal>
   <div class="modal-header">
@@ -183,7 +202,9 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-light btn-sm" (click)="modal.dismiss('cancel')" [disabled]="deleting">{{ 'common.cancel' | translate }}</button>
     <button type="button" class="btn btn-danger btn-sm" (click)="modal.close('confirm')" [disabled]="deleting">
-      <span class="spinner-border spinner-border-sm me-1" *ngIf="deleting"></span>{{ 'common.delete' | translate }}
-    </button>
-  </div>
-</ng-template>
+      @if (deleting) {
+        <span class="spinner-border spinner-border-sm me-1"></span>
+        }{{ 'common.delete' | translate }}
+      </button>
+    </div>
+  </ng-template>

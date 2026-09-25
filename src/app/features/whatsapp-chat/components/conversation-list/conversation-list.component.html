@@ -14,42 +14,50 @@
   </div>
 
   <div class="wa-sidebar__list">
-    <div
-      *ngFor="let conv of (filteredConversations$ | async); trackBy: trackById"
-      class="wa-conv-item"
-      role="button"
-      tabindex="0"
-      [class.wa-conv-item--active]="conv.id === activeId"
-      (click)="onSelect(conv)"
-      (keyup.enter)="onSelect(conv)">
-      <div class="wa-avatar" [style.background]="avatarColor(conv)">
-        {{ initials(conv) }}
-      </div>
-
-      <div class="wa-conv-item__body">
-        <div class="wa-conv-item__top">
-          <span class="wa-conv-item__name">{{ displayName(conv) }}</span>
-          <span class="wa-conv-item__time" *ngIf="conv.lastMessageAt">
-            {{ conv.lastMessageAt | date: 'shortTime' }}
-          </span>
+    @for (conv of (filteredConversations$ | async); track trackById($index, conv)) {
+      <div
+        class="wa-conv-item"
+        role="button"
+        tabindex="0"
+        [class.wa-conv-item--active]="conv.id === activeId"
+        (click)="onSelect(conv)"
+        (keyup.enter)="onSelect(conv)">
+        <div class="wa-avatar" [style.background]="avatarColor(conv)">
+          {{ initials(conv) }}
         </div>
-        <div class="wa-conv-item__bottom">
-          <span class="wa-conv-item__preview">{{ previewText(conv) }}</span>
-          <span class="badge rounded-pill bg-success wa-badge" *ngIf="conv.unreadCount > 0">
-            {{ conv.unreadCount }}
-          </span>
+        <div class="wa-conv-item__body">
+          <div class="wa-conv-item__top">
+            <span class="wa-conv-item__name">{{ displayName(conv) }}</span>
+            @if (conv.lastMessageAt) {
+              <span class="wa-conv-item__time">
+                {{ conv.lastMessageAt | date: 'shortTime' }}
+              </span>
+            }
+          </div>
+          <div class="wa-conv-item__bottom">
+            <span class="wa-conv-item__preview">{{ previewText(conv) }}</span>
+            @if (conv.unreadCount > 0) {
+              <span class="badge rounded-pill bg-success wa-badge">
+                {{ conv.unreadCount }}
+              </span>
+            }
+          </div>
         </div>
       </div>
-    </div>
+    }
 
-    <div class="wa-sidebar__empty" *ngIf="conversationsError$ | async as error">
-      {{ error }}
-    </div>
+    @if (conversationsError$ | async; as error) {
+      <div class="wa-sidebar__empty">
+        {{ error }}
+      </div>
+    }
 
-    <div
-      class="wa-sidebar__empty"
-      *ngIf="!(conversationsError$ | async) && (filteredConversations$ | async)?.length === 0">
-      {{ 'whatsapp.list.empty' | translate }}
-    </div>
+    @if (!(conversationsError$ | async) && (filteredConversations$ | async)?.length === 0) {
+      <div
+        class="wa-sidebar__empty"
+        >
+        {{ 'whatsapp.list.empty' | translate }}
+      </div>
+    }
   </div>
 </div>

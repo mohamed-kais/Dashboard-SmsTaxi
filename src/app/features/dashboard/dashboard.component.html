@@ -1,5 +1,5 @@
 <!-- Dashboard / Overview — plan §5.1. Template look: cards, .table, badge-soft-*,
-     btn-sm, d-flex justify-content-between (TEMPLATE_GUIDE §6 conventions). -->
+btn-sm, d-flex justify-content-between (TEMPLATE_GUIDE §6 conventions). -->
 
 <app-loader></app-loader>
 
@@ -8,25 +8,33 @@
 <div class="row mb-2">
   <div class="col-12 d-flex justify-content-end">
     <button type="button" class="btn btn-primary btn-sm" (click)="refresh()" [disabled]="loading">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status"></span>
-      <i *ngIf="!loading" class="bx bx-refresh me-1"></i>
+      @if (loading) {
+        <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+      }
+      @if (!loading) {
+        <i class="bx bx-refresh me-1"></i>
+      }
       {{ 'dashboard.refresh' | translate }}
     </button>
   </div>
 </div>
 
 <!-- Per-card HTTP failures (values show — on the affected cards). -->
-<div class="alert alert-warning" *ngIf="failedCardLabels.length > 0" role="alert">
-  <i class="bx bxs-error-alt me-1"></i>
-  {{ 'dashboard.statsError' | translate: { labels: failedCardLabels.join(', ') } }}
-  {{ 'dashboard.statsErrorHint' | translate }}
-</div>
+@if (failedCardLabels.length > 0) {
+  <div class="alert alert-warning" role="alert">
+    <i class="bx bxs-error-alt me-1"></i>
+    {{ 'dashboard.statsError' | translate: { labels: failedCardLabels.join(', ') } }}
+    {{ 'dashboard.statsErrorHint' | translate }}
+  </div>
+}
 
 <!-- Feed failures. -->
-<div class="alert alert-warning" *ngIf="feedError" role="alert">
-  <i class="bx bxs-error-alt me-1"></i>
-  {{ feedError }}
-</div>
+@if (feedError) {
+  <div class="alert alert-warning" role="alert">
+    <i class="bx bxs-error-alt me-1"></i>
+    {{ feedError }}
+  </div>
+}
 
 <!-- Stat cards row (shared app-stat widget; combined Demands/Offers cards add sub-values). -->
 <div class="row">
@@ -124,96 +132,116 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let row of demands">
-                <td>
-                  <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/demands', row.id]"
-                    >#{{ row.id }}</a
-                  >
-                </td>
-                <td>
-                  <div class="fw-medium">{{ row.clientNom || '-' }}</div>
-                  <div class="text-muted small">{{ row.clientPhone || '-' }}</div>
-                </td>
-                <td>{{ row.location || '-' }} &rarr; {{ row.destination || '-' }}</td>
-                <td>{{ row.estimatedPrice || '-' }}</td>
-                <td>
-                  <span class="badge" [ngClass]="demandBadge(row.etat).class">{{ demandBadge(row.etat).label }}</span>
-                </td>
-                <td>{{ row.dateDepot | date: 'medium' }}</td>
-              </tr>
-              <tr *ngIf="loading && demands.length === 0">
-                <td colspan="6" class="text-center text-muted py-4">
-                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'dashboard.recent.loadingDemands' | translate }}
-                </td>
-              </tr>
-              <tr *ngIf="!loading && demands.length === 0">
-                <td colspan="6" class="text-center text-muted py-4">{{ 'dashboard.recent.emptyDemands' | translate }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+              @for (row of demands; track row) {
+                <tr>
+                  <td>
+                    <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/demands', row.id]"
+                      >#{{ row.id }}</a
+                      >
+                    </td>
+                    <td>
+                      <div class="fw-medium">{{ row.clientNom || '-' }}</div>
+                      <div class="text-muted small">{{ row.clientPhone || '-' }}</div>
+                    </td>
+                    <td>{{ row.location || '-' }} &rarr; {{ row.destination || '-' }}</td>
+                    <td>{{ row.estimatedPrice || '-' }}</td>
+                    <td>
+                      <span class="badge" [ngClass]="demandBadge(row.etat).class">{{ demandBadge(row.etat).label }}</span>
+                    </td>
+                    <td>{{ row.dateDepot | date: 'medium' }}</td>
+                  </tr>
+                }
+                @if (loading && demands.length === 0) {
+                  <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                      <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'dashboard.recent.loadingDemands' | translate }}
+                    </td>
+                  </tr>
+                }
+                @if (!loading && demands.length === 0) {
+                  <tr>
+                    <td colspan="6" class="text-center text-muted py-4">{{ 'dashboard.recent.emptyDemands' | translate }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
 
-        <div class="text-muted small mt-2" *ngIf="demandTotal > 0">
-          {{ 'dashboard.recent.demandsRange' | translate: { count: demands.length, total: demandTotal } }}
-          <span *ngIf="demands.length < demandTotal">{{ 'dashboard.recent.newest' | translate: { count: demands.length } }}</span>
+          @if (demandTotal > 0) {
+            <div class="text-muted small mt-2">
+              {{ 'dashboard.recent.demandsRange' | translate: { count: demands.length, total: demandTotal } }}
+              @if (demands.length < demandTotal) {
+                <span>{{ 'dashboard.recent.newest' | translate: { count: demands.length } }}</span>
+              }
+            </div>
+          }
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="col-xl-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="card-title mb-0">{{ 'dashboard.recent.offers' | translate }}</h5>
-          <a class="btn btn-sm btn-outline-primary" [routerLink]="['/offers']">{{ 'dashboard.recent.viewAll' | translate }}</a>
-        </div>
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">{{ 'dashboard.recent.offers' | translate }}</h5>
+            <a class="btn btn-sm btn-outline-primary" [routerLink]="['/offers']">{{ 'dashboard.recent.viewAll' | translate }}</a>
+          </div>
 
-        <div class="table-responsive">
-          <table class="table table-striped align-middle mb-0">
-            <thead>
-              <tr>
-                <th scope="col">{{ 'common.id' | translate }}</th>
-                <th scope="col">{{ 'dashboard.table.taxiClient' | translate }}</th>
-                <th scope="col">{{ 'dashboard.table.totalPrice' | translate }}</th>
-                <th scope="col">{{ 'common.status' | translate }}</th>
-                <th scope="col">{{ 'common.date' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of offres">
-                <td>
-                  <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/offers', row.id]"
-                    >#{{ row.id }}</a
-                  >
-                </td>
-                <td>
-                  <div class="fw-medium">{{ row.taxiNom || row.clientNom || '-' }}</div>
-                  <div class="text-muted small">{{ row.taxiPhone || row.clientPhone || '-' }}</div>
-                </td>
-                <td>{{ row.totalPrice || '-' }}</td>
-                <td>
-                  <span class="badge" [ngClass]="offerBadge(row.etat).class">{{ offerBadge(row.etat).label }}</span>
-                </td>
-                <td>{{ row.dateDepot | date: 'medium' }}</td>
-              </tr>
-              <tr *ngIf="loading && offres.length === 0">
-                <td colspan="5" class="text-center text-muted py-4">
-                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'dashboard.recent.loadingOffers' | translate }}
-                </td>
-              </tr>
-              <tr *ngIf="!loading && offres.length === 0">
-                <td colspan="5" class="text-center text-muted py-4">{{ 'dashboard.recent.emptyOffers' | translate }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'common.id' | translate }}</th>
+                  <th scope="col">{{ 'dashboard.table.taxiClient' | translate }}</th>
+                  <th scope="col">{{ 'dashboard.table.totalPrice' | translate }}</th>
+                  <th scope="col">{{ 'common.status' | translate }}</th>
+                  <th scope="col">{{ 'common.date' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of offres; track row) {
+                  <tr>
+                    <td>
+                      <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/offers', row.id]"
+                        >#{{ row.id }}</a
+                        >
+                      </td>
+                      <td>
+                        <div class="fw-medium">{{ row.taxiNom || row.clientNom || '-' }}</div>
+                        <div class="text-muted small">{{ row.taxiPhone || row.clientPhone || '-' }}</div>
+                      </td>
+                      <td>{{ row.totalPrice || '-' }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="offerBadge(row.etat).class">{{ offerBadge(row.etat).label }}</span>
+                      </td>
+                      <td>{{ row.dateDepot | date: 'medium' }}</td>
+                    </tr>
+                  }
+                  @if (loading && offres.length === 0) {
+                    <tr>
+                      <td colspan="5" class="text-center text-muted py-4">
+                        <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'dashboard.recent.loadingOffers' | translate }}
+                      </td>
+                    </tr>
+                  }
+                  @if (!loading && offres.length === 0) {
+                    <tr>
+                      <td colspan="5" class="text-center text-muted py-4">{{ 'dashboard.recent.emptyOffers' | translate }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
 
-        <div class="text-muted small mt-2" *ngIf="offreTotal > 0">
-          {{ 'dashboard.recent.offersRange' | translate: { count: offres.length, total: offreTotal } }}
-          <span *ngIf="offres.length < offreTotal">{{ 'dashboard.recent.newest' | translate: { count: offres.length } }}</span>
+            @if (offreTotal > 0) {
+              <div class="text-muted small mt-2">
+                {{ 'dashboard.recent.offersRange' | translate: { count: offres.length, total: offreTotal } }}
+                @if (offres.length < offreTotal) {
+                  <span>{{ 'dashboard.recent.newest' | translate: { count: offres.length } }}</span>
+                }
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>

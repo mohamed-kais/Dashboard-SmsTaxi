@@ -1,5 +1,9 @@
 <!-- vertical layout -->
-<app-vertical *ngIf="isVerticalLayoutRequested()"></app-vertical>
+@if (isVerticalLayoutRequested()) {
+  <app-vertical></app-vertical>
+}
 
 <!-- horizontal layout -->
-<app-horizontal *ngIf="isHorizontalLayoutRequested()"></app-horizontal>
+@if (isHorizontalLayoutRequested()) {
+  <app-horizontal></app-horizontal>
+}

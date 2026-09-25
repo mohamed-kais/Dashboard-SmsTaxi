@@ -13,12 +13,14 @@
               class="form-control"
               placeholder="{{ 'taxis.list.searchPlaceholder' | translate }}"
               [formControl]="searchControl"
-            />
+              />
           </div>
           <div class="col-sm-4 col-md-4">
             <select class="form-select" [formControl]="statusFilterControl">
               <option value="">{{ 'taxis.list.allStatuses' | translate }}</option>
-              <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+              @for (status of statuses; track status) {
+                <option [value]="status">{{ status }}</option>
+              }
             </select>
           </div>
           <div class="col-sm-4 col-md-3">
@@ -30,8 +32,12 @@
           </div>
         </div>
 
-        <div *ngIf="loadError" class="alert alert-danger py-2 mb-2">{{ loadError }}</div>
-        <div *ngIf="actionError" class="alert alert-danger py-2 mb-2">{{ actionError }}</div>
+        @if (loadError) {
+          <div class="alert alert-danger py-2 mb-2">{{ loadError }}</div>
+        }
+        @if (actionError) {
+          <div class="alert alert-danger py-2 mb-2">{{ actionError }}</div>
+        }
 
         <!-- Table -->
         <div class="table-responsive">
@@ -47,60 +53,70 @@
                 <th class="text-end">{{ 'common.actions' | translate }}</th>
               </tr>
             </thead>
-            <tbody *ngIf="(rows$ | async) as rows">
-              <tr *ngFor="let taxi of rows">
-                <td>{{ taxi.id }}</td>
-                <td class="fw-medium">{{ taxi.telephone || '—' }}</td>
-                <td>{{ taxi.nom || '—' }}</td>
-                <td>{{ taxi.type || '—' }}</td>
-                <td>
-                  <span class="badge mb-0" [ngClass]="badgeFor(taxi.taxiStatus).class">
-                    {{ badgeFor(taxi.taxiStatus).label }}
-                  </span>
-                </td>
-                <td>{{ taxi.rating ?? '—' }}</td>
-                <td class="text-end text-nowrap">
-                  <a
-                    *ngIf="taxi.id != null"
-                    class="btn btn-sm btn-outline-secondary me-1"
-                    [routerLink]="['/taxis', taxi.id]"
-                  >
-                    <i class="bx bx-show-alt me-1"></i>{{ 'common.view' | translate }}
-                  </a>
-                  <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="openEditModal(taxi)">
-                    <i class="bx bx-pencil me-1"></i>{{ 'common.edit' | translate }}
-                  </button>
-                  <button
-                    type="button"
-                    *ngIf="taxi.taxiStatus !== 'APPROVED'"
-                    class="btn btn-sm btn-outline-success me-1"
-                    (click)="setStatus(taxi, 'APPROVED')"
-                  >
-                    <i class="bx bx-check me-1"></i>{{ 'common.approve' | translate }}
-                  </button>
-                  <button
-                    type="button"
-                    *ngIf="taxi.taxiStatus !== 'REJECTED'"
-                    class="btn btn-sm btn-outline-danger me-1"
-                    (click)="setStatus(taxi, 'REJECTED')"
-                  >
-                    <i class="bx bx-x me-1"></i>{{ 'common.reject' | translate }}
-                  </button>
-                  <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteTaxi(taxi)">
-                    <i class="bx bx-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <tr *ngIf="!loading && !loadError && rows.length === 0">
-                <td colspan="7" class="text-center text-muted py-4">{{ 'taxis.list.empty' | translate }}</td>
-              </tr>
-              <tr *ngIf="loading">
-                <td colspan="7" class="text-center py-4">
-                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'taxis.list.loading' | translate }}
-                </td>
-              </tr>
-            </tbody>
+            @if ((rows$ | async); as rows) {
+              <tbody>
+                @for (taxi of rows; track taxi) {
+                  <tr>
+                    <td>{{ taxi.id }}</td>
+                    <td class="fw-medium">{{ taxi.telephone || '—' }}</td>
+                    <td>{{ taxi.nom || '—' }}</td>
+                    <td>{{ taxi.type || '—' }}</td>
+                    <td>
+                      <span class="badge mb-0" [ngClass]="badgeFor(taxi.taxiStatus).class">
+                        {{ badgeFor(taxi.taxiStatus).label }}
+                      </span>
+                    </td>
+                    <td>{{ taxi.rating ?? '—' }}</td>
+                    <td class="text-end text-nowrap">
+                      @if (taxi.id != null) {
+                        <a
+                          class="btn btn-sm btn-outline-secondary me-1"
+                          [routerLink]="['/taxis', taxi.id]"
+                          >
+                          <i class="bx bx-show-alt me-1"></i>{{ 'common.view' | translate }}
+                        </a>
+                      }
+                      <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="openEditModal(taxi)">
+                        <i class="bx bx-pencil me-1"></i>{{ 'common.edit' | translate }}
+                      </button>
+                      @if (taxi.taxiStatus !== 'APPROVED') {
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-success me-1"
+                          (click)="setStatus(taxi, 'APPROVED')"
+                          >
+                          <i class="bx bx-check me-1"></i>{{ 'common.approve' | translate }}
+                        </button>
+                      }
+                      @if (taxi.taxiStatus !== 'REJECTED') {
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-danger me-1"
+                          (click)="setStatus(taxi, 'REJECTED')"
+                          >
+                          <i class="bx bx-x me-1"></i>{{ 'common.reject' | translate }}
+                        </button>
+                      }
+                      <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteTaxi(taxi)">
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                }
+                @if (!loading && !loadError && rows.length === 0) {
+                  <tr>
+                    <td colspan="7" class="text-center text-muted py-4">{{ 'taxis.list.empty' | translate }}</td>
+                  </tr>
+                }
+                @if (loading) {
+                  <tr>
+                    <td colspan="7" class="text-center py-4">
+                      <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'taxis.list.loading' | translate }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            }
           </table>
         </div>
 

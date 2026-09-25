@@ -1,73 +1,105 @@
 <div class="wa-bubble-row" [class.wa-bubble-row--out]="isOutgoing">
   <div class="wa-bubble" [class.wa-bubble--out]="isOutgoing" [class.wa-bubble--in]="!isOutgoing">
-    <ng-container [ngSwitch]="message.messageType">
-      <p *ngSwitchCase="'TEXT'" class="wa-bubble__content">{{ message.content }}</p>
-
-      <ng-container *ngSwitchCase="'IMAGE'">
-        <img class="wa-media__image" [src]="mediaUrl" alt="{{ 'whatsapp.bubble.photo' | translate }}" *ngIf="mediaUrl; else mediaPending" />
-        <p class="wa-bubble__content" *ngIf="media?.caption">{{ media?.caption }}</p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'VIDEO'">
-        <video class="wa-media__video" [src]="mediaUrl" controls *ngIf="mediaUrl; else mediaPending"></video>
-        <p class="wa-bubble__content" *ngIf="media?.caption">{{ media?.caption }}</p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'AUDIO'">
-        <audio class="wa-media__audio" [src]="mediaUrl" controls *ngIf="mediaUrl; else mediaPending"></audio>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'DOCUMENT'">
+    @switch (message.messageType) {
+      @case ('TEXT') {
+        <p class="wa-bubble__content">{{ message.content }}</p>
+      }
+      @case ('IMAGE') {
+        @if (mediaUrl) {
+          <img class="wa-media__image" [src]="mediaUrl" alt="{{ 'whatsapp.bubble.photo' | translate }}" />
+        } @else {
+          <span class="wa-media__pending text-muted">
+            <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ 'whatsapp.bubble.mediaLoading' | translate }}
+          </span>
+        }
+        @if (media?.caption) {
+          <p class="wa-bubble__content">{{ media?.caption }}</p>
+        }
+      }
+      @case ('VIDEO') {
+        @if (mediaUrl) {
+          <video class="wa-media__video" [src]="mediaUrl" controls></video>
+        } @else {
+          <span class="wa-media__pending text-muted">
+            <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ 'whatsapp.bubble.mediaLoading' | translate }}
+          </span>
+        }
+        @if (media?.caption) {
+          <p class="wa-bubble__content">{{ media?.caption }}</p>
+        }
+      }
+      @case ('AUDIO') {
+        @if (mediaUrl) {
+          <audio class="wa-media__audio" [src]="mediaUrl" controls></audio>
+        } @else {
+          <span class="wa-media__pending text-muted">
+            <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ 'whatsapp.bubble.mediaLoading' | translate }}
+          </span>
+        }
+      }
+      @case ('DOCUMENT') {
         <div class="wa-media__document">
           <span class="wa-media__icon"><i class="bx bxs-file"></i></span>
           <div class="wa-media__body">
             <span class="wa-media__name">{{ media?.fileName || ('whatsapp.bubble.document' | translate) }}</span>
             <span class="wa-media__meta">{{ formatFileSize(media?.size) }} · {{ media?.mimeType }}</span>
-            <a class="wa-media__link" [href]="mediaUrl" target="_blank" rel="noopener" *ngIf="mediaUrl">{{ 'whatsapp.bubble.download' | translate }}</a>
+            @if (mediaUrl) {
+              <a class="wa-media__link" [href]="mediaUrl" target="_blank" rel="noopener">{{ 'whatsapp.bubble.download' | translate }}</a>
+            }
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'STICKER'">
-        <img class="wa-media__sticker" [src]="mediaUrl" alt="{{ 'whatsapp.bubble.sticker' | translate }}" *ngIf="mediaUrl; else mediaPending" />
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'LOCATION'">
+      }
+      @case ('STICKER') {
+        @if (mediaUrl) {
+          <img class="wa-media__sticker" [src]="mediaUrl" alt="{{ 'whatsapp.bubble.sticker' | translate }}" />
+        } @else {
+          <span class="wa-media__pending text-muted">
+            <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ 'whatsapp.bubble.mediaLoading' | translate }}
+          </span>
+        }
+      }
+      @case ('LOCATION') {
         <div class="wa-media__location">
           <span class="wa-media__icon"><i class="bx bxs-map"></i></span>
           <div class="wa-media__body">
-            <span class="wa-media__name" *ngIf="media?.locationName">{{ media?.locationName }}</span>
-            <span class="wa-media__meta" *ngIf="media?.address">{{ media?.address }}</span>
+            @if (media?.locationName) {
+              <span class="wa-media__name">{{ media?.locationName }}</span>
+            }
+            @if (media?.address) {
+              <span class="wa-media__meta">{{ media?.address }}</span>
+            }
             <span class="wa-media__meta">{{ media?.latitude }}, {{ media?.longitude }}</span>
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'CONTACTS'">
+      }
+      @case ('CONTACTS') {
         <div class="wa-media__contact">
           <span class="wa-media__icon"><i class="bx bxs-user"></i></span>
           <div class="wa-media__body">
             <span class="wa-media__name">{{ media?.contactName || ('whatsapp.bubble.contact' | translate) }}</span>
-            <span class="wa-media__meta" *ngIf="media?.contactPhone">{{ media?.contactPhone }}</span>
+            @if (media?.contactPhone) {
+              <span class="wa-media__meta">{{ media?.contactPhone }}</span>
+            }
           </div>
         </div>
-      </ng-container>
+      }
+      @default {
+        <p class="wa-bubble__content">{{ message.content }}</p>
+      }
+    }
 
-      <p *ngSwitchDefault class="wa-bubble__content">{{ message.content }}</p>
-    </ng-container>
-
-    <ng-template #mediaPending>
-      <span class="wa-media__pending text-muted">
-        <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-        {{ 'whatsapp.bubble.mediaLoading' | translate }}
-      </span>
-    </ng-template>
 
     <div class="wa-bubble__meta">
       <span class="wa-bubble__time">{{ message.createdAt | date: 'shortTime' }}</span>
-      <span *ngIf="isOutgoing && statusIconClass" class="wa-bubble__status" [ngClass]="statusClass">
-        <i [class]="statusIconClass"></i>
-      </span>
+      @if (isOutgoing && statusIconClass) {
+        <span class="wa-bubble__status" [ngClass]="statusClass">
+          <i [class]="statusIconClass"></i>
+        </span>
+      }
     </div>
   </div>
 </div>

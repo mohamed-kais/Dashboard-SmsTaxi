@@ -5,9 +5,11 @@
 
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-    <div class="alert alert-danger py-2" *ngIf="errorMessage">
-      <i class="bx bx-error-circle me-1"></i>{{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="alert alert-danger py-2">
+        <i class="bx bx-error-circle me-1"></i>{{ errorMessage }}
+      </div>
+    }
 
     <div class="row g-3">
       <div class="col-md-6">
@@ -18,13 +20,19 @@
           formControlName="telephone"
           placeholder="{{ 'taxis.form.phonePlaceholder' | translate }}"
           [ngClass]="{ 'is-invalid': submitted && f['telephone'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['telephone'].errors">
-          <span *ngIf="f['telephone'].hasError('required')">{{ 'taxis.form.phoneRequired' | translate }}</span>
-          <span *ngIf="f['telephone'].hasError('pattern')">
-            {{ 'taxis.form.phonePattern' | translate }}
-          </span>
-        </div>
+          />
+        @if (submitted && f['telephone'].errors) {
+          <div class="invalid-feedback">
+            @if (f['telephone'].hasError('required')) {
+              <span>{{ 'taxis.form.phoneRequired' | translate }}</span>
+            }
+            @if (f['telephone'].hasError('pattern')) {
+              <span>
+                {{ 'taxis.form.phonePattern' | translate }}
+              </span>
+            }
+          </div>
+        }
       </div>
 
       <div class="col-md-6">
@@ -34,8 +42,10 @@
           class="form-control"
           formControlName="nom"
           [ngClass]="{ 'is-invalid': submitted && f['nom'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['nom'].errors">{{ 'taxis.form.max100' | translate }}</div>
+          />
+        @if (submitted && f['nom'].errors) {
+          <div class="invalid-feedback">{{ 'taxis.form.max100' | translate }}</div>
+        }
       </div>
 
       <div class="col-md-6">
@@ -45,17 +55,21 @@
           class="form-control"
           formControlName="email"
           [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['email'].errors">
-          {{ 'taxis.form.emailInvalid' | translate }}
-        </div>
+          />
+        @if (submitted && f['email'].errors) {
+          <div class="invalid-feedback">
+            {{ 'taxis.form.emailInvalid' | translate }}
+          </div>
+        }
       </div>
 
       <div class="col-md-6">
         <label class="form-label">{{ 'common.type' | translate }}</label>
         <select class="form-select" formControlName="type">
           <option [ngValue]="null">—</option>
-          <option *ngFor="let channel of channelTypes" [ngValue]="channel">{{ channel }}</option>
+          @for (channel of channelTypes; track channel) {
+            <option [ngValue]="channel">{{ channel }}</option>
+          }
         </select>
       </div>
 
@@ -63,7 +77,9 @@
         <label class="form-label">{{ 'common.status' | translate }}</label>
         <select class="form-select" formControlName="taxiStatus">
           <option [ngValue]="null">—</option>
-          <option *ngFor="let status of taxiStatuses" [ngValue]="status">{{ status }}</option>
+          @for (status of taxiStatuses; track status) {
+            <option [ngValue]="status">{{ status }}</option>
+          }
         </select>
       </div>
 
@@ -74,8 +90,10 @@
           class="form-control"
           formControlName="numeroTaxi"
           [ngClass]="{ 'is-invalid': submitted && f['numeroTaxi'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['numeroTaxi'].errors">{{ 'taxis.form.max20' | translate }}</div>
+          />
+        @if (submitted && f['numeroTaxi'].errors) {
+          <div class="invalid-feedback">{{ 'taxis.form.max20' | translate }}</div>
+        }
       </div>
 
       <div class="col-md-6">
@@ -85,10 +103,12 @@
           class="form-control"
           formControlName="numeroMatricule"
           [ngClass]="{ 'is-invalid': submitted && f['numeroMatricule'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['numeroMatricule'].errors">
-          {{ 'taxis.form.max50' | translate }}
-        </div>
+          />
+        @if (submitted && f['numeroMatricule'].errors) {
+          <div class="invalid-feedback">
+            {{ 'taxis.form.max50' | translate }}
+          </div>
+        }
       </div>
 
       <div class="col-md-6">
@@ -98,8 +118,10 @@
           class="form-control"
           formControlName="numeroCin"
           [ngClass]="{ 'is-invalid': submitted && f['numeroCin'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['numeroCin'].errors">{{ 'taxis.form.max20' | translate }}</div>
+          />
+        @if (submitted && f['numeroCin'].errors) {
+          <div class="invalid-feedback">{{ 'taxis.form.max20' | translate }}</div>
+        }
       </div>
 
       <div class="col-md-6">
@@ -109,10 +131,12 @@
           class="form-control"
           formControlName="constructeur"
           [ngClass]="{ 'is-invalid': submitted && f['constructeur'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['constructeur'].errors">
-          {{ 'taxis.form.max50' | translate }}
-        </div>
+          />
+        @if (submitted && f['constructeur'].errors) {
+          <div class="invalid-feedback">
+            {{ 'taxis.form.max50' | translate }}
+          </div>
+        }
       </div>
 
       <div class="col-12">
@@ -122,10 +146,12 @@
           class="form-control"
           formControlName="destination"
           [ngClass]="{ 'is-invalid': submitted && f['destination'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['destination'].errors">
-          {{ 'taxis.form.max500' | translate }}
-        </div>
+          />
+        @if (submitted && f['destination'].errors) {
+          <div class="invalid-feedback">
+            {{ 'taxis.form.max500' | translate }}
+          </div>
+        }
       </div>
 
       <div class="col-12">
@@ -135,10 +161,12 @@
           class="form-control"
           formControlName="location"
           [ngClass]="{ 'is-invalid': submitted && f['location'].errors }"
-        />
-        <div class="invalid-feedback" *ngIf="submitted && f['location'].errors">
-          {{ 'taxis.form.max500' | translate }}
-        </div>
+          />
+        @if (submitted && f['location'].errors) {
+          <div class="invalid-feedback">
+            {{ 'taxis.form.max500' | translate }}
+          </div>
+        }
       </div>
 
       <div class="col-12">
@@ -149,9 +177,11 @@
           formControlName="contenu"
           [ngClass]="{ 'is-invalid': submitted && f['contenu'].errors }"
         ></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && f['contenu'].errors">
-          {{ 'taxis.form.max1000' | translate }}
-        </div>
+        @if (submitted && f['contenu'].errors) {
+          <div class="invalid-feedback">
+            {{ 'taxis.form.max1000' | translate }}
+          </div>
+        }
       </div>
     </div>
   </form>
@@ -160,7 +190,9 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-link" (click)="activeModal.dismiss('Cancel click')">{{ 'common.cancel' | translate }}</button>
   <button type="button" class="btn btn-primary" [disabled]="saving" (click)="submit()">
-    <span *ngIf="saving" class="spinner-border spinner-border-sm me-1" role="status"></span>
+    @if (saving) {
+      <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+    }
     {{ 'common.save' | translate }}
   </button>
 </div>

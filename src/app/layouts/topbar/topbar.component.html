@@ -192,80 +192,93 @@
 
       <div class="dropdown d-inline-block" ngbDropdown>
         <button type="button" class="btn header-item" id="page-header-user-dropdown" ngbDropdownToggle>
-          <img *ngIf="flagvalue !== undefined" src="{{flagvalue}}" alt="Header Language" height="16"> 
-          <img *ngIf="flagvalue === undefined" src="{{valueset}}" alt="Header Language" height="16">
+          @if (flagvalue !== undefined) {
+            <img src="{{flagvalue}}" alt="Header Language" height="16">
+          }
+          @if (flagvalue === undefined) {
+            <img src="{{valueset}}" alt="Header Language" height="16">
+          }
         </button>
         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item notify-item" *ngFor="let item of listLang"
-            (click)="setLanguage(item.text, item.lang, item.flag)" [ngClass]="{'active': cookieValue === item.lang}">
-            <img src="{{item.flag}}" alt="user-image" class="me-1" height="12"> <span
-              class="align-middle">{{item.text}}</span>
+          @for (item of listLang; track item) {
+            <a href="javascript:void(0);" class="dropdown-item notify-item"
+              (click)="setLanguage(item.text, item.lang, item.flag)" [ngClass]="{'active': cookieValue === item.lang}">
+              <img src="{{item.flag}}" alt="user-image" class="me-1" height="12"> <span
+            class="align-middle">{{item.text}}</span>
           </a>
-          <!-- item-->
-        </div>
+        }
+        <!-- item-->
       </div>
+    </div>
 
-      <div class="dropdown d-none d-lg-inline-block ms-1" ngbDropdown>
-        <button type="button" class="btn header-item noti-icon" ngbDropdownToggle>
-          <i class="bx bx-customize"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" ngbDropdownMenu>
-          <div class="px-lg-2">
-            <div class="row no-gutters">
-              <div class="col">
-                <a class="dropdown-icon-item" href="https://github.com/mohamed-kais/Dashboard-SmsTaxi">
-                  <img src="assets/images/brands/github.png" alt="Github">
-                  <span>GitHub</span>
-                </a>
-              </div>
-              <div class="col">
-                <a class="dropdown-icon-item" href="javascript: void(0);">
-                  <img src="assets/images/brands/slack.png" alt="slack">
-                  <span>Slack</span>
-                </a>
-              </div>
+    <div class="dropdown d-none d-lg-inline-block ms-1" ngbDropdown>
+      <button type="button" class="btn header-item noti-icon" ngbDropdownToggle>
+        <i class="bx bx-customize"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" ngbDropdownMenu>
+        <div class="px-lg-2">
+          <div class="row no-gutters">
+            <div class="col">
+              <a class="dropdown-icon-item" href="https://github.com/mohamed-kais/Dashboard-SmsTaxi">
+                <img src="assets/images/brands/github.png" alt="Github">
+                <span>GitHub</span>
+              </a>
             </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="dropdown d-none d-lg-inline-block ms-1">
-        <button type="button" class="btn header-item noti-icon" data-toggle="fullscreen" (click)="fullscreen()">
-          <i class="bx bx-fullscreen"></i>
-        </button>
-      </div>
-
-      <div class="dropdown d-inline-block" ngbDropdown (openChange)="onNotificationsOpen($event)">
-        <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
-          ngbDropdownToggle>
-          <i class="bx bx-bell bx-tada"></i>
-          <ng-container *ngIf="unreadCount$ | async as unread">
-            <span *ngIf="unread > 0" class="badge bg-danger rounded-pill">{{ unread }}</span>
-          </ng-container>
-        </button>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-          aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
-          <div class="p-3">
-            <div class="row align-items-center">
-              <div class="col">
-                <h6 class="m-0">{{ 'HEADER.NOTIFICATIONS.TITLE' | translate}} </h6>
-              </div>
-              <div class="col-auto">
-                <a href="javascript: void(0);" class="small" (click)="goToNotifications()">{{ 'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
-              </div>
+            <div class="col">
+              <a class="dropdown-icon-item" href="javascript: void(0);">
+                <img src="assets/images/brands/slack.png" alt="slack">
+                <span>Slack</span>
+              </a>
             </div>
           </div>
-          <ngx-simplebar style="position: relative; height: 230px;">
-            <div *ngIf="loadingNotifications" class="px-3 py-4 text-center text-muted font-size-12">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown d-none d-lg-inline-block ms-1">
+      <button type="button" class="btn header-item noti-icon" data-toggle="fullscreen" (click)="fullscreen()">
+        <i class="bx bx-fullscreen"></i>
+      </button>
+    </div>
+
+    <div class="dropdown d-inline-block" ngbDropdown (openChange)="onNotificationsOpen($event)">
+      <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
+        ngbDropdownToggle>
+        <i class="bx bx-bell bx-tada"></i>
+        @if (unreadCount$ | async; as unread) {
+          @if (unread > 0) {
+            <span class="badge bg-danger rounded-pill">{{ unread }}</span>
+          }
+        }
+      </button>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+        aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
+        <div class="p-3">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="m-0">{{ 'HEADER.NOTIFICATIONS.TITLE' | translate}} </h6>
+            </div>
+            <div class="col-auto">
+              <a href="javascript: void(0);" class="small" (click)="goToNotifications()">{{ 'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
+            </div>
+          </div>
+        </div>
+        <ngx-simplebar style="position: relative; height: 230px;">
+          @if (loadingNotifications) {
+            <div class="px-3 py-4 text-center text-muted font-size-12">
               {{ 'layout.topbar.loading' | translate }}
             </div>
-            <div *ngIf="!loadingNotifications && recentNotifications.length === 0"
+          }
+          @if (!loadingNotifications && recentNotifications.length === 0) {
+            <div
               class="px-3 py-4 text-center text-muted font-size-12">
               {{ 'layout.topbar.noNotifications' | translate }}
             </div>
-            <a *ngFor="let n of recentNotifications" href="javascript: void(0);"
+          }
+          @for (n of recentNotifications; track n) {
+            <a href="javascript: void(0);"
               class="text-reset notification-item" [class.notification-unread]="isNotificationUnread(n)"
               (click)="onNotificationClick(n)">
               <div class="d-flex">
@@ -275,58 +288,65 @@
                   </span>
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
-                  <h6 class="mb-1 text-truncate">{{ n.title || n.message || ('Notification #' + n.id) }}<span
-                      *ngIf="isNotificationUnread(n)" class="unread-dot"></span></h6>
+                  <h6 class="mb-1 text-truncate">{{ n.title || n.message || ('Notification #' + n.id) }}@if (isNotificationUnread(n)) {
+                    <span
+                    class="unread-dot"></span>
+                  }</h6>
                   <div class="font-size-12 text-muted">
-                    <p class="mb-1 text-truncate" *ngIf="n.message">{{ n.message }}</p>
-                    <p class="mb-0" *ngIf="notificationTime(n.createdAt)"><i class="mdi mdi-clock-outline"></i>
-                      {{ notificationTime(n.createdAt) }}</p>
-                  </div>
+                    @if (n.message) {
+                      <p class="mb-1 text-truncate">{{ n.message }}</p>
+                    }
+                    @if (notificationTime(n.createdAt)) {
+                      <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                    {{ notificationTime(n.createdAt) }}</p>
+                  }
                 </div>
               </div>
-            </a>
-          </ngx-simplebar>
-          <div class="p-2 border-top d-grid">
-            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)"
-              (click)="goToNotifications()">
-              <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">{{
-                'HEADER.NOTIFICATIONS.LOAD_MORE' | translate}}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" class="btn header-item" ngbDropdownToggle id="page-header-user-dropdown">
-          <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
-          <span class="d-none d-xl-inline-block ms-1">{{ 'layout.topbar.roleLabel' | translate }}</span>
-          <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-          <!-- item-->
-          <a class="dropdown-item" routerLink="/contacts/profile"><i class="bx bx-user font-size-16 align-middle me-1"></i>
-            {{ 'HEADER.LOGIN.PROFILE' | translate}}</a>
-          <a class="dropdown-item" href="javascript: void(0);"><i
-              class="bx bx-wallet font-size-16 align-middle me-1"></i>{{ 'HEADER.LOGIN.MY_WALLET' | translate}}</a>
-          <a class="dropdown-item d-block" href="javascript: void(0);"><span
-              class="badge bg-success float-end">11</span><i class="bx bx-wrench font-size-16 align-middle me-1"></i>{{
-            'HEADER.LOGIN.SETTINGS' | translate}} </a>
-          <a class="dropdown-item" href="javascript: void(0);"><i
-              class="bx bx-lock-open font-size-16 align-middle me-1"></i>
-            {{ 'HEADER.LOGIN.LOCK_SCREEN' | translate}}</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i
-              class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
-            {{ 'HEADER.LOGIN.LOGOUT' | translate}}</a>
-        </div>
-      </div>
-
-      <div class="dropdown d-inline-block">
-        <button type="button" class="btn header-item noti-icon right-bar-toggle" (click)="toggleRightSidebar()">
-          <i class="bx bx-cog bx-spin"></i>
-        </button>
-      </div>
-
+            </div>
+          </a>
+        }
+      </ngx-simplebar>
+      <div class="p-2 border-top d-grid">
+        <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)"
+          (click)="goToNotifications()">
+          <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">{{
+        'HEADER.NOTIFICATIONS.LOAD_MORE' | translate}}</span>
+      </a>
     </div>
   </div>
+</div>
+
+<div class="dropdown d-inline-block" ngbDropdown>
+  <button type="button" class="btn header-item" ngbDropdownToggle id="page-header-user-dropdown">
+    <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
+    <span class="d-none d-xl-inline-block ms-1">{{ 'layout.topbar.roleLabel' | translate }}</span>
+    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+  </button>
+  <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+    <!-- item-->
+    <a class="dropdown-item" routerLink="/contacts/profile"><i class="bx bx-user font-size-16 align-middle me-1"></i>
+  {{ 'HEADER.LOGIN.PROFILE' | translate}}</a>
+  <a class="dropdown-item" href="javascript: void(0);"><i
+  class="bx bx-wallet font-size-16 align-middle me-1"></i>{{ 'HEADER.LOGIN.MY_WALLET' | translate}}</a>
+  <a class="dropdown-item d-block" href="javascript: void(0);"><span
+    class="badge bg-success float-end">11</span><i class="bx bx-wrench font-size-16 align-middle me-1"></i>{{
+  'HEADER.LOGIN.SETTINGS' | translate}} </a>
+  <a class="dropdown-item" href="javascript: void(0);"><i
+  class="bx bx-lock-open font-size-16 align-middle me-1"></i>
+{{ 'HEADER.LOGIN.LOCK_SCREEN' | translate}}</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i
+class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
+{{ 'HEADER.LOGIN.LOGOUT' | translate}}</a>
+</div>
+</div>
+
+<div class="dropdown d-inline-block">
+  <button type="button" class="btn header-item noti-icon right-bar-toggle" (click)="toggleRightSidebar()">
+    <i class="bx bx-cog bx-spin"></i>
+  </button>
+</div>
+
+</div>
+</div>
 </header>

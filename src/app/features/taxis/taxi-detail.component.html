@@ -1,282 +1,305 @@
 <app-page-title [title]="pageTitle" [breadcrumbItems]="breadcrumbItems"></app-page-title>
 
-<div class="alert alert-danger" role="alert" *ngIf="loadError">
-  <i class="bx bx-error-circle me-1"></i>{{ loadError }}
-</div>
+@if (loadError) {
+  <div class="alert alert-danger" role="alert">
+    <i class="bx bx-error-circle me-1"></i>{{ loadError }}
+  </div>
+}
 
-<div *ngIf="!loadError && loading" class="text-center py-5">
-  <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'taxi.detail.loading' | translate }}
-</div>
+@if (!loadError && loading) {
+  <div class="text-center py-5">
+    <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'taxi.detail.loading' | translate }}
+  </div>
+}
 
-<div *ngIf="!loadError && !loading && taxi" class="row">
-  <div class="col-12">
-    <ul ngbNav #taxiNav="ngbNav" activeId="profile" class="nav-tabs nav-tabs-custom mb-3">
-      <!-- Profile tab -->
-      <div ngbNavItem="profile">
-        <a ngbNavLink>{{ 'taxi.detail.tabProfile' | translate }}</a>
-        <ng-template ngbNavContent>
-          <div class="row">
-            <div class="col-xl-8">
-              <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                  <h5 class="card-title mb-0">{{ 'taxi.detail.profileTitle' | translate }}</h5>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge" [ngClass]="badgeForTaxiStatus(taxi.taxiStatus).class">
-                      {{ badgeForTaxiStatus(taxi.taxiStatus).label }}
-                    </span>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-success"
-                      [disabled]="statusBusy || taxi.taxiStatus === 'APPROVED'"
-                      (click)="setTaxiStatus('APPROVED')"
-                    >
-                      <i class="bx bx-check me-1"></i>{{ 'common.approve' | translate }}
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-danger"
-                      [disabled]="statusBusy || taxi.taxiStatus === 'REJECTED'"
-                      (click)="setTaxiStatus('REJECTED')"
-                    >
-                      <i class="bx bx-x me-1"></i>{{ 'common.reject' | translate }}
-                    </button>
+@if (!loadError && !loading && taxi) {
+  <div class="row">
+    <div class="col-12">
+      <ul ngbNav #taxiNav="ngbNav" activeId="profile" class="nav-tabs nav-tabs-custom mb-3">
+        <!-- Profile tab -->
+        <div ngbNavItem="profile">
+          <a ngbNavLink>{{ 'taxi.detail.tabProfile' | translate }}</a>
+          <ng-template ngbNavContent>
+            <div class="row">
+              <div class="col-xl-8">
+                <div class="card">
+                  <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title mb-0">{{ 'taxi.detail.profileTitle' | translate }}</h5>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="badge" [ngClass]="badgeForTaxiStatus(taxi.taxiStatus).class">
+                        {{ badgeForTaxiStatus(taxi.taxiStatus).label }}
+                      </span>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-success"
+                        [disabled]="statusBusy || taxi.taxiStatus === 'APPROVED'"
+                        (click)="setTaxiStatus('APPROVED')"
+                        >
+                        <i class="bx bx-check me-1"></i>{{ 'common.approve' | translate }}
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-danger"
+                        [disabled]="statusBusy || taxi.taxiStatus === 'REJECTED'"
+                        (click)="setTaxiStatus('REJECTED')"
+                        >
+                        <i class="bx bx-x me-1"></i>{{ 'common.reject' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    @if (actionError) {
+                      <div class="alert alert-danger py-2">{{ actionError }}</div>
+                    }
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-sm mb-0">
+                        <tbody>
+                          <tr>
+                            <th class="w-25">{{ 'common.id' | translate }}</th><td>{{ taxi.id ?? '—' }}</td>
+                            <th class="w-25">{{ 'common.phone' | translate }}</th><td>{{ taxi.telephone || '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'common.name' | translate }}</th><td>{{ taxi.nom || '—' }}</td>
+                            <th>{{ 'common.email' | translate }}</th><td>{{ taxi.email || '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'common.type' | translate }}</th><td>{{ taxi.type || '—' }}</td>
+                            <th>{{ 'taxi.detail.rating' | translate }}</th><td>{{ ratingValue() ?? '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.taxiNumber' | translate }}</th><td>{{ taxi.numeroTaxi || '—' }}</td>
+                            <th>{{ 'taxi.detail.matricule' | translate }}</th><td>{{ taxi.numeroMatricule || '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.cin' | translate }}</th><td>{{ taxi.numeroCin || '—' }}</td>
+                            <th>{{ 'taxi.detail.constructor' | translate }}</th><td>{{ taxi.constructeur || '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.destination' | translate }}</th><td>{{ taxi.destination || '—' }}</td>
+                            <th>{{ 'taxi.detail.location' | translate }}</th><td>{{ taxi.location || '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.latitude' | translate }}</th><td>{{ taxi.latitude ?? '—' }}</td>
+                            <th>{{ 'taxi.detail.longitude' | translate }}</th><td>{{ taxi.longitude ?? '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.gpsLat' | translate }}</th><td>{{ taxi.latGps ?? '—' }}</td>
+                            <th>{{ 'taxi.detail.gpsLng' | translate }}</th><td>{{ taxi.lngGps ?? '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.etat' | translate }}</th>
+                            <td>
+                              <span class="badge" [ngClass]="badgeForEtat(taxi.etat).class">
+                                {{ badgeForEtat(taxi.etat).label }}
+                              </span>
+                            </td>
+                            <th>{{ 'taxi.detail.registered' | translate }}</th>
+                            <td>{{ taxi.dateEnregistrement ? (taxi.dateEnregistrement | date: 'medium') : '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.treatment' | translate }}</th><td>{{ yesNo(taxi.traitement) }}</td>
+                            <th>{{ 'taxi.detail.masquerNumber' | translate }}</th><td>{{ yesNo(taxi.masquerNumero) }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.smsWinek' | translate }}</th><td>{{ yesNo(taxi.smsWinek) }}</td>
+                            <th>{{ 'taxi.detail.smsWinekDate' | translate }}</th>
+                            <td>{{ taxi.dateSmsWinek ? (taxi.dateSmsWinek | date: 'medium') : '—' }}</td>
+                          </tr>
+                          <tr>
+                            <th>{{ 'taxi.detail.rideOffers' | translate }}</th><td>{{ taxi.offres ? taxi.offres.length : '—' }}</td>
+                            <th>{{ 'taxi.detail.content' | translate }}</th><td>{{ taxi.contenu || '—' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="alert alert-danger py-2" *ngIf="actionError">{{ actionError }}</div>
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-sm mb-0">
-                      <tbody>
+              </div>
+              <div class="col-xl-4">
+                <!-- Rating summary -->
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="bx bx-star me-1"></i>{{ 'taxi.detail.ratingSummary' | translate }}</h5>
+                  </div>
+                  <div class="card-body">
+                    @if (ratingSummary; as rating) {
+                      <div class="row text-center">
+                        <div class="col-4">
+                          <div class="fs-4 fw-medium">{{ rating.rating ?? '—' }}</div>
+                          <div class="text-muted small">{{ 'taxi.detail.rating' | translate }}</div>
+                        </div>
+                        <div class="col-4">
+                          <div class="fs-4 fw-medium">{{ rating.average ?? '—' }}</div>
+                          <div class="text-muted small">{{ 'taxi.detail.avgHistory' | translate }}</div>
+                        </div>
+                        <div class="col-4">
+                          <div class="fs-4 fw-medium">{{ rating.count ?? '—' }}</div>
+                          <div class="text-muted small">{{ 'taxi.detail.count' | translate }}</div>
+                        </div>
+                      </div>
+                    } @else {
+                      <p class="text-muted mb-0">{{ 'taxi.detail.noRatingSummary' | translate }}</p>
+                    }
+                  </div>
+                </div>
+                <!-- GPS -->
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="bx bxs-map-pin me-1"></i>{{ 'taxi.detail.gpsLocation' | translate }}</h5>
+                  </div>
+                  <div class="card-body">
+                    @if (gpsLat() != null || gpsLng() != null) {
+                      <div class="mb-3">
+                        <div class="d-flex justify-content-between py-1 border-bottom">
+                          <span class="text-muted">{{ 'taxi.detail.latitude' | translate }}</span>
+                          <span class="fw-medium">{{ gpsLat() }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-1 border-bottom">
+                          <span class="text-muted">{{ 'taxi.detail.longitude' | translate }}</span>
+                          <span class="fw-medium">{{ gpsLng() }}</span>
+                        </div>
+                        <p class="text-muted small mt-2 mb-0">
+                          {{ (taxi.latGps != null ? 'taxi.detail.sourceGpsFeed' : 'taxi.detail.sourceRegistration') | translate }}.
+                        </p>
+                      </div>
+                    }
+                    <form [formGroup]="gpsForm" (ngSubmit)="saveGps()" novalidate>
+                      @if (gpsError) {
+                        <div class="alert alert-danger py-2">{{ gpsError }}</div>
+                      }
+                      @if (gpsSaved) {
+                        <div class="alert alert-success py-2">{{ 'taxi.detail.gpsSaved' | translate }}</div>
+                      }
+                      <div class="mb-3">
+                        <label class="form-label">{{ 'taxi.detail.latitudeRange' | translate }}</label>
+                        <input
+                          type="number"
+                          step="any"
+                          class="form-control"
+                          formControlName="latitude"
+                          [ngClass]="{ 'is-invalid': gpsForm.touched && gpsForm.controls['latitude'].errors }"
+                          />
+                        @if (gpsForm.touched && gpsForm.controls['latitude'].errors) {
+                          <div
+                            class="invalid-feedback"
+                            >
+                            {{ 'taxi.detail.latitudeInvalid' | translate }}
+                          </div>
+                        }
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">{{ 'taxi.detail.longitudeRange' | translate }}</label>
+                        <input
+                          type="number"
+                          step="any"
+                          class="form-control"
+                          formControlName="longitude"
+                          [ngClass]="{ 'is-invalid': gpsForm.touched && gpsForm.controls['longitude'].errors }"
+                          />
+                        @if (gpsForm.touched && gpsForm.controls['longitude'].errors) {
+                          <div
+                            class="invalid-feedback"
+                            >
+                            {{ 'taxi.detail.longitudeInvalid' | translate }}
+                          </div>
+                        }
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">{{ 'taxi.detail.bearing' | translate }}</label>
+                        <input type="number" step="any" class="form-control" formControlName="bearing" />
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-sm w-100" [disabled]="gpsBusy">
+                        @if (gpsBusy) {
+                          <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                        }
+                        {{ 'taxi.detail.updateGps' | translate }}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <!-- Ride history tab -->
+        <div ngbNavItem="history">
+          <a ngbNavLink>{{ 'taxi.detail.tabHistory' | translate }}</a>
+          <ng-template ngbNavContent>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-0">{{ 'taxi.detail.historyTitle' | translate:{ phone: taxi.telephone } }}</h5>
+              </div>
+              <div class="card-body">
+                @if (historyError) {
+                  <div class="alert alert-danger py-2">{{ historyError }}</div>
+                }
+                <div class="table-responsive">
+                  <table class="table table-striped table-centered align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th>{{ 'common.hash' | translate }}</th>
+                        <th>{{ 'common.date' | translate }}</th>
+                        <th>{{ 'common.status' | translate }}</th>
+                        <th>{{ 'taxi.detail.route' | translate }}</th>
+                        <th>{{ 'taxi.detail.price' | translate }}</th>
+                        <th>{{ 'taxi.detail.realPrice' | translate }}</th>
+                        <th>{{ 'taxi.detail.rating' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (ride of history; track ride) {
                         <tr>
-                          <th class="w-25">{{ 'common.id' | translate }}</th><td>{{ taxi.id ?? '—' }}</td>
-                          <th class="w-25">{{ 'common.phone' | translate }}</th><td>{{ taxi.telephone || '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'common.name' | translate }}</th><td>{{ taxi.nom || '—' }}</td>
-                          <th>{{ 'common.email' | translate }}</th><td>{{ taxi.email || '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'common.type' | translate }}</th><td>{{ taxi.type || '—' }}</td>
-                          <th>{{ 'taxi.detail.rating' | translate }}</th><td>{{ ratingValue() ?? '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.taxiNumber' | translate }}</th><td>{{ taxi.numeroTaxi || '—' }}</td>
-                          <th>{{ 'taxi.detail.matricule' | translate }}</th><td>{{ taxi.numeroMatricule || '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.cin' | translate }}</th><td>{{ taxi.numeroCin || '—' }}</td>
-                          <th>{{ 'taxi.detail.constructor' | translate }}</th><td>{{ taxi.constructeur || '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.destination' | translate }}</th><td>{{ taxi.destination || '—' }}</td>
-                          <th>{{ 'taxi.detail.location' | translate }}</th><td>{{ taxi.location || '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.latitude' | translate }}</th><td>{{ taxi.latitude ?? '—' }}</td>
-                          <th>{{ 'taxi.detail.longitude' | translate }}</th><td>{{ taxi.longitude ?? '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.gpsLat' | translate }}</th><td>{{ taxi.latGps ?? '—' }}</td>
-                          <th>{{ 'taxi.detail.gpsLng' | translate }}</th><td>{{ taxi.lngGps ?? '—' }}</td>
-                        </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.etat' | translate }}</th>
+                          <td>{{ ride.id ?? '—' }}</td>
+                          <td>{{ ride.date_depot ? (ride.date_depot | date: 'medium') : '—' }}</td>
                           <td>
-                            <span class="badge" [ngClass]="badgeForEtat(taxi.etat).class">
-                              {{ badgeForEtat(taxi.etat).label }}
+                            <span class="badge mb-0" [ngClass]="badgeForEtat(ride.etat).class">
+                              {{ badgeForEtat(ride.etat).label }}
                             </span>
                           </td>
-                          <th>{{ 'taxi.detail.registered' | translate }}</th>
-                          <td>{{ taxi.dateEnregistrement ? (taxi.dateEnregistrement | date: 'medium') : '—' }}</td>
+                          <td class="text-nowrap">
+                            {{ (ride.locationHistory || '…') + ' → ' + (ride.destinationHistory || '?') }}
+                          </td>
+                          <td>{{ ride.total_price ?? '—' }}</td>
+                          <td>{{ ride.realPrice ?? '—' }}</td>
+                          <td>{{ ride.rating ?? '—' }}</td>
                         </tr>
+                      }
+                      @if (!historyLoading && !historyError && history.length === 0) {
                         <tr>
-                          <th>{{ 'taxi.detail.treatment' | translate }}</th><td>{{ yesNo(taxi.traitement) }}</td>
-                          <th>{{ 'taxi.detail.masquerNumber' | translate }}</th><td>{{ yesNo(taxi.masquerNumero) }}</td>
+                          <td colspan="7" class="text-center text-muted py-4">{{ 'taxi.detail.noRides' | translate }}</td>
                         </tr>
+                      }
+                      @if (historyLoading) {
                         <tr>
-                          <th>{{ 'taxi.detail.smsWinek' | translate }}</th><td>{{ yesNo(taxi.smsWinek) }}</td>
-                          <th>{{ 'taxi.detail.smsWinekDate' | translate }}</th>
-                          <td>{{ taxi.dateSmsWinek ? (taxi.dateSmsWinek | date: 'medium') : '—' }}</td>
+                          <td colspan="7" class="text-center py-4">
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'taxi.detail.loadingHistory' | translate }}
+                          </td>
                         </tr>
-                        <tr>
-                          <th>{{ 'taxi.detail.rideOffers' | translate }}</th><td>{{ taxi.offres ? taxi.offres.length : '—' }}</td>
-                          <th>{{ 'taxi.detail.content' | translate }}</th><td>{{ taxi.contenu || '—' }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                @if (historyTotal > 0) {
+                  <div
+                    class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3"
+                    >
+                    <div class="text-muted">{{ 'taxi.detail.pageOf' | translate:{ page: historyPage, pages: historyTotalPages } }}</div>
+                    <ngb-pagination
+                      [collectionSize]="historyTotal"
+                      [page]="historyPage"
+                      [pageSize]="historyLimit"
+                      [maxSize]="5"
+                      [rotate]="true"
+                      (pageChange)="onHistoryPageChange($event)"
+                    ></ngb-pagination>
                   </div>
-                </div>
+                }
               </div>
             </div>
-
-            <div class="col-xl-4">
-              <!-- Rating summary -->
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0"><i class="bx bx-star me-1"></i>{{ 'taxi.detail.ratingSummary' | translate }}</h5>
-                </div>
-                <div class="card-body">
-                  <div *ngIf="ratingSummary as rating; else noRating" class="row text-center">
-                    <div class="col-4">
-                      <div class="fs-4 fw-medium">{{ rating.rating ?? '—' }}</div>
-                      <div class="text-muted small">{{ 'taxi.detail.rating' | translate }}</div>
-                    </div>
-                    <div class="col-4">
-                      <div class="fs-4 fw-medium">{{ rating.average ?? '—' }}</div>
-                      <div class="text-muted small">{{ 'taxi.detail.avgHistory' | translate }}</div>
-                    </div>
-                    <div class="col-4">
-                      <div class="fs-4 fw-medium">{{ rating.count ?? '—' }}</div>
-                      <div class="text-muted small">{{ 'taxi.detail.count' | translate }}</div>
-                    </div>
-                  </div>
-                  <ng-template #noRating>
-                    <p class="text-muted mb-0">{{ 'taxi.detail.noRatingSummary' | translate }}</p>
-                  </ng-template>
-                </div>
-              </div>
-
-              <!-- GPS -->
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0"><i class="bx bxs-map-pin me-1"></i>{{ 'taxi.detail.gpsLocation' | translate }}</h5>
-                </div>
-                <div class="card-body">
-                  <div *ngIf="gpsLat() != null || gpsLng() != null" class="mb-3">
-                    <div class="d-flex justify-content-between py-1 border-bottom">
-                      <span class="text-muted">{{ 'taxi.detail.latitude' | translate }}</span>
-                      <span class="fw-medium">{{ gpsLat() }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between py-1 border-bottom">
-                      <span class="text-muted">{{ 'taxi.detail.longitude' | translate }}</span>
-                      <span class="fw-medium">{{ gpsLng() }}</span>
-                    </div>
-                    <p class="text-muted small mt-2 mb-0">
-                      {{ (taxi.latGps != null ? 'taxi.detail.sourceGpsFeed' : 'taxi.detail.sourceRegistration') | translate }}.
-                    </p>
-                  </div>
-
-                  <form [formGroup]="gpsForm" (ngSubmit)="saveGps()" novalidate>
-                    <div class="alert alert-danger py-2" *ngIf="gpsError">{{ gpsError }}</div>
-                    <div class="alert alert-success py-2" *ngIf="gpsSaved">{{ 'taxi.detail.gpsSaved' | translate }}</div>
-                    <div class="mb-3">
-                      <label class="form-label">{{ 'taxi.detail.latitudeRange' | translate }}</label>
-                      <input
-                        type="number"
-                        step="any"
-                        class="form-control"
-                        formControlName="latitude"
-                        [ngClass]="{ 'is-invalid': gpsForm.touched && gpsForm.controls['latitude'].errors }"
-                      />
-                      <div
-                        class="invalid-feedback"
-                        *ngIf="gpsForm.touched && gpsForm.controls['latitude'].errors"
-                      >
-                        {{ 'taxi.detail.latitudeInvalid' | translate }}
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">{{ 'taxi.detail.longitudeRange' | translate }}</label>
-                      <input
-                        type="number"
-                        step="any"
-                        class="form-control"
-                        formControlName="longitude"
-                        [ngClass]="{ 'is-invalid': gpsForm.touched && gpsForm.controls['longitude'].errors }"
-                      />
-                      <div
-                        class="invalid-feedback"
-                        *ngIf="gpsForm.touched && gpsForm.controls['longitude'].errors"
-                      >
-                        {{ 'taxi.detail.longitudeInvalid' | translate }}
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">{{ 'taxi.detail.bearing' | translate }}</label>
-                      <input type="number" step="any" class="form-control" formControlName="bearing" />
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-sm w-100" [disabled]="gpsBusy">
-                      <span *ngIf="gpsBusy" class="spinner-border spinner-border-sm me-1" role="status"></span>
-                      {{ 'taxi.detail.updateGps' | translate }}
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </div>
-
-      <!-- Ride history tab -->
-      <div ngbNavItem="history">
-        <a ngbNavLink>{{ 'taxi.detail.tabHistory' | translate }}</a>
-        <ng-template ngbNavContent>
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title mb-0">{{ 'taxi.detail.historyTitle' | translate:{ phone: taxi.telephone } }}</h5>
-            </div>
-            <div class="card-body">
-              <div class="alert alert-danger py-2" *ngIf="historyError">{{ historyError }}</div>
-              <div class="table-responsive">
-                <table class="table table-striped table-centered align-middle mb-0">
-                  <thead>
-                    <tr>
-                      <th>{{ 'common.hash' | translate }}</th>
-                      <th>{{ 'common.date' | translate }}</th>
-                      <th>{{ 'common.status' | translate }}</th>
-                      <th>{{ 'taxi.detail.route' | translate }}</th>
-                      <th>{{ 'taxi.detail.price' | translate }}</th>
-                      <th>{{ 'taxi.detail.realPrice' | translate }}</th>
-                      <th>{{ 'taxi.detail.rating' | translate }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let ride of history">
-                      <td>{{ ride.id ?? '—' }}</td>
-                      <td>{{ ride.date_depot ? (ride.date_depot | date: 'medium') : '—' }}</td>
-                      <td>
-                        <span class="badge mb-0" [ngClass]="badgeForEtat(ride.etat).class">
-                          {{ badgeForEtat(ride.etat).label }}
-                        </span>
-                      </td>
-                      <td class="text-nowrap">
-                        {{ (ride.locationHistory || '…') + ' → ' + (ride.destinationHistory || '?') }}
-                      </td>
-                      <td>{{ ride.total_price ?? '—' }}</td>
-                      <td>{{ ride.realPrice ?? '—' }}</td>
-                      <td>{{ ride.rating ?? '—' }}</td>
-                    </tr>
-                    <tr *ngIf="!historyLoading && !historyError && history.length === 0">
-                      <td colspan="7" class="text-center text-muted py-4">{{ 'taxi.detail.noRides' | translate }}</td>
-                    </tr>
-                    <tr *ngIf="historyLoading">
-                      <td colspan="7" class="text-center py-4">
-                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'taxi.detail.loadingHistory' | translate }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div
-                *ngIf="historyTotal > 0"
-                class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3"
-              >
-                <div class="text-muted">{{ 'taxi.detail.pageOf' | translate:{ page: historyPage, pages: historyTotalPages } }}</div>
-                <ngb-pagination
-                  [collectionSize]="historyTotal"
-                  [page]="historyPage"
-                  [pageSize]="historyLimit"
-                  [maxSize]="5"
-                  [rotate]="true"
-                  (pageChange)="onHistoryPageChange($event)"
-                ></ngb-pagination>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </div>
-    </ul>
-
-    <div [ngbNavOutlet]="taxiNav"></div>
+          </ng-template>
+        </div>
+      </ul>
+      <div [ngbNavOutlet]="taxiNav"></div>
+    </div>
   </div>
-</div>
+}

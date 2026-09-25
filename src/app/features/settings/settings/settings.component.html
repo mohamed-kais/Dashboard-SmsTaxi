@@ -13,8 +13,12 @@
             {{ 'settings.matching.description' | translate }}
           </p>
 
-          <div class="alert alert-success" role="alert" *ngIf="matchingSuccess">{{ matchingSuccess }}</div>
-          <div class="alert alert-danger" role="alert" *ngIf="matchingError">{{ matchingError }}</div>
+          @if (matchingSuccess) {
+            <div class="alert alert-success" role="alert">{{ matchingSuccess }}</div>
+          }
+          @if (matchingError) {
+            <div class="alert alert-danger" role="alert">{{ matchingError }}</div>
+          }
 
           <form [formGroup]="matchingForm" (ngSubmit)="saveMatching()" novalidate>
             <div class="row">
@@ -24,12 +28,16 @@
                   <input type="number" id="mc-base" class="form-control" formControlName="baseRadius"
                     min="0" step="1" [placeholder]="'settings.matching.baseRadiusPlaceholder' | translate"
                     [class.is-invalid]="matchingSubmitted && mf.baseRadius.errors" />
-                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.baseRadius.errors?.required">
-                    {{ 'settings.matching.baseRadiusRequired' | translate }}
-                  </div>
-                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.baseRadius.errors?.min">
-                    {{ 'settings.matching.baseRadiusMin' | translate }}
-                  </div>
+                  @if (matchingSubmitted && mf.baseRadius.errors?.required) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.matching.baseRadiusRequired' | translate }}
+                    </div>
+                  }
+                  @if (matchingSubmitted && mf.baseRadius.errors?.min) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.matching.baseRadiusMin' | translate }}
+                    </div>
+                  }
                 </div>
               </div>
               <div class="col-md-6">
@@ -38,18 +46,24 @@
                   <input type="number" id="mc-max" class="form-control" formControlName="maxRadius"
                     min="0" step="1" [placeholder]="'settings.matching.maxRadiusPlaceholder' | translate"
                     [class.is-invalid]="matchingSubmitted && mf.maxRadius.errors" />
-                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.maxRadius.errors?.required">
-                    {{ 'settings.matching.maxRadiusRequired' | translate }}
-                  </div>
-                  <div class="invalid-feedback" *ngIf="matchingSubmitted && mf.maxRadius.errors?.min">
-                    {{ 'settings.matching.maxRadiusMin' | translate }}
-                  </div>
+                  @if (matchingSubmitted && mf.maxRadius.errors?.required) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.matching.maxRadiusRequired' | translate }}
+                    </div>
+                  }
+                  @if (matchingSubmitted && mf.maxRadius.errors?.min) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.matching.maxRadiusMin' | translate }}
+                    </div>
+                  }
                 </div>
               </div>
             </div>
 
             <button type="submit" class="btn btn-primary" [disabled]="matchingSaving">
-              <span class="spinner-border spinner-border-sm me-1" *ngIf="matchingSaving"></span>
+              @if (matchingSaving) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              }
               {{ matchingSaving ? ('settings.saving' | translate) : ('common.saveChanges' | translate) }}
             </button>
           </form>
@@ -69,13 +83,19 @@
           <p class="text-muted">
             {{ 'settings.airport.description' | translate }}
           </p>
-          <p class="text-muted" *ngIf="airportCount !== null">
-            {{ 'settings.airport.configuredLabel' | translate }} <strong>{{ airportCount }}</strong>
-            <span class="small">{{ 'settings.airport.readOnlyNote' | translate }}</span>
-          </p>
+          @if (airportCount !== null) {
+            <p class="text-muted">
+              {{ 'settings.airport.configuredLabel' | translate }} <strong>{{ airportCount }}</strong>
+              <span class="small">{{ 'settings.airport.readOnlyNote' | translate }}</span>
+            </p>
+          }
 
-          <div class="alert alert-success" role="alert" *ngIf="airportSuccess">{{ airportSuccess }}</div>
-          <div class="alert alert-danger" role="alert" *ngIf="airportError">{{ airportError }}</div>
+          @if (airportSuccess) {
+            <div class="alert alert-success" role="alert">{{ airportSuccess }}</div>
+          }
+          @if (airportError) {
+            <div class="alert alert-danger" role="alert">{{ airportError }}</div>
+          }
 
           <form [formGroup]="airportForm" (ngSubmit)="saveAirportPricing()" novalidate>
             <div class="row">
@@ -85,12 +105,16 @@
                   <input type="number" id="ap-value" class="form-control" formControlName="surchargeValue"
                     min="0" step="0.01" [placeholder]="'settings.airport.surchargeValuePlaceholder' | translate"
                     [class.is-invalid]="airportSubmitted && af.surchargeValue.errors" />
-                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeValue.errors?.required">
-                    {{ 'settings.airport.surchargeValueRequired' | translate }}
-                  </div>
-                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeValue.errors?.min">
-                    {{ 'settings.airport.surchargeValueMin' | translate }}
-                  </div>
+                  @if (airportSubmitted && af.surchargeValue.errors?.required) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.airport.surchargeValueRequired' | translate }}
+                    </div>
+                  }
+                  @if (airportSubmitted && af.surchargeValue.errors?.min) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.airport.surchargeValueMin' | translate }}
+                    </div>
+                  }
                 </div>
               </div>
               <div class="col-md-4">
@@ -99,13 +123,17 @@
                   <select id="ap-type" class="form-select" formControlName="surchargeType"
                     [class.is-invalid]="airportSubmitted && af.surchargeType.errors">
                     <option [ngValue]="null" disabled>{{ 'settings.airport.selectTypePlaceholder' | translate }}</option>
-                    <option *ngFor="let t of surchargeTypes" [ngValue]="t">
-                      {{ t === 'PERCENTAGE' ? ('settings.airport.percentage' | translate) : ('settings.airport.fixedAmount' | translate) }}
-                    </option>
+                    @for (t of surchargeTypes; track t) {
+                      <option [ngValue]="t">
+                        {{ t === 'PERCENTAGE' ? ('settings.airport.percentage' | translate) : ('settings.airport.fixedAmount' | translate) }}
+                      </option>
+                    }
                   </select>
-                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.surchargeType.errors?.required">
-                    {{ 'settings.airport.surchargeTypeRequired' | translate }}
-                  </div>
+                  @if (airportSubmitted && af.surchargeType.errors?.required) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.airport.surchargeTypeRequired' | translate }}
+                    </div>
+                  }
                 </div>
               </div>
               <div class="col-md-4">
@@ -114,18 +142,24 @@
                   <input type="number" id="ap-radius" class="form-control" formControlName="airportRadiusMeters"
                     min="0" step="1" [placeholder]="'settings.airport.airportRadiusPlaceholder' | translate"
                     [class.is-invalid]="airportSubmitted && af.airportRadiusMeters.errors" />
-                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.airportRadiusMeters.errors?.required">
-                    {{ 'settings.airport.airportRadiusRequired' | translate }}
-                  </div>
-                  <div class="invalid-feedback" *ngIf="airportSubmitted && af.airportRadiusMeters.errors?.min">
-                    {{ 'settings.airport.airportRadiusMin' | translate }}
-                  </div>
+                  @if (airportSubmitted && af.airportRadiusMeters.errors?.required) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.airport.airportRadiusRequired' | translate }}
+                    </div>
+                  }
+                  @if (airportSubmitted && af.airportRadiusMeters.errors?.min) {
+                    <div class="invalid-feedback">
+                      {{ 'settings.airport.airportRadiusMin' | translate }}
+                    </div>
+                  }
                 </div>
               </div>
             </div>
 
             <button type="submit" class="btn btn-primary" [disabled]="airportSaving">
-              <span class="spinner-border spinner-border-sm me-1" *ngIf="airportSaving"></span>
+              @if (airportSaving) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              }
               {{ airportSaving ? ('settings.saving' | translate) : ('common.saveChanges' | translate) }}
             </button>
           </form>

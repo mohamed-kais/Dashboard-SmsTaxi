@@ -13,11 +13,13 @@
               class="form-select"
               [(ngModel)]="statusFilter"
               (ngModelChange)="onStatusChange($event)"
-            >
+              >
               <option value="">{{ 'reservations.list.allStatuses' | translate }}</option>
-              <option *ngFor="let status of statuses" [value]="status">
-                {{ status }}
-              </option>
+              @for (status of statuses; track status) {
+                <option [value]="status">
+                  {{ status }}
+                </option>
+              }
             </select>
           </div>
           <div class="col-md-4 col-lg-4">
@@ -29,7 +31,7 @@
               placeholder="{{ 'reservations.list.searchPlaceholder' | translate }}"
               [(ngModel)]="searchTerm"
               (ngModelChange)="onSearchChange($event)"
-            />
+              />
             <small class="text-muted">{{ 'reservations.list.searchHint' | translate }}</small>
           </div>
           <div class="col-lg-5 text-lg-end">
@@ -39,7 +41,9 @@
           </div>
         </div>
 
-        <div *ngIf="error" class="alert alert-danger mb-3">{{ error }}</div>
+        @if (error) {
+          <div class="alert alert-danger mb-3">{{ error }}</div>
+        }
 
         <div class="table-responsive">
           <table class="table table-centered table-nowrap mb-0">
@@ -57,81 +61,95 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngIf="loading">
-                <td colspan="9" class="text-center py-4">
-                  <span class="spinner-border spinner-border-sm me-2"></span>{{ 'reservations.list.loading' | translate }}
-                </td>
-              </tr>
-              <tr *ngIf="!loading && reservations.length === 0">
-                <td colspan="9" class="text-center text-muted py-4">{{ 'reservations.list.empty' | translate }}</td>
-              </tr>
-              <tr *ngFor="let reservation of reservations">
-                <td class="fw-medium">#{{ reservation.id }}</td>
-                <td>
-                  <div>{{ reservation.telephone || '—' }}</div>
-                  <small *ngIf="reservation.clientId" class="text-muted">
-                    {{ 'reservations.list.clientRef' | translate:{ clientId: reservation.clientId } }}
-                  </small>
-                </td>
-                <td>
-                  <div class="text-truncate" style="max-width: 220px" [title]="reservation.pickup">
-                    {{ reservation.pickup || '—' }}
-                  </div>
-                  <i class="bx bx-right-arrow-alt mx-1 text-muted"></i>
-                  <div class="text-truncate" style="max-width: 220px" [title]="reservation.destination">
-                    {{ reservation.destination || '—' }}
-                  </div>
-                </td>
-                <td>
-                  <span class="badge border text-muted">{{ sourceLabel(reservation.source) }}</span>
-                </td>
-                <td>
-                  <span class="badge {{ statusBadgeClass(reservation.status) }}">{{ reservation.status }}</span>
-                </td>
-                <td>
-                  <ng-container *ngIf="reservation.assignment">
-                    <div>{{ reservation.assignment.taxiNom || ('reservations.list.taxiRef' | translate:{ taxiId: reservation.assignment.taxiId }) }}</div>
-                    <small class="text-muted">
-                      {{ reservation.assignment.taxiTelephone || reservation.assignment.taxiNumero || '' }}
-                    </small>
-                  </ng-container>
-                  <span *ngIf="!reservation.assignment" class="text-muted">{{ 'reservations.list.notAssigned' | translate }}</span>
-                </td>
-                <td>
-                  <ng-container *ngIf="reservation.assignment">
-                    <span class="badge {{ assignmentBadgeClass(reservation.assignment.status) }}">
-                      {{ reservation.assignment.status }}
-                    </span>
-                  </ng-container>
-                  <span *ngIf="!reservation.assignment" class="text-muted">—</span>
-                </td>
-                <td>{{ reservation.reservationDateTime | date: 'medium' }}</td>
-                <td class="text-end">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary btn-sm me-1"
-                    (click)="viewReservation(reservation)"
-                  >
-                    {{ 'common.view' | translate }}
-                  </button>
-                  <button
-                    *ngIf="!canUnassign(reservation)"
-                    type="button"
-                    class="btn btn-outline-primary btn-sm me-1"
-                    (click)="openAssignModal(assignModal, reservation)"
-                  >
-                    {{ 'common.assign' | translate }}
-                  </button>
-                  <button
-                    *ngIf="canUnassign(reservation)"
-                    type="button"
-                    class="btn btn-outline-danger btn-sm"
-                    (click)="openUnassignModal(unassignModal, reservation)"
-                  >
-                    {{ 'common.unassign' | translate }}
-                  </button>
-                </td>
-              </tr>
+              @if (loading) {
+                <tr>
+                  <td colspan="9" class="text-center py-4">
+                    <span class="spinner-border spinner-border-sm me-2"></span>{{ 'reservations.list.loading' | translate }}
+                  </td>
+                </tr>
+              }
+              @if (!loading && reservations.length === 0) {
+                <tr>
+                  <td colspan="9" class="text-center text-muted py-4">{{ 'reservations.list.empty' | translate }}</td>
+                </tr>
+              }
+              @for (reservation of reservations; track reservation) {
+                <tr>
+                  <td class="fw-medium">#{{ reservation.id }}</td>
+                  <td>
+                    <div>{{ reservation.telephone || '—' }}</div>
+                    @if (reservation.clientId) {
+                      <small class="text-muted">
+                        {{ 'reservations.list.clientRef' | translate:{ clientId: reservation.clientId } }}
+                      </small>
+                    }
+                  </td>
+                  <td>
+                    <div class="text-truncate" style="max-width: 220px" [title]="reservation.pickup">
+                      {{ reservation.pickup || '—' }}
+                    </div>
+                    <i class="bx bx-right-arrow-alt mx-1 text-muted"></i>
+                    <div class="text-truncate" style="max-width: 220px" [title]="reservation.destination">
+                      {{ reservation.destination || '—' }}
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge border text-muted">{{ sourceLabel(reservation.source) }}</span>
+                  </td>
+                  <td>
+                    <span class="badge {{ statusBadgeClass(reservation.status) }}">{{ reservation.status }}</span>
+                  </td>
+                  <td>
+                    @if (reservation.assignment) {
+                      <div>{{ reservation.assignment.taxiNom || ('reservations.list.taxiRef' | translate:{ taxiId: reservation.assignment.taxiId }) }}</div>
+                      <small class="text-muted">
+                        {{ reservation.assignment.taxiTelephone || reservation.assignment.taxiNumero || '' }}
+                      </small>
+                    }
+                    @if (!reservation.assignment) {
+                      <span class="text-muted">{{ 'reservations.list.notAssigned' | translate }}</span>
+                    }
+                  </td>
+                  <td>
+                    @if (reservation.assignment) {
+                      <span class="badge {{ assignmentBadgeClass(reservation.assignment.status) }}">
+                        {{ reservation.assignment.status }}
+                      </span>
+                    }
+                    @if (!reservation.assignment) {
+                      <span class="text-muted">—</span>
+                    }
+                  </td>
+                  <td>{{ reservation.reservationDateTime | date: 'medium' }}</td>
+                  <td class="text-end">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm me-1"
+                      (click)="viewReservation(reservation)"
+                      >
+                      {{ 'common.view' | translate }}
+                    </button>
+                    @if (!canUnassign(reservation)) {
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm me-1"
+                        (click)="openAssignModal(assignModal, reservation)"
+                        >
+                        {{ 'common.assign' | translate }}
+                      </button>
+                    }
+                    @if (canUnassign(reservation)) {
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        (click)="openUnassignModal(unassignModal, reservation)"
+                        >
+                        {{ 'common.unassign' | translate }}
+                      </button>
+                    }
+                  </td>
+                </tr>
+              }
             </tbody>
           </table>
         </div>
@@ -181,10 +199,12 @@
           class="form-control"
           formControlName="taxiId"
           placeholder="{{ 'reservations.list.taxiIdPlaceholder' | translate }}"
-        />
-        <div *ngIf="assignSubmitted && af.taxiId.errors" class="text-danger small mt-1">
-          {{ 'reservations.list.taxiIdRequired' | translate }}
-        </div>
+          />
+        @if (assignSubmitted && af.taxiId.errors) {
+          <div class="text-danger small mt-1">
+            {{ 'reservations.list.taxiIdRequired' | translate }}
+          </div>
+        }
       </div>
       <div class="mb-3">
         <label class="form-label" for="assign-type">{{ 'reservations.list.assignmentType' | translate }}</label>
@@ -205,7 +225,9 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-primary" [disabled]="assigning">
-        <span *ngIf="assigning" class="spinner-border spinner-border-sm me-1"></span>
+        @if (assigning) {
+          <span class="spinner-border spinner-border-sm me-1"></span>
+        }
         {{ 'reservations.list.assignModalConfirm' | translate }}
       </button>
     </div>
@@ -238,7 +260,9 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-light" (click)="modal.dismiss()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" class="btn btn-danger" [disabled]="unassigning">
-        <span *ngIf="unassigning" class="spinner-border spinner-border-sm me-1"></span>
+        @if (unassigning) {
+          <span class="spinner-border spinner-border-sm me-1"></span>
+        }
         {{ 'reservations.list.unassignConfirm' | translate }}
       </button>
     </div>

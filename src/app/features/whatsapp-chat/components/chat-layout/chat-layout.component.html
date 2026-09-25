@@ -11,14 +11,14 @@
             (selectionChange)="onConversationSelected($event)">
           </app-conversation-list>
           <div class="wa-layout__main">
-            <app-chat-window
-              *ngIf="activeConversationId; else emptyState"
-              [conversationId]="activeConversationId"
-              (back)="onBackToList()">
-            </app-chat-window>
-            <ng-template #emptyState>
+            @if (activeConversationId) {
+              <app-chat-window
+                [conversationId]="activeConversationId"
+                (back)="onBackToList()">
+              </app-chat-window>
+            } @else {
               <app-empty-chat></app-empty-chat>
-            </ng-template>
+            }
           </div>
         </div>
       </div>

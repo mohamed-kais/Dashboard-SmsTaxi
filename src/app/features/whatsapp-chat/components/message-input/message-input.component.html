@@ -13,7 +13,11 @@
     [disabled]="disabled || !content.trim()"
     (click)="onSubmit()"
     [title]="'whatsapp.input.send' | translate">
-    <i class="bx bx-send" *ngIf="!sending"></i>
-    <span class="spinner-border spinner-border-sm" role="status" *ngIf="sending"></span>
+    @if (!sending) {
+      <i class="bx bx-send"></i>
+    }
+    @if (sending) {
+      <span class="spinner-border spinner-border-sm" role="status"></span>
+    }
   </button>
 </div>

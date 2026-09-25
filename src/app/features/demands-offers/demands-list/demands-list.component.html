@@ -8,7 +8,9 @@
         <label class="form-label">{{ 'common.status' | translate }}</label>
         <select class="form-select" [(ngModel)]="filter.etat" (ngModelChange)="applyFilters()">
           <option value="">{{ 'demands.list.allStatuses' | translate }}</option>
-          <option *ngFor="let e of etatOptions" [value]="e">{{ e }}</option>
+          @for (e of etatOptions; track e) {
+            <option [value]="e">{{ e }}</option>
+          }
         </select>
       </div>
       <div class="col-md-2">
@@ -19,7 +21,7 @@
           [placeholder]="'demands.list.clientPhone' | translate"
           [(ngModel)]="filter.phone"
           (ngModelChange)="applyFilters()"
-        />
+          />
       </div>
       <div class="col-md-2">
         <label class="form-label">{{ 'demands.list.fromDate' | translate }}</label>
@@ -31,7 +33,7 @@
             (ngModelChange)="applyFilters()"
             ngbDatepicker
             #dateFromPicker="ngbDatepicker"
-          />
+            />
           <button class="btn btn-outline-secondary" type="button" (click)="dateFromPicker.toggle()">
             <i class="bx bx-calendar"></i>
           </button>
@@ -47,7 +49,7 @@
             (ngModelChange)="applyFilters()"
             ngbDatepicker
             #dateToPicker="ngbDatepicker"
-          />
+            />
           <button class="btn btn-outline-secondary" type="button" (click)="dateToPicker.toggle()">
             <i class="bx bx-calendar"></i>
           </button>
@@ -61,7 +63,7 @@
           [placeholder]="'demands.list.min' | translate"
           [(ngModel)]="filter.minPrice"
           (ngModelChange)="applyFilters()"
-        />
+          />
       </div>
       <div class="col-md-1">
         <label class="form-label">{{ 'demands.list.maxPrice' | translate }}</label>
@@ -71,14 +73,16 @@
           [placeholder]="'demands.list.max' | translate"
           [(ngModel)]="filter.maxPrice"
           (ngModelChange)="applyFilters()"
-        />
+          />
       </div>
       <div class="col-md-1">
         <button type="button" class="btn btn-secondary w-100" (click)="resetFilters()">{{ 'common.reset' | translate }}</button>
       </div>
     </div>
 
-    <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+    @if (error) {
+      <div class="alert alert-danger">{{ error }}</div>
+    }
 
     <div class="table-responsive">
       <table class="table table-striped align-middle mb-0">
@@ -95,77 +99,88 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of state.rows">
-            <td>
-              <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/demands', row.id]"
-                >#{{ row.id }}</a
-              >
-            </td>
-            <td>{{ row.dateDepot | date: 'medium' }}</td>
-            <td>
-              <div class="fw-medium">{{ row.clientNom || '-' }}</div>
-              <div class="text-muted small">{{ row.clientPhone }}</div>
-            </td>
-            <td>{{ row.location || '-' }} &rarr; {{ row.destination || '-' }}</td>
-            <td>{{ row.estimatedPrice || '-' }}</td>
-            <td>
-              <span class="badge" [ngClass]="badge(row.etat).class">{{ badge(row.etat).label }}</span>
-            </td>
-            <td><span class="text-muted small">{{ row.broadcastStatus || '-' }}</span></td>
-            <td class="text-end text-nowrap">
-              <button
-                type="button"
-                class="btn btn-sm btn-primary me-1"
-                [title]="'common.view' | translate"
-                [routerLink]="['/demands', row.id]"
-              >
-                <i class="bx bx-show"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-warning me-1"
-                [title]="'common.cancel' | translate"
-                (click)="confirmCancel(row)"
-              >
-                <i class="bx bx-x"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-danger"
-                [title]="'common.delete' | translate"
-                (click)="confirmDelete(row)"
-              >
-                <i class="bx bx-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr *ngIf="loading && state.rows.length === 0">
-            <td colspan="8" class="text-center text-muted py-4">
-              <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'demands.list.loading' | translate }}
-            </td>
-          </tr>
-          <tr *ngIf="!loading && !error && state.rows.length === 0">
-            <td colspan="8" class="text-center text-muted py-4">{{ 'demands.list.empty' | translate }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="d-flex align-items-center justify-content-between mt-3" *ngIf="state.totalRecords > 0">
-      <div class="text-muted small">
-        {{ 'demands.list.range' | translate: { start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}
-        <span *ngIf="loading">{{ 'demands.list.updating' | translate }}</span>
+          @for (row of state.rows; track row) {
+            <tr>
+              <td>
+                <a href="javascript: void(0);" class="text-primary fw-medium" [routerLink]="['/demands', row.id]"
+                  >#{{ row.id }}</a
+                  >
+                </td>
+                <td>{{ row.dateDepot | date: 'medium' }}</td>
+                <td>
+                  <div class="fw-medium">{{ row.clientNom || '-' }}</div>
+                  <div class="text-muted small">{{ row.clientPhone }}</div>
+                </td>
+                <td>{{ row.location || '-' }} &rarr; {{ row.destination || '-' }}</td>
+                <td>{{ row.estimatedPrice || '-' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="badge(row.etat).class">{{ badge(row.etat).label }}</span>
+                </td>
+                <td><span class="text-muted small">{{ row.broadcastStatus || '-' }}</span></td>
+                <td class="text-end text-nowrap">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-primary me-1"
+                    [title]="'common.view' | translate"
+                    [routerLink]="['/demands', row.id]"
+                    >
+                    <i class="bx bx-show"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-warning me-1"
+                    [title]="'common.cancel' | translate"
+                    (click)="confirmCancel(row)"
+                    >
+                    <i class="bx bx-x"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    [title]="'common.delete' | translate"
+                    (click)="confirmDelete(row)"
+                    >
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (loading && state.rows.length === 0) {
+              <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span> {{ 'demands.list.loading' | translate }}
+                </td>
+              </tr>
+            }
+            @if (!loading && !error && state.rows.length === 0) {
+              <tr>
+                <td colspan="8" class="text-center text-muted py-4">{{ 'demands.list.empty' | translate }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
-      <ngb-pagination
-        *ngIf="state.totalRecords > state.pageSize"
-        [collectionSize]="state.totalRecords"
-        [pageSize]="state.pageSize"
-        [page]="state.page"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (page)="onPageChange($event)"
-      ></ngb-pagination>
+
+      @if (state.totalRecords > 0) {
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <div class="text-muted small">
+            {{ 'demands.list.range' | translate: { start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}
+            @if (loading) {
+              <span>{{ 'demands.list.updating' | translate }}</span>
+            }
+          </div>
+          @if (state.totalRecords > state.pageSize) {
+            <ngb-pagination
+              [collectionSize]="state.totalRecords"
+              [pageSize]="state.pageSize"
+              [page]="state.page"
+              [maxSize]="5"
+              [rotate]="true"
+              [boundaryLinks]="true"
+              (page)="onPageChange($event)"
+            ></ngb-pagination>
+          }
+        </div>
+      }
     </div>
   </div>
-</div>

@@ -8,7 +8,9 @@
           <div>
             <h5 class="card-title mb-0">{{ 'clients.list.allClients' | translate }}</h5>
             <p class="text-muted mb-0">
-              <span *ngIf="(totalRecords$ | async) !== null">{{ 'clients.list.clientCount' | translate:{ total: (totalRecords$ | async) } }}</span>
+              @if ((totalRecords$ | async) !== null) {
+                <span>{{ 'clients.list.clientCount' | translate:{ total: (totalRecords$ | async) } }}</span>
+              }
             </p>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -22,7 +24,9 @@
         </div>
       </div>
 
-      <div class="alert alert-danger m-3" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+      @if (errorMessage) {
+        <div class="alert alert-danger m-3" role="alert">{{ errorMessage }}</div>
+      }
 
       <div class="table-responsive">
         <table class="table table-centered table-nowrap mb-0">
@@ -40,61 +44,71 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="loading$ | async">
-              <td colspan="9" class="text-center py-4">
-                <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'clients.list.loading' | translate }}
-              </td>
-            </tr>
-            <ng-container *ngIf="!(loading$ | async)">
-              <tr *ngFor="let client of (rows$ | async); let i = index">
-                <td>{{ state.startIndex + i }}</td>
-                <td>{{ client.id }}</td>
-                <td>{{ client.telephone || '—' }}</td>
-                <td>{{ displayName(client) }}</td>
-                <td>{{ client.email || '—' }}</td>
-                <td>{{ client.type || '—' }}</td>
-                <td>
-                  <span class="badge" [ngClass]="clientBadge(client).class">{{ clientBadge(client).label }}</span>
-                </td>
-                <td>{{ client.dateEnregistrement ? (client.dateEnregistrement | date: 'medium') : '—' }}</td>
-                <td class="text-end text-nowrap">
-                  <button type="button" class="btn btn-sm btn-soft-info" [title]="'common.view' | translate"
-                    [routerLink]="['/clients', client.id]">
-                    <i class="bx bx-show"></i> {{ 'common.view' | translate }}
-                  </button>
-                  <button type="button" class="btn btn-sm btn-soft-primary mx-1" [title]="'common.edit' | translate"
-                    (click)="openEditModal(client)">
-                    <i class="bx bx-edit"></i> {{ 'common.edit' | translate }}
-                  </button>
-                  <button type="button" class="btn btn-sm btn-soft-danger" [title]="'common.delete' | translate"
-                    (click)="askDelete(client, confirmDeleteTemplate)">
-                    <i class="bx bx-trash"></i> {{ 'common.delete' | translate }}
-                  </button>
+            @if (loading$ | async) {
+              <tr>
+                <td colspan="9" class="text-center py-4">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div>{{ 'clients.list.loading' | translate }}
                 </td>
               </tr>
-              <tr *ngIf="(totalRecords$ | async) === 0">
-                <td colspan="9" class="text-center text-muted py-4">{{ 'clients.list.empty' | translate }}</td>
-              </tr>
-            </ng-container>
+            }
+            @if (!(loading$ | async)) {
+              @for (client of (rows$ | async); track client; let i = $index) {
+                <tr>
+                  <td>{{ state.startIndex + i }}</td>
+                  <td>{{ client.id }}</td>
+                  <td>{{ client.telephone || '—' }}</td>
+                  <td>{{ displayName(client) }}</td>
+                  <td>{{ client.email || '—' }}</td>
+                  <td>{{ client.type || '—' }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="clientBadge(client).class">{{ clientBadge(client).label }}</span>
+                  </td>
+                  <td>{{ client.dateEnregistrement ? (client.dateEnregistrement | date: 'medium') : '—' }}</td>
+                  <td class="text-end text-nowrap">
+                    <button type="button" class="btn btn-sm btn-soft-info" [title]="'common.view' | translate"
+                      [routerLink]="['/clients', client.id]">
+                      <i class="bx bx-show"></i> {{ 'common.view' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-soft-primary mx-1" [title]="'common.edit' | translate"
+                      (click)="openEditModal(client)">
+                      <i class="bx bx-edit"></i> {{ 'common.edit' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-soft-danger" [title]="'common.delete' | translate"
+                      (click)="askDelete(client, confirmDeleteTemplate)">
+                      <i class="bx bx-trash"></i> {{ 'common.delete' | translate }}
+                    </button>
+                  </td>
+                </tr>
+              }
+              @if ((totalRecords$ | async) === 0) {
+                <tr>
+                  <td colspan="9" class="text-center text-muted py-4">{{ 'clients.list.empty' | translate }}</td>
+                </tr>
+              }
+            }
           </tbody>
         </table>
       </div>
 
-      <div class="card-footer" *ngIf="(totalRecords$ | async) !== 0">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-          <div>
-            <span class="text-muted">{{ 'clients.list.showing' | translate:{ start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}</span>
-            <select name="pageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
-              [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
-              <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
-            </select>
+      @if ((totalRecords$ | async) !== 0) {
+        <div class="card-footer">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+              <span class="text-muted">{{ 'clients.list.showing' | translate:{ start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}</span>
+              <select name="pageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
+                [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
+                @for (size of pageSizes; track size) {
+                  <option [ngValue]="size">{{ size }}</option>
+                }
+              </select>
+            </div>
+            <ngb-pagination [collectionSize]="(totalRecords$ | async) || 0" [page]="state.page"
+              [pageSize]="state.pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+              (pageChange)="onPageChange($event)">
+            </ngb-pagination>
           </div>
-          <ngb-pagination [collectionSize]="(totalRecords$ | async) || 0" [page]="state.page"
-            [pageSize]="state.pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
-            (pageChange)="onPageChange($event)">
-          </ngb-pagination>
         </div>
-      </div>
+      }
     </div>
   </div>
 </div>

@@ -4,7 +4,9 @@
 </div>
 
 <div class="modal-body">
-  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+  @if (errorMessage) {
+    <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+  }
 
   <form [formGroup]="form" (ngSubmit)="save()" novalidate>
     <div class="mb-3">
@@ -12,29 +14,41 @@
       <input type="text" id="cp-telephone" class="form-control" formControlName="telephone"
         placeholder="{{ 'clients.form.phonePlaceholder' | translate }}" maxlength="20"
         [class.is-invalid]="submitted && f.telephone.errors" />
-      <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.required">{{ 'clients.form.phoneRequired' | translate }}</div>
-      <div class="invalid-feedback" *ngIf="submitted && f.telephone.errors?.pattern">{{ 'clients.form.phonePattern' | translate }}</div>
+      @if (submitted && f.telephone.errors?.required) {
+        <div class="invalid-feedback">{{ 'clients.form.phoneRequired' | translate }}</div>
+      }
+      @if (submitted && f.telephone.errors?.pattern) {
+        <div class="invalid-feedback">{{ 'clients.form.phonePattern' | translate }}</div>
+      }
     </div>
 
     <div class="mb-3">
       <label class="form-label" for="cp-name">{{ 'common.name' | translate }}</label>
       <input type="text" id="cp-name" class="form-control" formControlName="name" maxlength="100"
         placeholder="{{ 'clients.form.namePlaceholder' | translate }}" [class.is-invalid]="submitted && f.name.errors" />
-      <div class="invalid-feedback" *ngIf="submitted && f.name.errors?.maxlength">{{ 'clients.form.nameMax' | translate }}</div>
+      @if (submitted && f.name.errors?.maxlength) {
+        <div class="invalid-feedback">{{ 'clients.form.nameMax' | translate }}</div>
+      }
     </div>
 
     <div class="mb-3">
       <label class="form-label" for="cp-email">{{ 'common.email' | translate }}</label>
       <input type="email" id="cp-email" class="form-control" formControlName="email" maxlength="254"
         placeholder="{{ 'clients.form.emailPlaceholder' | translate }}" [class.is-invalid]="submitted && f.email.errors" />
-      <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.email">{{ 'clients.form.emailInvalid' | translate }}</div>
-      <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.maxlength">{{ 'clients.form.emailMax' | translate }}</div>
+      @if (submitted && f.email.errors?.email) {
+        <div class="invalid-feedback">{{ 'clients.form.emailInvalid' | translate }}</div>
+      }
+      @if (submitted && f.email.errors?.maxlength) {
+        <div class="invalid-feedback">{{ 'clients.form.emailMax' | translate }}</div>
+      }
     </div>
 
     <div class="mb-3">
       <label class="form-label" for="cp-type">{{ 'common.type' | translate }}</label>
       <select id="cp-type" class="form-select" formControlName="type">
-        <option *ngFor="let t of typeOptions" [ngValue]="t">{{ t }}</option>
+        @for (t of typeOptions; track t) {
+          <option [ngValue]="t">{{ t }}</option>
+        }
       </select>
     </div>
 
@@ -48,8 +62,10 @@
     <div class="mb-0">
       <label class="form-label" for="cp-contenu">{{ 'clients.form.contenu' | translate }}</label>
       <textarea id="cp-contenu" class="form-control" formControlName="contenu" rows="3" maxlength="1000"
-        placeholder="{{ 'clients.form.contenuPlaceholder' | translate }}" [class.is-invalid]="submitted && f.contenu.errors"></textarea>
-      <div class="invalid-feedback" *ngIf="submitted && f.contenu.errors?.maxlength">{{ 'clients.form.contenuMax' | translate }}</div>
+      placeholder="{{ 'clients.form.contenuPlaceholder' | translate }}" [class.is-invalid]="submitted && f.contenu.errors"></textarea>
+      @if (submitted && f.contenu.errors?.maxlength) {
+        <div class="invalid-feedback">{{ 'clients.form.contenuMax' | translate }}</div>
+      }
     </div>
   </form>
 </div>
@@ -57,7 +73,9 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-light btn-sm" (click)="activeModal.dismiss('cancel')" [disabled]="saving">{{ 'common.cancel' | translate }}</button>
   <button type="button" class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving">
-    <span class="spinner-border spinner-border-sm me-1" *ngIf="saving"></span>
+    @if (saving) {
+      <span class="spinner-border spinner-border-sm me-1"></span>
+    }
     {{ (saving ? 'clients.form.saving' : (isEdit ? 'common.saveChanges' : 'clients.form.titleAdd')) | translate }}
   </button>
 </div>

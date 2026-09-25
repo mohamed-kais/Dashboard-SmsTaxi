@@ -8,9 +8,11 @@
           <div class="d-flex align-items-center gap-2">
             <h5 class="card-title mb-0">{{ 'notification.list.logTitle' | translate }}</h5>
             <span class="badge badge-soft-primary">{{ state.totalRecords }} {{ 'common.total' | translate }}</span>
-            <span class="badge badge-soft-warning" *ngIf="unreadOnPage() > 0">
-              {{ unreadOnPage() }} {{ 'common.unread' | translate }}
-            </span>
+            @if (unreadOnPage() > 0) {
+              <span class="badge badge-soft-warning">
+                {{ unreadOnPage() }} {{ 'common.unread' | translate }}
+              </span>
+            }
           </div>
           <div class="d-flex align-items-center gap-2">
             <button type="button" class="btn btn-sm btn-soft-primary" [routerLink]="['/notifications/send']">
@@ -41,7 +43,9 @@
         </div>
       </div>
 
-      <div class="alert alert-danger m-3" role="alert" *ngIf="error">{{ error }}</div>
+      @if (error) {
+        <div class="alert alert-danger m-3" role="alert">{{ error }}</div>
+      }
 
       <div class="table-responsive">
         <table class="table table-centered table-nowrap mb-0">
@@ -58,36 +62,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="loading && state.rows.length === 0">
-              <td colspan="8" class="text-center text-muted py-4">
-                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-                {{ 'notification.list.loading' | translate }}
-              </td>
-            </tr>
-            <ng-container *ngIf="!(loading && state.rows.length === 0)">
-              <tr *ngFor="let row of state.rows; let i = index" class="notif-row"
-                [class.notif-unread]="isUnread(row)" (click)="onRowClick(row)"
-                [title]="isUnread(row) ? ('notification.list.clickToMarkRead' | translate) : ''">
-                <td>{{ state.startIndex + i }}</td>
-                <td>{{ row.id }}</td>
-                <td class="text-truncate" style="max-width: 180px;"
-                  [class.notif-unread-title]="isUnread(row)"
+            @if (loading && state.rows.length === 0) {
+              <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                  {{ 'notification.list.loading' | translate }}
+                </td>
+              </tr>
+            }
+            @if (!(loading && state.rows.length === 0)) {
+              @for (row of state.rows; track row; let i = $index) {
+                <tr class="notif-row"
+                  [class.notif-unread]="isUnread(row)" (click)="onRowClick(row)"
+                  [title]="isUnread(row) ? ('notification.list.clickToMarkRead' | translate) : ''">
+                  <td>{{ state.startIndex + i }}</td>
+                  <td>{{ row.id }}</td>
+                  <td class="text-truncate" style="max-width: 180px;"
+                    [class.notif-unread-title]="isUnread(row)"
                   [title]="title(row)">{{ title(row) }}</td>
-                <td style="max-width: 280px;">
-                  <span class="text-truncate d-inline-block" style="max-width: 260px;"
+                  <td style="max-width: 280px;">
+                    <span class="text-truncate d-inline-block" style="max-width: 260px;"
                     [title]="row.message">{{ row.message || '—' }}</span>
-                </td>
-                <td>
-                  <span class="badge" [ngClass]="badge(row.type).class">{{ badge(row.type).label }}</span>
-                </td>
-                <td>{{ row.channel || '—' }}</td>
-                <td>{{ row.targetType || '—' }}</td>
-                <td>{{ row.createdAt ? (row.createdAt | date: 'medium') : '—' }}</td>
-              </tr>
-              <tr *ngIf="!loading && !error && state.rows.length === 0">
-                <td colspan="8" class="text-center text-muted py-4">{{ 'notification.list.empty' | translate }}</td>
-              </tr>
-            </ng-container>
+                  </td>
+                  <td>
+                    <span class="badge" [ngClass]="badge(row.type).class">{{ badge(row.type).label }}</span>
+                  </td>
+                  <td>{{ row.channel || '—' }}</td>
+                  <td>{{ row.targetType || '—' }}</td>
+                  <td>{{ row.createdAt ? (row.createdAt | date: 'medium') : '—' }}</td>
+                </tr>
+              }
+              @if (!loading && !error && state.rows.length === 0) {
+                <tr>
+                  <td colspan="8" class="text-center text-muted py-4">{{ 'notification.list.empty' | translate }}</td>
+                </tr>
+              }
+            }
           </tbody>
         </table>
       </div>
@@ -98,13 +108,17 @@
             <span class="text-muted">{{ 'notification.list.range' | translate:{ start: state.startIndex, end: state.endIndex, total: state.totalRecords } }}</span>
             <select name="notifPageSize" class="form-select form-select-sm d-inline-block w-auto ms-2"
               [ngModel]="state.pageSize" (ngModelChange)="onPageSizeChange($event)">
-              <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
+              @for (size of pageSizes; track size) {
+                <option [ngValue]="size">{{ size }}</option>
+              }
             </select>
           </div>
-          <ngb-pagination *ngIf="state.totalRecords > state.pageSize" [collectionSize]="state.totalRecords"
-            [page]="state.page" [pageSize]="state.pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
-            (pageChange)="onPageChange($event)">
-          </ngb-pagination>
+          @if (state.totalRecords > state.pageSize) {
+            <ngb-pagination [collectionSize]="state.totalRecords"
+              [page]="state.page" [pageSize]="state.pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+              (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+          }
         </div>
       </div>
     </div>

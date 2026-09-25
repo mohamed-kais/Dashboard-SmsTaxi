@@ -1,46 +1,52 @@
-<div class="wa-chat" *ngIf="conversation">
-  <div class="wa-chat__header">
-    <button type="button" class="btn btn-sm btn-soft-secondary wa-chat__back" (click)="onBack()" [title]="'whatsapp.chat.backToDiscussions' | translate">
-      <i class="bx bx-arrow-back"></i>
-    </button>
-    <div class="wa-avatar wa-avatar--header" [style.background]="headerAvatarColor">
-      {{ headerInitials }}
-    </div>
-    <div class="wa-chat__header-info">
-      <span class="wa-chat__header-name">{{ headerName }}</span>
-      <span class="wa-chat__header-phone">{{ conversation.waId }}</span>
-    </div>
-    <span class="badge badge-soft-danger ms-auto" *ngIf="!connected">{{ 'whatsapp.chat.offline' | translate }}</span>
-  </div>
-
-  <div class="wa-chat__body" #scrollContainer>
-    <div class="wa-chat__loading" *ngIf="loading">
-      <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-      {{ 'whatsapp.chat.loading' | translate }}
-    </div>
-
-    <ng-container *ngFor="let group of groupedMessages; trackBy: trackByGroup">
-      <div class="wa-date-separator">
-        <span>{{ group.label }}</span>
+@if (conversation) {
+  <div class="wa-chat">
+    <div class="wa-chat__header">
+      <button type="button" class="btn btn-sm btn-soft-secondary wa-chat__back" (click)="onBack()" [title]="'whatsapp.chat.backToDiscussions' | translate">
+        <i class="bx bx-arrow-back"></i>
+      </button>
+      <div class="wa-avatar wa-avatar--header" [style.background]="headerAvatarColor">
+        {{ headerInitials }}
       </div>
-      <app-message-bubble
-        *ngFor="let message of group.messages; trackBy: trackByMessageId"
-        [message]="message">
-      </app-message-bubble>
-    </ng-container>
-
-    <div class="wa-chat__empty" *ngIf="!loading && messages.length === 0">
-      {{ 'whatsapp.chat.empty' | translate }}
+      <div class="wa-chat__header-info">
+        <span class="wa-chat__header-name">{{ headerName }}</span>
+        <span class="wa-chat__header-phone">{{ conversation.waId }}</span>
+      </div>
+      @if (!connected) {
+        <span class="badge badge-soft-danger ms-auto">{{ 'whatsapp.chat.offline' | translate }}</span>
+      }
     </div>
+    <div class="wa-chat__body" #scrollContainer>
+      @if (loading) {
+        <div class="wa-chat__loading">
+          <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+          {{ 'whatsapp.chat.loading' | translate }}
+        </div>
+      }
+      @for (group of groupedMessages; track trackByGroup($index, group)) {
+        <div class="wa-date-separator">
+          <span>{{ group.label }}</span>
+        </div>
+        @for (message of group.messages; track trackByMessageId($index, message)) {
+          <app-message-bubble
+            [message]="message">
+          </app-message-bubble>
+        }
+      }
+      @if (!loading && messages.length === 0) {
+        <div class="wa-chat__empty">
+          {{ 'whatsapp.chat.empty' | translate }}
+        </div>
+      }
+    </div>
+    @if (errorMessage) {
+      <div class="alert alert-danger wa-chat__error" role="alert">
+        {{ errorMessage }}
+      </div>
+    }
+    <app-message-input
+      [conversation]="conversation"
+      (sent)="onSent($event)"
+      (sendError)="onSendError()">
+    </app-message-input>
   </div>
-
-  <div class="alert alert-danger wa-chat__error" role="alert" *ngIf="errorMessage">
-    {{ errorMessage }}
-  </div>
-
-  <app-message-input
-    [conversation]="conversation"
-    (sent)="onSent($event)"
-    (sendError)="onSendError()">
-  </app-message-input>
-</div>
+}

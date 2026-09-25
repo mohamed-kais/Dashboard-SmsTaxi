@@ -4,8 +4,12 @@
 <div class="stepper-header">
   <div class="step-item" [class.done]="step > 1" [class.active]="step === 1">
     <span class="step-circle">
-      <i *ngIf="step > 1" class="fas fa-check"></i>
-      <span *ngIf="step <= 1">1</span>
+      @if (step > 1) {
+        <i class="fas fa-check"></i>
+      }
+      @if (step <= 1) {
+        <span>1</span>
+      }
     </span>
     <span class="step-label">{{ 'sendNotif.stepContenu' | translate }}</span>
   </div>
@@ -17,287 +21,321 @@
 </div>
 
 <!-- ============================================================ Step 1 — Contenu -->
-<div class="row" *ngIf="step === 1">
-  <div class="col-lg-8">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-0">{{ 'sendNotif.step1.title' | translate }}</h5>
-      </div>
-      <div class="card-body">
-        <form [formGroup]="form" novalidate>
-          <div class="mb-3">
-            <label class="form-label" for="notif-title">{{ 'sendNotif.step1.titleLabel' | translate }} <span class="text-danger">*</span></label>
-            <input type="text" id="notif-title" class="form-control" formControlName="title"
-              [placeholder]="'sendNotif.titlePlaceholder' | translate"
-              [class.is-invalid]="step1Submitted && f.title.errors" />
-            <div class="invalid-feedback" *ngIf="step1Submitted && f.title.errors?.required">
-              {{ 'sendNotif.step1.titleRequired' | translate }}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label" for="notif-channel">{{ 'sendNotif.step1.channelLabel' | translate }} <span class="text-danger">*</span></label>
-              <select id="notif-channel" class="form-select" formControlName="channel">
-                <option *ngFor="let c of channels" [value]="c.value">{{ c.label }}</option>
-              </select>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" for="notif-type">{{ 'common.type' | translate }} <span class="text-danger">*</span></label>
-              <select id="notif-type" class="form-select" formControlName="type">
-                <option *ngFor="let t of types" [value]="t">{{ t }}</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="notif-message">{{ 'sendNotif.step1.messageLabel' | translate }} <span class="text-danger">*</span></label>
-            <div class="message-wrap">
-              <textarea id="notif-message" class="form-control" formControlName="message" rows="5"
-                [placeholder]="'sendNotif.messagePlaceholder' | translate" [class.is-invalid]="step1Submitted && f.message.errors"></textarea>
-              <span class="message-counter"><span>{{ messageValue.length }}</span></span>
-            </div>
-            <div class="invalid-feedback d-block" *ngIf="step1Submitted && f.message.errors?.required">
-              {{ 'sendNotif.step1.messageRequired' | translate }}
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" (click)="goToStep2()">
-              {{ 'sendNotif.step1.next' | translate }} <i class="fas fa-arrow-right ms-1"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Live preview panel -->
-  <div class="col-lg-4">
-    <div class="card preview-card">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-eye me-1"></i> {{ 'sendNotif.previewTitle' | translate }}</span>
-        <span class="live-chip"><span class="live-dot"></span> {{ 'sendNotif.live' | translate }}</span>
-      </div>
-      <div class="card-body">
-        <div class="phone">
-          <div class="phone-head">
-            <span class="phone-sender"><i class="fas fa-taxi me-1"></i> {{ 'sendNotif.smsTaxi' | translate }}</span>
-            <span class="phone-time">{{ now | date:'HH:mm' }}</span>
-          </div>
-          <div class="phone-type">
-            <i [ngClass]="[typeIcon(typeValue), 'type-icon--' + typeValue.toLowerCase()]"></i>
-            <span class="type-badge" [ngClass]="'type-badge--' + typeValue.toLowerCase()">{{ typeValue }}</span>
-          </div>
-          <div class="phone-title" [class.text-muted]="!titleValue.trim()">
-            {{ titleValue.trim() || ('sendNotif.titlePlaceholder' | translate) }}
-          </div>
-          <p class="phone-message" [class.text-muted]="!messageValue.trim()">
-            {{ messageValue.trim() || ('sendNotif.messageFallback' | translate) }}
-          </p>
-          <div class="phone-channel">
-            <i [ngClass]="channelIcon(channelValue)"></i>
-            <span class="ms-1">{{ channelLabel(channelValue) }}</span>
-          </div>
+@if (step === 1) {
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{ 'sendNotif.step1.title' | translate }}</h5>
         </div>
-        <p class="preview-hint">
-          <i class="fas fa-lightbulb me-1"></i>
-          {{ 'sendNotif.previewHint' | translate }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================ Step 2 — Destinataires -->
-<div class="row" *ngIf="step === 2">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-0">{{ 'sendNotif.step2.title' | translate }}</h5>
-      </div>
-      <div class="card-body">
-        <!-- Tabs row -->
-        <ul class="nav nav-tabs recipient-tabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'TAXI'" (click)="setTab('TAXI')">
-              <i class="fas fa-taxi me-1"></i> {{ 'sendNotif.tabTaxis' | translate }}
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'CLIENT'" (click)="setTab('CLIENT')">
-              <i class="fas fa-users me-1"></i> {{ 'sendNotif.tabClients' | translate }}
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'ADMIN'" (click)="setTab('ADMIN')">
-              <i class="fas fa-user-shield me-1"></i> {{ 'sendNotif.tabDashboard' | translate }}
-            </button>
-          </li>
-        </ul>
-
-        <!-- Toolbar (pickers only) -->
-        <div class="row g-2 align-items-center mt-3" *ngIf="activeTab !== 'ADMIN'">
-          <div class="col-md-7">
-            <div class="search-wrap">
-              <input type="text" class="form-control" [placeholder]="'sendNotif.searchPlaceholder' | translate"
-                [formControl]="searchControl" />
-              <button *ngIf="searchControl.value" type="button" class="btn btn-link search-clear"
-                (click)="clearSearch()" [attr.aria-label]="'sendNotif.clearSearchLabel' | translate">
-                <i class="fas fa-times"></i>
+        <div class="card-body">
+          <form [formGroup]="form" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="notif-title">{{ 'sendNotif.step1.titleLabel' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" id="notif-title" class="form-control" formControlName="title"
+                [placeholder]="'sendNotif.titlePlaceholder' | translate"
+                [class.is-invalid]="step1Submitted && f.title.errors" />
+              @if (step1Submitted && f.title.errors?.required) {
+                <div class="invalid-feedback">
+                  {{ 'sendNotif.step1.titleRequired' | translate }}
+                </div>
+              }
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label" for="notif-channel">{{ 'sendNotif.step1.channelLabel' | translate }} <span class="text-danger">*</span></label>
+                <select id="notif-channel" class="form-select" formControlName="channel">
+                  @for (c of channels; track c) {
+                    <option [value]="c.value">{{ c.label }}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label" for="notif-type">{{ 'common.type' | translate }} <span class="text-danger">*</span></label>
+                <select id="notif-type" class="form-select" formControlName="type">
+                  @for (t of types; track t) {
+                    <option [value]="t">{{ t }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="notif-message">{{ 'sendNotif.step1.messageLabel' | translate }} <span class="text-danger">*</span></label>
+              <div class="message-wrap">
+                <textarea id="notif-message" class="form-control" formControlName="message" rows="5"
+                [placeholder]="'sendNotif.messagePlaceholder' | translate" [class.is-invalid]="step1Submitted && f.message.errors"></textarea>
+                <span class="message-counter"><span>{{ messageValue.length }}</span></span>
+              </div>
+              @if (step1Submitted && f.message.errors?.required) {
+                <div class="invalid-feedback d-block">
+                  {{ 'sendNotif.step1.messageRequired' | translate }}
+                </div>
+              }
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-primary" (click)="goToStep2()">
+                {{ 'sendNotif.step1.next' | translate }} <i class="fas fa-arrow-right ms-1"></i>
               </button>
             </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Live preview panel -->
+    <div class="col-lg-4">
+      <div class="card preview-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="fas fa-eye me-1"></i> {{ 'sendNotif.previewTitle' | translate }}</span>
+          <span class="live-chip"><span class="live-dot"></span> {{ 'sendNotif.live' | translate }}</span>
+        </div>
+        <div class="card-body">
+          <div class="phone">
+            <div class="phone-head">
+              <span class="phone-sender"><i class="fas fa-taxi me-1"></i> {{ 'sendNotif.smsTaxi' | translate }}</span>
+              <span class="phone-time">{{ now | date:'HH:mm' }}</span>
+            </div>
+            <div class="phone-type">
+              <i [ngClass]="[typeIcon(typeValue), 'type-icon--' + typeValue.toLowerCase()]"></i>
+              <span class="type-badge" [ngClass]="'type-badge--' + typeValue.toLowerCase()">{{ typeValue }}</span>
+            </div>
+            <div class="phone-title" [class.text-muted]="!titleValue.trim()">
+              {{ titleValue.trim() || ('sendNotif.titlePlaceholder' | translate) }}
+            </div>
+            <p class="phone-message" [class.text-muted]="!messageValue.trim()">
+              {{ messageValue.trim() || ('sendNotif.messageFallback' | translate) }}
+            </p>
+            <div class="phone-channel">
+              <i [ngClass]="channelIcon(channelValue)"></i>
+              <span class="ms-1">{{ channelLabel(channelValue) }}</span>
+            </div>
           </div>
-          <div class="col-md-5 text-md-end">
-            <button type="button" class="btn btn-outline-primary" (click)="toggleSelectAll(activePicker)">
-              <i [ngClass]="activePicker.selectAll ? 'fas fa-check-double' : 'fas fa-list'" class="me-1"></i>
-              {{ activePicker.selectAll ? ('sendNotif.deselectAll' | translate) : ('sendNotif.selectAll' | translate) }}
-            </button>
-          </div>
+          <p class="preview-hint">
+            <i class="fas fa-lightbulb me-1"></i>
+            {{ 'sendNotif.previewHint' | translate }}
+          </p>
         </div>
-
-        <!-- Selection badge -->
-        <div class="selection-badge mt-3">
-          <i class="fas fa-users me-1"></i> {{ selectionLabel() }}
-        </div>
-
-        <div class="alert alert-danger mt-3 mb-0" *ngIf="activeTab !== 'ADMIN' && activePicker.error">
-          {{ activePicker.error }}
-        </div>
-
-        <!-- Taxis table -->
-        <div class="table-responsive mt-3" *ngIf="activeTab === 'TAXI'">
-          <table class="table table-centered align-middle mb-0">
-            <thead>
-              <tr>
-                <th style="width: 40px;">
-                  <input type="checkbox" class="form-check-input" [checked]="taxis.selectAll"
-                    (click)="$event.stopPropagation(); toggleSelectAll(taxis)" [attr.aria-label]="'sendNotif.selectAll' | translate" />
-                </th>
-                <th>{{ 'sendNotif.tableId' | translate }}</th>
-                <th>{{ 'sendNotif.tableFullName' | translate }}</th>
-                <th>{{ 'sendNotif.tablePhone' | translate }}</th>
-                <th>{{ 'sendNotif.tableRegistrationNumber' | translate }}</th>
-                <th>{{ 'sendNotif.tablePlateNumber' | translate }}</th>
-                <th>{{ 'sendNotif.tableStatus' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of taxis.rows; trackBy: trackById" (click)="toggleRow(taxis, row.id)"
-                [class.row-selected]="isSelected(taxis, row.id)">
-                <td (click)="$event.stopPropagation()">
-                  <input type="checkbox" class="form-check-input" [checked]="isSelected(taxis, row.id)"
-                    [disabled]="taxis.selectAll" (click)="$event.stopPropagation(); toggleRow(taxis, row.id)"
-                    [attr.aria-label]="'sendNotif.selectTaxi' | translate:{ id: row.id }" />
-                </td>
-                <td>{{ row.id }}</td>
-                <td class="fw-medium">{{ row.nom || '—' }}</td>
-                <td>{{ row.telephone || '—' }}</td>
-                <td>{{ row.numeroMatricule || '—' }}</td>
-                <td>{{ row.numeroTaxi || '—' }}</td>
-                <td>
-                  <span class="badge mb-0" [ngClass]="taxiBadge(row.taxiStatus).class">
-                    {{ taxiBadge(row.taxiStatus).label }}
-                  </span>
-                </td>
-              </tr>
-              <tr *ngIf="!taxis.loading && !taxis.error && taxis.rows.length === 0">
-                <td colspan="7" class="text-center text-muted py-4">{{ 'sendNotif.step2.noTaxis' | translate }}</td>
-              </tr>
-              <tr *ngIf="taxis.loading">
-                <td colspan="7" class="text-center py-4">
-                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'sendNotif.loading' | translate }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Clients table -->
-        <div class="table-responsive mt-3" *ngIf="activeTab === 'CLIENT'">
-          <table class="table table-centered align-middle mb-0">
-            <thead>
-              <tr>
-                <th style="width: 40px;">
-                  <input type="checkbox" class="form-check-input" [checked]="clients.selectAll"
-                    (click)="$event.stopPropagation(); toggleSelectAll(clients)" [attr.aria-label]="'sendNotif.selectAll' | translate" />
-                </th>
-                <th>{{ 'sendNotif.tableId' | translate }}</th>
-                <th>{{ 'sendNotif.tableFullName' | translate }}</th>
-                <th>{{ 'sendNotif.tablePhone' | translate }}</th>
-                <th>{{ 'common.email' | translate }}</th>
-                <th>{{ 'sendNotif.tableState' | translate }}</th>
-                <th>{{ 'common.type' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of clients.rows; trackBy: trackById" (click)="toggleRow(clients, row.id)"
-                [class.row-selected]="isSelected(clients, row.id)">
-                <td (click)="$event.stopPropagation()">
-                  <input type="checkbox" class="form-check-input" [checked]="isSelected(clients, row.id)"
-                    [disabled]="clients.selectAll" (click)="$event.stopPropagation(); toggleRow(clients, row.id)"
-                    [attr.aria-label]="'sendNotif.selectClient' | translate:{ id: row.id }" />
-                </td>
-                <td>{{ row.id }}</td>
-                <td class="fw-medium">{{ row.nom || '—' }}</td>
-                <td>{{ row.telephone || '—' }}</td>
-                <td>{{ row.email || '—' }}</td>
-                <td>
-                  <span class="badge mb-0" [ngClass]="clientBadge(row).class">
-                    {{ clientBadge(row).label }}
-                  </span>
-                </td>
-                <td>{{ row.type || '—' }}</td>
-              </tr>
-              <tr *ngIf="!clients.loading && !clients.error && clients.rows.length === 0">
-                <td colspan="7" class="text-center text-muted py-4">{{ 'sendNotif.step2.noClients' | translate }}</td>
-              </tr>
-              <tr *ngIf="clients.loading">
-                <td colspan="7" class="text-center py-4">
-                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'sendNotif.loading' | translate }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Admin tab info panel (no table — backend takes targetIds ["ALL"]) -->
-        <div class="alert alert-info d-flex align-items-center mt-3 mb-0" *ngIf="activeTab === 'ADMIN'">
-          <i class="fas fa-user-shield me-2"></i>
-          {{ 'sendNotif.adminInfo' | translate }}
-        </div>
-
-        <!-- Pagination (pickers only) -->
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3"
-          *ngIf="activeTab !== 'ADMIN'">
-          <div class="d-flex align-items-center gap-2">
-            <select class="form-select form-select-sm w-auto" [value]="activePicker.pageSize"
-              (change)="onPageSizeChange($any($event.target).value)" [attr.aria-label]="'sendNotif.rowsPerPage' | translate">
-              <option *ngFor="let s of pageSizes" [value]="s">{{ s }}</option>
-            </select>
-            <span class="text-muted small">{{ 'sendNotif.rowsPerPage' | translate }}</span>
-          </div>
-          <div class="text-muted small">
-            {{ 'sendNotif.pagination' | translate:{ page: activePicker.page, pages: totalPagesOf(activePicker), total: activePicker.totalRecords } }}
-          </div>
-          <ngb-pagination [collectionSize]="activePicker.totalRecords" [page]="activePicker.page"
-            [pageSize]="activePicker.pageSize" [maxSize]="5" [rotate]="true"
-            (pageChange)="onPageChange($event)"></ngb-pagination>
-        </div>
-
-        <!-- Footer buttons -->
-        <div class="d-flex justify-content-between mt-3">
-          <button type="button" class="btn btn-light" (click)="goToStep1()" [disabled]="sending">
-            <i class="fas fa-arrow-left me-1"></i> {{ 'sendNotif.backButton' | translate }}
-          </button>
-          <button type="button" class="btn btn-primary" (click)="send()" [disabled]="!canSend || sending">
-            <span class="spinner-border spinner-border-sm me-1" *ngIf="sending"></span>
-            <i *ngIf="!sending" class="fas fa-paper-plane me-1"></i>
-            {{ sending ? ('sendNotif.sending' | translate) : ('sendNotif.sendButton' | translate) }}
-          </button>
-        </div>
-        <div class="alert alert-danger mt-3 mb-0" *ngIf="sendError">{{ sendError }}</div>
       </div>
     </div>
   </div>
-</div>
+}
+
+<!-- ============================================================ Step 2 — Destinataires -->
+@if (step === 2) {
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{ 'sendNotif.step2.title' | translate }}</h5>
+        </div>
+        <div class="card-body">
+          <!-- Tabs row -->
+          <ul class="nav nav-tabs recipient-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" [class.active]="activeTab === 'TAXI'" (click)="setTab('TAXI')">
+                <i class="fas fa-taxi me-1"></i> {{ 'sendNotif.tabTaxis' | translate }}
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" [class.active]="activeTab === 'CLIENT'" (click)="setTab('CLIENT')">
+                <i class="fas fa-users me-1"></i> {{ 'sendNotif.tabClients' | translate }}
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" [class.active]="activeTab === 'ADMIN'" (click)="setTab('ADMIN')">
+                <i class="fas fa-user-shield me-1"></i> {{ 'sendNotif.tabDashboard' | translate }}
+              </button>
+            </li>
+          </ul>
+          <!-- Toolbar (pickers only) -->
+          @if (activeTab !== 'ADMIN') {
+            <div class="row g-2 align-items-center mt-3">
+              <div class="col-md-7">
+                <div class="search-wrap">
+                  <input type="text" class="form-control" [placeholder]="'sendNotif.searchPlaceholder' | translate"
+                    [formControl]="searchControl" />
+                  @if (searchControl.value) {
+                    <button type="button" class="btn btn-link search-clear"
+                      (click)="clearSearch()" [attr.aria-label]="'sendNotif.clearSearchLabel' | translate">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  }
+                </div>
+              </div>
+              <div class="col-md-5 text-md-end">
+                <button type="button" class="btn btn-outline-primary" (click)="toggleSelectAll(activePicker)">
+                  <i [ngClass]="activePicker.selectAll ? 'fas fa-check-double' : 'fas fa-list'" class="me-1"></i>
+                  {{ activePicker.selectAll ? ('sendNotif.deselectAll' | translate) : ('sendNotif.selectAll' | translate) }}
+                </button>
+              </div>
+            </div>
+          }
+          <!-- Selection badge -->
+          <div class="selection-badge mt-3">
+            <i class="fas fa-users me-1"></i> {{ selectionLabel() }}
+          </div>
+          @if (activeTab !== 'ADMIN' && activePicker.error) {
+            <div class="alert alert-danger mt-3 mb-0">
+              {{ activePicker.error }}
+            </div>
+          }
+          <!-- Taxis table -->
+          @if (activeTab === 'TAXI') {
+            <div class="table-responsive mt-3">
+              <table class="table table-centered align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">
+                      <input type="checkbox" class="form-check-input" [checked]="taxis.selectAll"
+                        (click)="$event.stopPropagation(); toggleSelectAll(taxis)" [attr.aria-label]="'sendNotif.selectAll' | translate" />
+                    </th>
+                    <th>{{ 'sendNotif.tableId' | translate }}</th>
+                    <th>{{ 'sendNotif.tableFullName' | translate }}</th>
+                    <th>{{ 'sendNotif.tablePhone' | translate }}</th>
+                    <th>{{ 'sendNotif.tableRegistrationNumber' | translate }}</th>
+                    <th>{{ 'sendNotif.tablePlateNumber' | translate }}</th>
+                    <th>{{ 'sendNotif.tableStatus' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of taxis.rows; track trackById($index, row)) {
+                    <tr (click)="toggleRow(taxis, row.id)"
+                      [class.row-selected]="isSelected(taxis, row.id)">
+                      <td (click)="$event.stopPropagation()">
+                        <input type="checkbox" class="form-check-input" [checked]="isSelected(taxis, row.id)"
+                          [disabled]="taxis.selectAll" (click)="$event.stopPropagation(); toggleRow(taxis, row.id)"
+                          [attr.aria-label]="'sendNotif.selectTaxi' | translate:{ id: row.id }" />
+                      </td>
+                      <td>{{ row.id }}</td>
+                      <td class="fw-medium">{{ row.nom || '—' }}</td>
+                      <td>{{ row.telephone || '—' }}</td>
+                      <td>{{ row.numeroMatricule || '—' }}</td>
+                      <td>{{ row.numeroTaxi || '—' }}</td>
+                      <td>
+                        <span class="badge mb-0" [ngClass]="taxiBadge(row.taxiStatus).class">
+                          {{ taxiBadge(row.taxiStatus).label }}
+                        </span>
+                      </td>
+                    </tr>
+                  }
+                  @if (!taxis.loading && !taxis.error && taxis.rows.length === 0) {
+                    <tr>
+                      <td colspan="7" class="text-center text-muted py-4">{{ 'sendNotif.step2.noTaxis' | translate }}</td>
+                    </tr>
+                  }
+                  @if (taxis.loading) {
+                    <tr>
+                      <td colspan="7" class="text-center py-4">
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'sendNotif.loading' | translate }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+          <!-- Clients table -->
+          @if (activeTab === 'CLIENT') {
+            <div class="table-responsive mt-3">
+              <table class="table table-centered align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">
+                      <input type="checkbox" class="form-check-input" [checked]="clients.selectAll"
+                        (click)="$event.stopPropagation(); toggleSelectAll(clients)" [attr.aria-label]="'sendNotif.selectAll' | translate" />
+                    </th>
+                    <th>{{ 'sendNotif.tableId' | translate }}</th>
+                    <th>{{ 'sendNotif.tableFullName' | translate }}</th>
+                    <th>{{ 'sendNotif.tablePhone' | translate }}</th>
+                    <th>{{ 'common.email' | translate }}</th>
+                    <th>{{ 'sendNotif.tableState' | translate }}</th>
+                    <th>{{ 'common.type' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of clients.rows; track trackById($index, row)) {
+                    <tr (click)="toggleRow(clients, row.id)"
+                      [class.row-selected]="isSelected(clients, row.id)">
+                      <td (click)="$event.stopPropagation()">
+                        <input type="checkbox" class="form-check-input" [checked]="isSelected(clients, row.id)"
+                          [disabled]="clients.selectAll" (click)="$event.stopPropagation(); toggleRow(clients, row.id)"
+                          [attr.aria-label]="'sendNotif.selectClient' | translate:{ id: row.id }" />
+                      </td>
+                      <td>{{ row.id }}</td>
+                      <td class="fw-medium">{{ row.nom || '—' }}</td>
+                      <td>{{ row.telephone || '—' }}</td>
+                      <td>{{ row.email || '—' }}</td>
+                      <td>
+                        <span class="badge mb-0" [ngClass]="clientBadge(row).class">
+                          {{ clientBadge(row).label }}
+                        </span>
+                      </td>
+                      <td>{{ row.type || '—' }}</td>
+                    </tr>
+                  }
+                  @if (!clients.loading && !clients.error && clients.rows.length === 0) {
+                    <tr>
+                      <td colspan="7" class="text-center text-muted py-4">{{ 'sendNotif.step2.noClients' | translate }}</td>
+                    </tr>
+                  }
+                  @if (clients.loading) {
+                    <tr>
+                      <td colspan="7" class="text-center py-4">
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>{{ 'sendNotif.loading' | translate }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+          <!-- Admin tab info panel (no table — backend takes targetIds ["ALL"]) -->
+          @if (activeTab === 'ADMIN') {
+            <div class="alert alert-info d-flex align-items-center mt-3 mb-0">
+              <i class="fas fa-user-shield me-2"></i>
+              {{ 'sendNotif.adminInfo' | translate }}
+            </div>
+          }
+          <!-- Pagination (pickers only) -->
+          @if (activeTab !== 'ADMIN') {
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3"
+              >
+              <div class="d-flex align-items-center gap-2">
+                <select class="form-select form-select-sm w-auto" [value]="activePicker.pageSize"
+                  (change)="onPageSizeChange($any($event.target).value)" [attr.aria-label]="'sendNotif.rowsPerPage' | translate">
+                  @for (s of pageSizes; track s) {
+                    <option [value]="s">{{ s }}</option>
+                  }
+                </select>
+                <span class="text-muted small">{{ 'sendNotif.rowsPerPage' | translate }}</span>
+              </div>
+              <div class="text-muted small">
+                {{ 'sendNotif.pagination' | translate:{ page: activePicker.page, pages: totalPagesOf(activePicker), total: activePicker.totalRecords } }}
+              </div>
+              <ngb-pagination [collectionSize]="activePicker.totalRecords" [page]="activePicker.page"
+                [pageSize]="activePicker.pageSize" [maxSize]="5" [rotate]="true"
+              (pageChange)="onPageChange($event)"></ngb-pagination>
+            </div>
+          }
+          <!-- Footer buttons -->
+          <div class="d-flex justify-content-between mt-3">
+            <button type="button" class="btn btn-light" (click)="goToStep1()" [disabled]="sending">
+              <i class="fas fa-arrow-left me-1"></i> {{ 'sendNotif.backButton' | translate }}
+            </button>
+            <button type="button" class="btn btn-primary" (click)="send()" [disabled]="!canSend || sending">
+              @if (sending) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              }
+              @if (!sending) {
+                <i class="fas fa-paper-plane me-1"></i>
+              }
+              {{ sending ? ('sendNotif.sending' | translate) : ('sendNotif.sendButton' | translate) }}
+            </button>
+          </div>
+          @if (sendError) {
+            <div class="alert alert-danger mt-3 mb-0">{{ sendError }}</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
