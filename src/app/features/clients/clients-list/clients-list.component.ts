@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
@@ -17,6 +17,10 @@ import {
 import { OFFRE_STATUS, StatusBadge, statusBadge } from '../../../core/constants/status-badges';
 import { apiErrorMessage } from '../clients.constants';
 import { ClientFormComponent } from '../client-form/client-form.component';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { FormsModule } from '@angular/forms';
+import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 /**
  * Clients list (plan §5.3) — searchable/sortable/paginated table built from the
@@ -30,7 +34,7 @@ import { ClientFormComponent } from '../client-form/client-form.component';
     selector: 'app-clients-list',
     templateUrl: './clients-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, NgbdSortableHeader, NgClass, RouterLink, NgbPagination, AsyncPipe, DatePipe, TranslatePipe]
 })
 export class ClientsListComponent implements OnInit, OnDestroy {
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;

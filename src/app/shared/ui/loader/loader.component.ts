@@ -5,8 +5,7 @@ import { LoaderService } from "../../../core/services/loader.service";
     selector: 'app-loader',
     templateUrl: './loader.component.html',
     styleUrls: ['./loader.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class LoaderComponent implements OnInit {
 

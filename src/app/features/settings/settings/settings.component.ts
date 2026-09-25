@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import {
   AirportPricingConfigRequest,
@@ -9,6 +9,8 @@ import {
 import { SurchargeType } from '../../../core/models/common.model';
 import { ConfigService } from '../../../core/services/config.service';
 import { SURCHARGE_TYPES, apiErrorMessage } from '../settings.constants';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLink, NgbNavLinkBase, NgbNavContent, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Settings page (plan §5.9) — two NgbNav tabs backed by reactive forms:
@@ -30,7 +32,7 @@ import { SURCHARGE_TYPES, apiErrorMessage } from '../settings.constants';
     selector: 'app-settings',
     templateUrl: './settings.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLink, NgbNavLinkBase, NgbNavContent, FormsModule, ReactiveFormsModule, NgbNavOutlet, TranslatePipe]
 })
 export class SettingsComponent implements OnInit {
   breadCrumbItems: { label: string; active: boolean }[] = [

@@ -17,6 +17,8 @@ import {
   WhatsAppMedia,
 } from '../../../../core/models/chat.model';
 import { environment } from '../../../../../environments/environment';
+import { NgClass, DatePipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 const MEDIA_TYPES = new Set(['IMAGE', 'VIDEO', 'AUDIO', 'DOCUMENT', 'STICKER']);
 
@@ -25,7 +27,7 @@ const MEDIA_TYPES = new Set(['IMAGE', 'VIDEO', 'AUDIO', 'DOCUMENT', 'STICKER']);
     templateUrl: './message-bubble.component.html',
     styleUrls: ['./message-bubble.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [NgClass, DatePipe, TranslatePipe]
 })
 export class MessageBubbleComponent implements OnChanges, OnDestroy {
   @Input() message!: ChatMessage;

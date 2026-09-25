@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject, forkJoin, of } from 'rxjs';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { RatingService } from '../../core/services/rating.service';
 import { Rating } from '../../core/models/rating.model';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { StatComponent } from '../../shared/widget/stat/stat.component';
+import { DatePipe } from '@angular/common';
 
 /**
  * Per-driver ratings detail: average + rating history.
@@ -18,7 +21,7 @@ import { Rating } from '../../core/models/rating.model';
     selector: 'app-driver-ratings',
     templateUrl: './driver-ratings.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, RouterLink, StatComponent, DatePipe, TranslatePipe]
 })
 export class DriverRatingsComponent implements OnInit, OnDestroy {
   readonly title = 'Driver ratings';

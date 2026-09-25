@@ -1,13 +1,17 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { TOPBAR } from "../layouts.model";
 import { EventService } from '../../core/services/event.service';
+import { HorizontaltopbarComponent } from '../horizontaltopbar/horizontaltopbar.component';
+import { RouterOutlet } from '@angular/router';
+import { FooterComponent } from '../footer/footer.component';
+import { RightsidebarComponent } from '../rightsidebar/rightsidebar.component';
 
 @Component({
     selector: 'app-horizontal',
     templateUrl: './horizontal.component.html',
     styleUrls: ['./horizontal.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HorizontaltopbarComponent, RouterOutlet, FooterComponent, RightsidebarComponent]
 })
 
 /**

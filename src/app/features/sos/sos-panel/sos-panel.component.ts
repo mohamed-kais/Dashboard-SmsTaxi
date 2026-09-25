@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { SosService } from '../../../core/services/sos.service';
 import { apiErrorMessage } from '../sos.constants';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
 
 /**
  * SOS / Alerts panel (plan §5.8).
@@ -23,7 +24,7 @@ import { apiErrorMessage } from '../sos.constants';
     selector: 'app-sos-panel',
     templateUrl: './sos-panel.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, ReactiveFormsModule, TranslatePipe]
 })
 export class SosPanelComponent implements OnInit {
   breadCrumbItems: { label: string; active: boolean }[] = [

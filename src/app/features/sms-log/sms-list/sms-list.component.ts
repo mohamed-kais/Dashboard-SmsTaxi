@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
@@ -16,6 +16,9 @@ import {
 } from '../../../core/utils/table-state';
 import { StatusBadge } from '../../../core/constants/status-badges';
 import { apiErrorMessage } from '../sms-log.constants';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { FormsModule } from '@angular/forms';
+import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
 
 /** View toggle: full log vs untreated only. */
 type SmsView = 'all' | 'untreated';
@@ -41,7 +44,7 @@ type SmsView = 'all' | 'untreated';
     selector: 'app-sms-list',
     templateUrl: './sms-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, NgbdSortableHeader, NgClass, NgbPagination, AsyncPipe, DatePipe, TranslatePipe]
 })
 export class SmsListComponent implements OnInit, OnDestroy {
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;

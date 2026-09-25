@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, debounceTime, finalize, map, switchMap } from 'rxjs/operators';
 
@@ -32,6 +32,9 @@ import {
 } from '../../core/models/taxi.model';
 import { TaxiStatusFilter } from './taxis.model';
 import { TaxiFormModalComponent } from './taxi-form-modal.component';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { NgClass, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 /** Phone-like check used to route a toolbar search into the criteria phone/name filter. */
 const PHONE_LIKE = /^[0-9+\-\s()]+$/;
@@ -51,7 +54,7 @@ const PHONE_LIKE = /^[0-9+\-\s()]+$/;
     selector: 'app-taxis-list',
     templateUrl: './taxis-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, ReactiveFormsModule, NgbdSortableHeader, NgClass, RouterLink, NgbPagination, AsyncPipe, TranslatePipe]
 })
 export class TaxisListComponent implements OnInit {
   readonly state: TableState<GetAllTaxisDtoResponse> = createTableState<GetAllTaxisDtoResponse>({

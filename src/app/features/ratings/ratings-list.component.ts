@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { RatingService } from '../../core/services/rating.service';
 import { TaxiRatingSummaryDto } from '../../core/models/rating.model';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { StatComponent } from '../../shared/widget/stat/stat.component';
 
 /**
  * Ratings home — driver lookup panel.
@@ -20,7 +22,7 @@ import { TaxiRatingSummaryDto } from '../../core/models/rating.model';
     selector: 'app-ratings-list',
     templateUrl: './ratings-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, ReactiveFormsModule, StatComponent, TranslatePipe]
 })
 export class RatingsListComponent implements OnInit, OnDestroy {
   readonly title = 'Ratings';

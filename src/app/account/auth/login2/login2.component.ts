@@ -1,21 +1,22 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthenticationService } from '../../../core/services/auth.service';
 import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
 
-import { OwlOptions } from 'ngx-owl-carousel-o';
-import { ActivatedRoute, Router } from '@angular/router';
+import { OwlOptions, CarouselModule } from 'ngx-owl-carousel-o';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-login2',
     templateUrl: './login2.component.html',
     styleUrls: ['./login2.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CarouselModule, RouterLink, FormsModule, ReactiveFormsModule, NgClass]
 })
 /**
  * Login-2 component

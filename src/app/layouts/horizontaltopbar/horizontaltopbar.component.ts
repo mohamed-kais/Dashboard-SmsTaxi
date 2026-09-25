@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Inject, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
 
@@ -12,13 +12,17 @@ import { AuthfakeauthenticationService } from '../../core/services/authfake.serv
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { environment } from '../../../environments/environment';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass } from '@angular/common';
+import { SimplebarAngularModule } from 'simplebar-angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-horizontaltopbar',
     templateUrl: './horizontaltopbar.component.html',
     styleUrls: ['./horizontaltopbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgClass, SimplebarAngularModule, RouterLinkActive, TranslatePipe]
 })
 
 /**

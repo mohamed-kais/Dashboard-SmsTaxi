@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ClientDto } from '../../../core/models/client.model';
 import { OffreDto, OffreHistoryPageDto } from '../../../core/models/offre.model';
@@ -9,6 +9,9 @@ import { ClientService } from '../../../core/services/client.service';
 import { OFFRE_STATUS, StatusBadge, statusBadge } from '../../../core/constants/status-badges';
 import { apiErrorMessage } from '../clients.constants';
 import { ClientFormComponent } from '../client-form/client-form.component';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { NgClass, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Client detail (plan §5.3) — route `clients/:id`, mounted under the lazy
@@ -22,7 +25,7 @@ import { ClientFormComponent } from '../client-form/client-form.component';
     selector: 'app-client-detail',
     templateUrl: './client-detail.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, RouterLink, NgClass, FormsModule, NgbPagination, DatePipe, TranslatePipe]
 })
 export class ClientDetailComponent implements OnInit {
   clientId: number | null = null;

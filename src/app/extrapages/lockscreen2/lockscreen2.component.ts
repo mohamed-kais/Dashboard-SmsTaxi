@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { OwlOptions, CarouselModule } from 'ngx-owl-carousel-o';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-lockscreen2',
     templateUrl: './lockscreen2.component.html',
     styleUrls: ['./lockscreen2.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CarouselModule, RouterLink]
 })
 export class Lockscreen2Component implements OnInit {
 

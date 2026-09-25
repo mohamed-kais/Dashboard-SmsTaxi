@@ -7,10 +7,10 @@ import {
   ViewChildren,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -36,6 +36,8 @@ import {
   SortEvent,
 } from '../../core/directives/sortable.directive';
 import { matches } from '../../core/utils/table-state';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { DatePipe } from '@angular/common';
 
 /** Table pipeline state (salvaged pattern: BehaviorSubject + switchMap + State). */
 interface ReservationsListState {
@@ -63,7 +65,7 @@ const DEFAULT_STATE: ReservationsListState = {
     selector: 'app-reservations-list',
     templateUrl: './reservations-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, NgbdSortableHeader, NgbPagination, ReactiveFormsModule, DatePipe, TranslatePipe]
 })
 export class ReservationsListComponent implements OnInit, OnDestroy {
   readonly title = 'Reservations';

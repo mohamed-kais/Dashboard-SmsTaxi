@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ChannelType } from '../../../core/models/common.model';
 import { ClientCreateDto, ClientDto } from '../../../core/models/client.model';
@@ -24,7 +24,7 @@ import { CLIENT_PHONE_PATTERN, CLIENT_TYPE_OPTIONS, apiErrorMessage } from '../c
     selector: 'app-client-form',
     templateUrl: './client-form.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, TranslatePipe]
 })
 export class ClientFormComponent implements OnInit {
   @Input() client: ClientDto | null = null;

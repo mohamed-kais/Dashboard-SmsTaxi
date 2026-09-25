@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NgbDateStruct, NgbInputDatepicker, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { OffreAdminDto, PageOffreAdminDto } from '../../../core/models/offre.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -17,6 +17,9 @@ import {
 import { NgbdSortableHeader, SortEvent } from '../../../core/directives/sortable.directive';
 import { TableState, createTableState } from '../../../core/utils/table-state';
 import { extractErrorMessage, ngbDateToParam } from '../feature.helpers';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { FormsModule } from '@angular/forms';
+import { NgClass, DatePipe } from '@angular/common';
 
 /**
  * Offers list — searchable / sortable / paginated admin table over
@@ -32,7 +35,7 @@ import { extractErrorMessage, ngbDateToParam } from '../feature.helpers';
     templateUrl: './offers-list.component.html',
     styleUrls: ['./offers-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, NgbInputDatepicker, NgbdSortableHeader, RouterLink, NgClass, NgbPagination, DatePipe, TranslatePipe]
 })
 export class OffersListComponent implements OnInit, OnDestroy {
   readonly etatOptions = OFFRE_ETAT;

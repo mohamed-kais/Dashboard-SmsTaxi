@@ -8,8 +8,8 @@ describe('SteptwoverificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SteptwoverificationComponent ]
-    })
+    imports: [SteptwoverificationComponent]
+})
     .compileComponents();
   });
 

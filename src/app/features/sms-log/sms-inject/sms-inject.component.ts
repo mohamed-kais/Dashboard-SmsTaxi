@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { SmsInDto } from '../../../core/models/sms.model';
 import { SmsService } from '../../../core/services/sms.service';
@@ -9,6 +9,7 @@ import {
   SMS_PHONE_PATTERN,
   apiErrorMessage,
 } from '../sms-log.constants';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
 
 /**
  * SMS injection form (plan §5.7) — route `sms-log/inject`.
@@ -31,7 +32,7 @@ import {
     selector: 'app-sms-inject',
     templateUrl: './sms-inject.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, ReactiveFormsModule, TranslatePipe]
 })
 export class SmsInjectComponent implements OnInit {
   breadCrumbItems: { label: string; active: boolean }[] = [

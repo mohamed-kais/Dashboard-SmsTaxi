@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 
 import { TaxiService } from '../../core/services/taxi.service';
 import { TAXI_STATUS_VALUES } from '../../core/constants/status-badges';
 import { ChannelType } from '../../core/models/common.model';
 import { TaxiCreateDto } from '../../core/models/taxi.model';
+import { NgClass } from '@angular/common';
 
 /** Spec pattern for taxi `telephone`: `^[0-9+\-\s()]+$`. */
 const PHONE_PATTERN = '^[0-9+\\-\\s()]+$';
@@ -22,7 +23,7 @@ const PHONE_PATTERN = '^[0-9+\\-\\s()]+$';
     selector: 'app-taxi-form-modal',
     templateUrl: './taxi-form-modal.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, NgClass, TranslatePipe]
 })
 export class TaxiFormModalComponent implements OnInit {
   /** Set when editing an existing taxi. */

@@ -1,16 +1,20 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 
 import { EventService } from '../../core/services/event.service';
 
 import { SIDEBAR_TYPE } from "../layouts.model";
+import { TopbarComponent } from '../topbar/topbar.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { FooterComponent } from '../footer/footer.component';
+import { RightsidebarComponent } from '../rightsidebar/rightsidebar.component';
 
 @Component({
     selector: 'app-vertical',
     templateUrl: './vertical.component.html',
     styleUrls: ['./vertical.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [TopbarComponent, SidebarComponent, RouterOutlet, FooterComponent, RightsidebarComponent]
 })
 
 /**

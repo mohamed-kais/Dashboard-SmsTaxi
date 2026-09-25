@@ -1,20 +1,22 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import MetisMenu from 'metismenujs/dist/metismenujs';
 import { EventService } from '../../core/services/event.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterLinkActive, RouterLink } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { SimplebarAngularModule } from 'simplebar-angular';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [NgClass, RouterLinkActive, RouterLink, SimplebarAngularModule, NgTemplateOutlet, TranslatePipe]
 })
 
 /**

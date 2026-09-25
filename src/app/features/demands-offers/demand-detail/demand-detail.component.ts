@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { Demande, DemandeDto } from '../../../core/models/demande.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -14,6 +14,9 @@ import {
   statusBadge,
 } from '../../../core/constants/status-badges';
 import { extractErrorMessage } from '../feature.helpers';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { NgClass, DatePipe } from '@angular/common';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Detail view type. The spec declares `GET /api/get-demande/{id}` → `Demande`
@@ -40,7 +43,7 @@ export type DemandeDetailView = Demande & Partial<DemandeDto>;
     templateUrl: './demand-detail.component.html',
     styleUrls: ['./demand-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, NgClass, RouterLink, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, DatePipe, TranslatePipe]
 })
 export class DemandDetailComponent implements OnInit, OnDestroy {
   id = 0;

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -17,6 +17,9 @@ import { OffreDto, OffreHistoryPageDto } from '../../core/models/offre.model';
 import { TaxiRatingSummaryDto } from '../../core/models/rating.model';
 import { LocationUpdateDto, TaxiCreateDto, TaxiDto } from '../../core/models/taxi.model';
 import { BreadcrumbItem } from './taxis.model';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLink, NgbNavLinkBase, NgbNavContent, NgbPagination, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass, DatePipe } from '@angular/common';
 
 /**
  * Taxi detail — route `taxis/:id` (plan §5.2). Profile card (all TaxiDto fields),
@@ -26,7 +29,7 @@ import { BreadcrumbItem } from './taxis.model';
     selector: 'app-taxi-detail',
     templateUrl: './taxi-detail.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLink, NgbNavLinkBase, NgbNavContent, NgClass, FormsModule, ReactiveFormsModule, NgbPagination, NgbNavOutlet, DatePipe, TranslatePipe]
 })
 export class TaxiDetailComponent implements OnInit, OnDestroy {
   id = 0;

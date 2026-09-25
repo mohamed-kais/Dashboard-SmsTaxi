@@ -8,8 +8,8 @@ describe('HorizontaltopbarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HorizontaltopbarComponent ]
-    })
+    imports: [HorizontaltopbarComponent]
+})
     .compileComponents();
   }));
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { OffreDto } from '../../../core/models/offre.model';
 import { StatusEnum } from '../../../core/models/common.model';
@@ -14,6 +14,10 @@ import {
   statusBadge,
 } from '../../../core/constants/status-badges';
 import { extractErrorMessage } from '../feature.helpers';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { NgClass, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Offer detail — read-only fields + documented actions only (plan §5.4):
@@ -32,7 +36,7 @@ import { extractErrorMessage } from '../feature.helpers';
     templateUrl: './offer-detail.component.html',
     styleUrls: ['./offer-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, NgClass, FormsModule, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, DatePipe, TranslatePipe]
 })
 export class OfferDetailComponent implements OnInit, OnDestroy {
   id = 0;

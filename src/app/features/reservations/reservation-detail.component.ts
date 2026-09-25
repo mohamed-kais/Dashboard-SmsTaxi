@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 
@@ -20,12 +20,14 @@ import {
   SOURCE_LABEL,
   statusBadge,
 } from '../../core/constants/status-badges';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-reservation-detail',
     templateUrl: './reservation-detail.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, ReactiveFormsModule, DatePipe, TranslatePipe]
 })
 export class ReservationDetailComponent implements OnInit, OnDestroy {
   readonly title = 'Reservation detail';

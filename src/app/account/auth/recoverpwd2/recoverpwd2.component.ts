@@ -1,17 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { OwlOptions } from 'ngx-owl-carousel-o';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { OwlOptions, CarouselModule } from 'ngx-owl-carousel-o';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { AuthenticationService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-recoverpwd2',
     templateUrl: './recoverpwd2.component.html',
     styleUrls: ['./recoverpwd2.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CarouselModule, RouterLink, FormsModule, ReactiveFormsModule, NgbAlert, NgClass]
 })
 export class Recoverpwd2Component implements OnInit {
 

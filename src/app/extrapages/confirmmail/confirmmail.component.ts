@@ -1,11 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-confirmmail',
     templateUrl: './confirmmail.component.html',
     styleUrls: ['./confirmmail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink]
 })
 export class ConfirmmailComponent implements OnInit {
   // set the currenr year

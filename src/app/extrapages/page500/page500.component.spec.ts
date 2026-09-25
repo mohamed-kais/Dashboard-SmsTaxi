@@ -8,8 +8,8 @@ describe('Page500Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ Page500Component ]
-    })
+    imports: [Page500Component]
+})
     .compileComponents();
   }));
 

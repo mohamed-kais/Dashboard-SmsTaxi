@@ -20,7 +20,7 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { catchError, finalize, take, takeUntil } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ClientService } from '../../core/services/client.service';
 import { DemandeService } from '../../core/services/demande.service';
@@ -37,13 +37,18 @@ import { StatusEnum } from '../../core/models/common.model';
 import { DemandeAdminDto } from '../../core/models/demande.model';
 import { OffreAdminDto } from '../../core/models/offre.model';
 import { DashboardCountKey, DashboardCounts } from './dashboard.model';
+import { LoaderComponent } from '../../shared/ui/loader/loader.component';
+import { PagetitleComponent } from '../../shared/ui/pagetitle/pagetitle.component';
+import { StatComponent } from '../../shared/widget/stat/stat.component';
+import { RouterLink } from '@angular/router';
+import { NgClass, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [LoaderComponent, PagetitleComponent, StatComponent, RouterLink, NgClass, DatePipe, TranslatePipe]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   readonly title = 'Dashboard';

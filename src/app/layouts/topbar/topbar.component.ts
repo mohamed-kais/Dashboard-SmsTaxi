@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Inject, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,14 +10,17 @@ import { NotificationDto } from '../../core/models/notification.model';
 import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass, AsyncPipe } from '@angular/common';
+import { SimplebarAngularModule } from 'simplebar-angular';
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './topbar.component.html',
     styleUrls: ['./topbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgClass, SimplebarAngularModule, AsyncPipe, TranslatePipe]
 })
 
 /**

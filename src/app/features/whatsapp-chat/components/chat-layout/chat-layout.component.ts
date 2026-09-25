@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ChatStateService } from '../../../../core/services/chat-state.service';
+import { PagetitleComponent } from '../../../../shared/ui/pagetitle/pagetitle.component';
+import { ConversationListComponent } from '../conversation-list/conversation-list.component';
+import { ChatWindowComponent } from '../chat-window/chat-window.component';
+import { EmptyChatComponent } from '../empty-chat/empty-chat.component';
 
 /**
  * Conteneur racine du module chat : initialise la connexion WebSocket et le
@@ -15,7 +19,7 @@ import { ChatStateService } from '../../../../core/services/chat-state.service';
     templateUrl: './chat-layout.component.html',
     styleUrls: ['./chat-layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, ConversationListComponent, ChatWindowComponent, EmptyChatComponent]
 })
 export class ChatLayoutComponent implements OnInit, OnDestroy {
   /** Conversation actuellement ouverte dans le panneau de droite (null = placeholder). */

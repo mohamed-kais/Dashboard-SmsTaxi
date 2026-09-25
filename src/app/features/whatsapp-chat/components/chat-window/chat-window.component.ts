@@ -12,7 +12,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ChatService } from '../../../../core/services/chat.service';
 import { ChatStateService } from '../../../../core/services/chat-state.service';
@@ -20,6 +20,8 @@ import { ChatWebSocketService } from '../../../../core/services/chat-websocket.s
 import { ChatMessage, Conversation } from '../../../../core/models/chat.model';
 import { groupMessagesByDate, MessageGroup } from '../../utils/chat-date.util';
 import { getAvatarColor, getInitials } from '../../utils/avatar.util';
+import { MessageBubbleComponent } from '../message-bubble/message-bubble.component';
+import { MessageInputComponent } from '../message-input/message-input.component';
 
 /**
  * Panneau de droite : en-tête du contact, historique groupé par date,
@@ -33,7 +35,7 @@ import { getAvatarColor, getInitials } from '../../utils/avatar.util';
     templateUrl: './chat-window.component.html',
     styleUrls: ['./chat-window.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MessageBubbleComponent, MessageInputComponent, TranslatePipe]
 })
 export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {
   @ViewChild('scrollContainer') private scrollContainer?: ElementRef<HTMLDivElement>;

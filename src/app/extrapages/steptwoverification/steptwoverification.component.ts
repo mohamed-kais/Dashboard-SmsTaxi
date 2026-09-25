@@ -1,11 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @Component({
     selector: 'app-steptwoverification',
     templateUrl: './steptwoverification.component.html',
     styleUrls: ['./steptwoverification.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, NgOtpInputModule]
 })
 export class SteptwoverificationComponent implements OnInit {
 

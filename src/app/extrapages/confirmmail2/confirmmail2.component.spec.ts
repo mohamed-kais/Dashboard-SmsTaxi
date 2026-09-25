@@ -8,8 +8,8 @@ describe('Confirmmail2Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ Confirmmail2Component ]
-    })
+    imports: [Confirmmail2Component]
+})
     .compileComponents();
   });
 

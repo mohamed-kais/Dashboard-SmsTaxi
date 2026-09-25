@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription, debounceTime, merge, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -20,6 +20,11 @@ import {
 } from '../../../core/services/notification.service';
 import { TableState, createTableState } from '../../../core/utils/table-state';
 import { apiErrorMessage } from '../notifications.constants';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NgClass, DatePipe } from '@angular/common';
+import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Notifications list — paginated / sortable admin table over
@@ -39,7 +44,7 @@ import { apiErrorMessage } from '../notifications.constants';
     templateUrl: './notifications-list.component.html',
     styleUrls: ['./notifications-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, RouterLink, FormsModule, NgbdSortableHeader, NgClass, NgbPagination, DatePipe, TranslatePipe]
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly breadcrumb: { label: string; active: boolean }[] = [

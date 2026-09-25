@@ -4,13 +4,16 @@ import { map } from 'rxjs/operators';
 import { ChatStateService } from '../../../../core/services/chat-state.service';
 import { Conversation, WhatsAppMessageType } from '../../../../core/models/chat.model';
 import { getAvatarColor, getInitials } from '../../utils/avatar.util';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-conversation-list',
     templateUrl: './conversation-list.component.html',
     styleUrls: ['./conversation-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, AsyncPipe, DatePipe, TranslatePipe]
 })
 export class ConversationListComponent implements OnInit, OnDestroy {
   /** Id de la conversation ouverte dans le panneau de droite (surbrillance). */

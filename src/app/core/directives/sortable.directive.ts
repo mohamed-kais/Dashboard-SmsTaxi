@@ -28,8 +28,7 @@ export interface SortEvent {
         '[class.asc]': 'direction === "asc"',
         '[class.desc]': 'direction === "desc"',
         '(click)': 'rotate()'
-    },
-    standalone: false
+    }
 })
 export class NgbdSortableHeader {
 

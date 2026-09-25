@@ -4,8 +4,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
     selector: 'app-stat',
     templateUrl: './stat.component.html',
     styleUrls: ['./stat.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class StatComponent implements OnInit {
 

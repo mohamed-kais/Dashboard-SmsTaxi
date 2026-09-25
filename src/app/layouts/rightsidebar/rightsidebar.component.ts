@@ -2,13 +2,15 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { EventService } from '../../core/services/event.service';
 
 import { LAYOUT_WIDTH, SIDEBAR_TYPE, TOPBAR, LAYOUT_MODE } from '../layouts.model';
+import { SimplebarAngularModule } from 'simplebar-angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-rightsidebar',
     templateUrl: './rightsidebar.component.html',
     styleUrls: ['./rightsidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [SimplebarAngularModule, TranslatePipe]
 })
 
 /**

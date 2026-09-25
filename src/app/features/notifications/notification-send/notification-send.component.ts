@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -27,6 +27,9 @@ import {
   TaxisCriteriaQuery,
 } from '../../../core/services/notification.service';
 import { apiErrorMessage } from '../notifications.constants';
+import { PagetitleComponent } from '../../../shared/ui/pagetitle/pagetitle.component';
+import { NgClass, DatePipe } from '@angular/common';
+import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 
 /** Recipient tab — maps 1:1 to the send `targetType` (`ADMIN` has no table). */
 type RecipientTab = 'TAXI' | 'CLIENT' | 'ADMIN';
@@ -86,7 +89,7 @@ function createPickerState<T>(pageSize = 10): PickerState<T> {
     templateUrl: './notification-send.component.html',
     styleUrls: ['./notification-send.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PagetitleComponent, FormsModule, ReactiveFormsModule, NgClass, NgbPagination, DatePipe, TranslatePipe]
 })
 export class NotificationSendComponent implements OnInit, OnDestroy {
   breadCrumbItems: { label: string; active: boolean }[] = [

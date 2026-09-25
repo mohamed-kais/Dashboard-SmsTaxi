@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { interval } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-comingsoon',
     templateUrl: './comingsoon.component.html',
     styleUrls: ['./comingsoon.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink]
 })
 
 /**

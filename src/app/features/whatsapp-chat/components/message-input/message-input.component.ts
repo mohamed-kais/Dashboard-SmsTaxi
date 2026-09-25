@@ -7,6 +7,8 @@ import {
   Conversation,
   SendMessageRequest,
 } from '../../../../core/models/chat.model';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 /**
  * Zone de saisie : textarea + bouton d'envoi (Entrée envoie, Maj+Entrée = saut
@@ -23,7 +25,7 @@ import {
     templateUrl: './message-input.component.html',
     styleUrls: ['./message-input.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, TranslatePipe]
 })
 export class MessageInputComponent implements OnDestroy {
   /** Conversation destinataire (null = saisie désactivée). */

@@ -5,13 +5,15 @@ import { EventService } from '../core/services/event.service';
 import {
   LAYOUT_VERTICAL, LAYOUT_HORIZONTAL, LAYOUT_WIDTH, TOPBAR, LAYOUT_MODE, SIDEBAR_TYPE
 } from './layouts.model';
+import { VerticalComponent } from './vertical/vertical.component';
+import { HorizontalComponent } from './horizontal/horizontal.component';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [VerticalComponent, HorizontalComponent]
 })
 
 export class LayoutComponent implements OnInit, AfterViewInit {

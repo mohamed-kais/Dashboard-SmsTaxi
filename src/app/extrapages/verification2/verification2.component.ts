@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { OwlOptions, CarouselModule } from 'ngx-owl-carousel-o';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-verification2',
     templateUrl: './verification2.component.html',
     styleUrls: ['./verification2.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CarouselModule, RouterLink]
 })
 export class Verification2Component implements OnInit {
 
