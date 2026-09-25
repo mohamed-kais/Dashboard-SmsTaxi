@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, DOCUMENT } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
@@ -7,7 +7,7 @@ import { EventService } from '../../core/services/event.service';
 import { AuthenticationService } from '../../core/services/auth.service';
 import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
 
-import { DOCUMENT } from '@angular/common';
+
 
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
