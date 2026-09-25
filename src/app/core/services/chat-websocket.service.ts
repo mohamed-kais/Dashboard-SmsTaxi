@@ -13,7 +13,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Client, IMessage, StompSubscription } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
