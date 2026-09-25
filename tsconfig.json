@@ -9,13 +9,15 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": [ "youtube" ],
+    "types": [
+      "youtube"
+    ],
     "lib": [
       "es2018",
       "dom"
